@@ -1,0 +1,84 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 4,
+    "identityHash": "d3b9ee733a34f7a048a48bf63472b586",
+    "entities": [
+      {
+        "tableName": "periode",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id_periode` INTEGER PRIMARY KEY AUTOINCREMENT, `libelle_periode` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id_periode",
+            "columnName": "id_periode",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "donnees",
+            "columnName": "libelle_periode",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id_periode"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "glycemie",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id_glycemie` INTEGER PRIMARY KEY AUTOINCREMENT, `valeur_glycemie` INTEGER, `id_carnet` INTEGER NOT NULL, `id_periode` INTEGER, `libelle_periode` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id_glycemie",
+            "columnName": "id_glycemie",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "glycemie",
+            "columnName": "valeur_glycemie",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "id_carnet",
+            "columnName": "id_carnet",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "periode.id_periode",
+            "columnName": "id_periode",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "periode.donnees",
+            "columnName": "libelle_periode",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id_glycemie"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd3b9ee733a34f7a048a48bf63472b586')"
+    ]
+  }
+}

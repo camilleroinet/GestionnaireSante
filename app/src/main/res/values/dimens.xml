@@ -1,0 +1,18 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="margin_img_start">10dp</dimen>
+    <dimen name="margin_img_end">10dp</dimen>
+    <dimen name="margin_img_top">10dp</dimen>
+    <dimen name="margin_img_bottom">10dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+
+    <dimen name="btn_corner_radius">20dp</dimen>
+
+    <dimen name="img_corner_radius">250dp</dimen>
+
+    <dimen name="btn_corner_radius_resultat">0dp</dimen>
+    <dimen name="fab_margin">0dp</dimen>
+</resources>

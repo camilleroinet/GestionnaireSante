@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">GestionnaireSante</string>
+    <string name="title_accueil">Accueil</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_diabete">Diabete</string>
+    <string name="title_poids">Poids</string>
+    <string name="title_repas">Repas</string>
+    <string name="title_sport">Sport</string>
+    <string name="prompt_password">mot de passe</string>
+    <string name="action_sign_in_short">mdp</string>
+    <string name="prompt_email">login</string>
+    <string name="button_login">Se connecter</string>
+    <string name="txt_fragtab1">Glycémie</string>
+    <string name="txt_fragtab2">Insuline</string>
+    <string name="txt_chart1">Graphique 1</string>
+    <string name="txt_chart2">Graphique 2</string>
+    <string name="txt_chart3">Graphique 3</string>
+
+    <string-array name="periodes">
+        <item>Petit-déjeuner</item>
+        <item>Matinée</item>
+        <item>name="periode3">Déjeuner</item>
+        <item>Après-midi</item>
+        <item>Dîner</item>
+        <item>Soirée</item>
+        <item>Nuit</item>
+    </string-array>
+</resources>

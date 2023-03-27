@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_accueil">
+
+    <fragment
+        android:id="@+id/navigation_accueil"
+        android:name="com.example.gestionnairesante.ui.accueil.AccueilFragment"
+        android:label="@string/title_accueil"
+        tools:layout="@layout/fragment_accueil" />
+
+    <fragment
+        android:id="@+id/navigation_diabete"
+        android:name="com.example.gestionnairesante.ui.diabete.DiabeteFragment"
+        android:label="@string/title_diabete"
+        tools:layout="@layout/diabete" />
+
+    <fragment
+        android:id="@+id/navigation_poids"
+        android:name="com.example.gestionnairesante.ui.poids.PoidsFragment"
+        android:label="@string/title_poids"
+        tools:layout="@layout/fragment_poids" />
+
+    <fragment
+        android:id="@+id/navigation_repas"
+        android:name="com.example.gestionnairesante.ui.repas.RepasFragment"
+        android:label="@string/title_repas"
+        tools:layout="@layout/repas" />
+
+    <fragment
+        android:id="@+id/navigation_sport"
+        android:name="com.example.gestionnairesante.ui.sport.SportFragment"
+        android:label="@string/title_sport"
+        tools:layout="@layout/fragment_sport" />
+</navigation>
