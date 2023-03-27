@@ -1,6 +1,121 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+        <variable name="frag2_cardplat" type="com.example.gestionnairesante.database.dao.PlatDao" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+
+        android:orientation="vertical">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/Tertiary"
+            android:layout_margin="5dp"
+            app:cardElevation="2dp">
+            <LinearLayout
+                android:id="@+id/itemLayout2"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerCrop"
+                        app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+                        android:layout_gravity="left"
+                        android:background="@drawable/img_repas"
+
+                        />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/nom_plat"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:textStyle="bold"
+                            android:gravity="center"
+                            android:textSize="20sp"
+                            android:paddingTop="10dp"
+                            android:textColor="@color/black"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textSize="20sp"
+                            android:layout_weight="1"
+                            android:paddingTop="10dp"
+                            android:text="Calories :"
+                            android:textColor="@color/black"/>
+                        <TextView
+                            android:id="@+id/calories"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textSize="20sp"
+                            android:layout_weight="1"
+                            android:paddingTop="10dp"
+                            android:textColor="@color/black"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textSize="20sp"
+                            android:paddingTop="10dp"
+                            android:layout_weight="1"
+                            android:text="Glucides :"
+                            android:textColor="@color/black"/>
+                        <TextView
+                            android:id="@+id/glucides"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textSize="20sp"
+                            android:paddingTop="10dp"
+                            android:layout_weight="1"
+                            android:textColor="@color/black"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</layout>

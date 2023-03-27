@@ -12,7 +12,10 @@ import com.example.gestionnairesante.adapter.ViewPagerAdapter
 import com.example.gestionnairesante.adapter.ViewPagerChartsAdapter
 import com.example.gestionnairesante.adapter.ZoomOutPageTransformer
 import com.example.gestionnairesante.database.DB_sante
+import com.example.gestionnairesante.database.dao.PlatData
+import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieRepo
+import com.example.gestionnairesante.database.dao.insuline.InsulineData
 import com.example.gestionnairesante.database.dao.insuline.InsulineRepo
 import com.example.gestionnairesante.database.viewmodels.VMGlycemie
 import com.example.gestionnairesante.database.viewmodels.VMGlycemieFactory
@@ -108,7 +111,27 @@ class DiabeteFragment : Fragment() {
             //binding.chart0.invalidate()
         }
 
-        binding!!.btnPopulate.setOnClickListener{
+        binding!!.btnPopulate.setOnClickListener {
+            val gly1 = GlycemieData(0, 66)
+            val gly2 = GlycemieData(0, 133)
+            val gly3 = GlycemieData(0, 189)
+            val gly4 = GlycemieData(0, 257)
+
+            viewModel.insertGlycemie(gly1)
+            viewModel.insertGlycemie(gly2)
+            viewModel.insertGlycemie(gly3)
+            viewModel.insertGlycemie(gly4)
+
+            val ins1 = InsulineData(0, 11,67)
+            val ins2 = InsulineData(0, 14,76)
+            val ins3 = InsulineData(0, 12,78)
+            val ins4 = InsulineData(0, 14,77)
+
+            viewModelinsuline.insertInsuline(ins1)
+            viewModelinsuline.insertInsuline(ins2)
+            viewModelinsuline.insertInsuline(ins3)
+            viewModelinsuline.insertInsuline(ins4)
+
 
         }
 

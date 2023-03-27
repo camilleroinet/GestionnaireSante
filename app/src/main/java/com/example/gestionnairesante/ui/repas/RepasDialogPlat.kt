@@ -63,18 +63,6 @@ class RepasDialogPlat : DialogFragment() {
             binding?.dialogPlat = this@RepasDialogPlat
         }
 
-        /**
-         * Spinner
-         */
-        val spinner = binding!!.spinnerPeriode
-
-        // TODO a decocher quand implementation du code
-
-        val tabPeriode=resources.getStringArray(R.array.periodes)
-
-        configSpinner(tabPeriode)
-
-
         // TODO a supprimer/cocher a la phase final
         //creation de message pout l'utilisateur si qqc est arrivé
         viewModel.message.observe(viewLifecycleOwner){ it ->
@@ -108,53 +96,13 @@ class RepasDialogPlat : DialogFragment() {
             Toast.makeText(context, "youhou ya rien", Toast.LENGTH_LONG).show()
         }else{
             val nomPlat = binding!!.etNomplat.text.toString()
-            val caloriePlat = binding!!.etNomplat.text.toString()
-            val glucidePlat = binding!!.etNomplat.text.toString()
+            val caloriePlat = binding!!.etCalories.text.toString()
+            val glucidePlat = binding!!.etGlucide.text.toString()
 
             val newInsert = PlatData(0, nomPlat, caloriePlat.toInt(), glucidePlat.toInt())
             viewModel.insertPlat(newInsert)
         }
     }
 
-    /**
-     * Fonction de gestion du spinner
-     */
-    fun configSpinner(arrayCat: Array<String>){
-        /* en simple java
-        mInterpolatorSpinner = (Spinner) view.findViewById(R.id.interpolatorSpinner);
-        ArrayAdapter<String> spinnerAdapter =
-                new ArrayAdapter<String>(getActivity(),
-                        android.R.layout.simple_spinner_dropdown_item, mInterpolatorNames);
-        mInterpolatorSpinner.setAdapter(spinnerAdapter);*/
-
-        //val arrayCat = resources.getStringArray(R.array.categoriesfs)
-        val adapt = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, arrayCat)
-        binding?.let {
-            with(it.spinnerPeriode){
-                adapter = adapt
-                setSelection(0, false)
-                prompt= "Selection catagorie"
-                gravity = Gravity.CENTER
-                //posAdapter = 0
-                //nomCategorie = arrayCat[0]
-                //gestionRecycler(0, nomCategorie)
-            }
-        }
-        binding?.spinnerPeriode?.onItemSelectedListener = object :
-            AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                //posAdapter = position
-                //nomCategorie = arrayCat[position]
-                //gestionRecycler(position, nomCategorie)
-                Toast.makeText(requireContext(), "spinner selection ======> $position", Toast.LENGTH_SHORT).show()
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
-    }
 }
 

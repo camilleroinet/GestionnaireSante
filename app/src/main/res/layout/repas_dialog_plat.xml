@@ -23,41 +23,17 @@
         android:background="@drawable/shape_bouton"
         android:backgroundTint="@color/SecondaryColor"
         android:orientation="horizontal">
-        <androidx.appcompat.widget.AppCompatButton
+        <TextView
             android:id="@+id/btn_date"
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
-            android:layout_weight="2"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textColor="@color/white"
             android:text="Choisir une date"/>
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/ll_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:orientation="horizontal">
-        <DatePicker
-            android:id="@+id/date_picker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:calendarViewShown="false"
-            android:calendarTextColor="@color/black"
-            android:layout_gravity="center"
 
-
-            />
-        </LinearLayout>
-
-        <Spinner
-            android:id="@+id/spinner_periode"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -76,7 +52,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:layout_gravity="center"
-                    android:gravity="center"
+                    android:gravity="left"
+                    android:textSize="16sp"
                     android:text="Nom du plat"/>
                 <EditText
                     android:id="@+id/et_nomplat"
@@ -96,8 +73,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
+                    android:textSize="16sp"
                     android:layout_gravity="center"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:text="Calories"/>
                 <EditText
                     android:id="@+id/et_calories"
@@ -118,8 +96,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
+                    android:textSize="16sp"
                     android:layout_gravity="center"
-                    android:gravity="center"
+                    android:gravity="l"
                     android:text="Glucides"/>
 
                 <EditText

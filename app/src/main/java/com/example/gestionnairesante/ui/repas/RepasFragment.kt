@@ -18,6 +18,7 @@ import com.example.gestionnairesante.database.dao.glycemie.GlycemieRepo
 import com.example.gestionnairesante.database.viewmodels.*
 import com.example.gestionnairesante.databinding.RepasBinding
 import com.example.gestionnairesante.ui.diabete.*
+import com.example.gestionnairesante.ui.poids.PoidsDialog
 import com.google.android.material.tabs.TabLayout
 
 class RepasFragment : Fragment() {
@@ -31,8 +32,8 @@ class RepasFragment : Fragment() {
 
     private var ind = 0
 
-    private var arrayTab = arrayListOf<Int>(R.string.txt_fragtab1, R.string.txt_fragtab2)
-    private var arrayFragTab = arrayListOf<Fragment>(DiabeteTab1(), DiabeteTab2())
+    private var arrayTab = arrayListOf<Int>(R.string.txt_fragmenu, R.string.txt_fragrepas)
+    private var arrayFragTab = arrayListOf<Fragment>(RepasTab1(), RepasTab2())
 
     private var arrayTabCharts =
         arrayListOf<Int>(R.string.txt_chart1, R.string.txt_chart2, R.string.txt_chart3)
@@ -100,6 +101,10 @@ class RepasFragment : Fragment() {
             viewModel.insertPlat(plat3)
             viewModel.insertPlat(plat4)
 
+            binding!!.btnInsert.setOnClickListener(){
+                RepasDialogPlat.newInstance("Nouveau Repas", "subtitre", ind).show(childFragmentManager, RepasDialogPlat.TAG)
+
+            }
 
         }
 
@@ -115,7 +120,7 @@ class RepasFragment : Fragment() {
         viewPagerTabs = binding?.viewpagertabhost!!
 
         configTablelayout(arrayTab)
-        configViewPagerChart(viewPagerCharts, arrayFragChart, arrayTabCharts)
+        //configViewPagerChart(viewPagerCharts, arrayFragChart, arrayTabCharts)
         configViewPager(viewPagerTabs, arrayFragTab, arrayTab, tablayoutTabs)
 
     }

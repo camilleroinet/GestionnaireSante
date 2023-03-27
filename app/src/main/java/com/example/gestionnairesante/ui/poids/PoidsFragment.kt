@@ -18,6 +18,8 @@ import com.example.gestionnairesante.adapter.ZoomOutPageTransformer
 import com.example.gestionnairesante.database.DB_sante
 import com.example.gestionnairesante.database.dao.PoidsData
 import com.example.gestionnairesante.database.dao.PoidsRepo
+import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
+import com.example.gestionnairesante.database.dao.insuline.InsulineData
 import com.example.gestionnairesante.database.viewmodels.VMPoids
 import com.example.gestionnairesante.database.viewmodels.VMPoidsFactory
 import com.example.gestionnairesante.databinding.PoidsBinding
@@ -76,7 +78,17 @@ class PoidsFragment : Fragment() {
             //binding.chart0.invalidate()
         }
 
-        binding!!.btnPopulate.setOnClickListener{
+        binding!!.btnPopulate.setOnClickListener {
+            val poids1 = PoidsData(0, 66.0F)
+            val poids2 = PoidsData(0, 68.0F)
+            val poids3 = PoidsData(0, 122.0F)
+            val poids4 = PoidsData(0, 66.0F)
+
+            viewModel.insertPoids(poids1)
+            viewModel.insertPoids(poids2)
+            viewModel.insertPoids(poids3)
+            viewModel.insertPoids(poids4)
+
 
         }
 

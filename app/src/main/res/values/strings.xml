@@ -16,6 +16,9 @@
     <string name="txt_chart1">Graphique 1</string>
     <string name="txt_chart2">Graphique 2</string>
     <string name="txt_chart3">Graphique 3</string>
+    <string name="my_image_01">image repas</string>
+    <string name="txt_fragmenu">Menu</string>
+    <string name="txt_fragrepas">Repas</string>
 
     <string-array name="periodes">
         <item>Petit-déjeuner</item>
