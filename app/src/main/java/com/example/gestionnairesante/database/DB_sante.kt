@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.gestionnairesante.database.dao.PlatDao
-import com.example.gestionnairesante.database.dao.PlatData
-import com.example.gestionnairesante.database.dao.PoidsDao
-import com.example.gestionnairesante.database.dao.PoidsData
+import com.example.gestionnairesante.database.dao.plats.PlatDao
+import com.example.gestionnairesante.database.dao.plats.PlatData
+import com.example.gestionnairesante.database.dao.poids.PoidsDao
+import com.example.gestionnairesante.database.dao.poids.PoidsData
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieDao
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
 import com.example.gestionnairesante.database.dao.insuline.InsulineDao

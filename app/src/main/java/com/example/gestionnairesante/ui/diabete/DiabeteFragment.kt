@@ -8,11 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.example.gestionnairesante.R
-import com.example.gestionnairesante.adapter.ViewPagerAdapter
-import com.example.gestionnairesante.adapter.ViewPagerChartsAdapter
+import com.example.gestionnairesante.adapter.AdapterViewPager
+import com.example.gestionnairesante.adapter.AdapterViewPagerCharts
 import com.example.gestionnairesante.adapter.ZoomOutPageTransformer
 import com.example.gestionnairesante.database.DB_sante
-import com.example.gestionnairesante.database.dao.PlatData
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieRepo
 import com.example.gestionnairesante.database.dao.insuline.InsulineData
@@ -203,31 +202,25 @@ class DiabeteFragment : Fragment() {
         arrayTab: ArrayList<Int>,
         tablayout: TabLayout){
         viewPager.apply {
-            viewPager.adapter = ViewPagerAdapter(
+            viewPager.adapter = AdapterViewPager(
                 arrayFrag, arrayTab,
                 childFragmentManager, tablayout.tabCount, context)
         }
         tablayout.setupWithViewPager(viewPager, true)
         viewPager.setPageTransformer(true, ZoomOutPageTransformer())
     }
-
     fun configViewPagerChart(
         viewPager: ViewPager,
         arrayFrag: ArrayList<Fragment>,
         arrayTab: ArrayList<Int>){
         viewPager.apply {
-            viewPager.adapter = ViewPagerChartsAdapter(
+            viewPager.adapter = AdapterViewPagerCharts(
                 arrayFrag, arrayTab,
                 childFragmentManager, context)
         }
         viewPager.setPageTransformer(true, ZoomOutPageTransformer())
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
     }
-
-
-
-
 }

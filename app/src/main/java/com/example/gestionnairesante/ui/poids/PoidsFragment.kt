@@ -1,9 +1,11 @@
 package com.example.gestionnairesante.ui.poids
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,29 +15,27 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.example.gestionnairesante.R
 import com.example.gestionnairesante.adapter.AdapterRecyclerPoids
-import com.example.gestionnairesante.adapter.ViewPagerChartsAdapter
+import com.example.gestionnairesante.adapter.AdapterViewPagerCharts
 import com.example.gestionnairesante.adapter.ZoomOutPageTransformer
 import com.example.gestionnairesante.database.DB_sante
-import com.example.gestionnairesante.database.dao.PoidsData
-import com.example.gestionnairesante.database.dao.PoidsRepo
-import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
-import com.example.gestionnairesante.database.dao.insuline.InsulineData
+import com.example.gestionnairesante.database.dao.poids.PoidsData
+import com.example.gestionnairesante.database.dao.poids.PoidsRepo
 import com.example.gestionnairesante.database.viewmodels.VMPoids
 import com.example.gestionnairesante.database.viewmodels.VMPoidsFactory
-import com.example.gestionnairesante.databinding.PoidsBinding
+import com.example.gestionnairesante.databinding.PoidBinding
+import com.example.gestionnairesante.utils.createBarChart
+import com.github.mikephil.charting.data.BarEntry
+import java.math.RoundingMode
+import java.text.DecimalFormat
+import kotlin.math.roundToInt
 
 
 class PoidsFragment : Fragment() {
-    private var binding: PoidsBinding? = null
+    private var binding: PoidBinding? = null
     private lateinit var viewModel: VMPoids
     private lateinit var adapter: AdapterRecyclerPoids
-    private lateinit var viewPagerCharts: ViewPager
-
     private var ind = 0
-
-    private var arrayTabCharts = arrayListOf<Int>(R.string.txt_chart1, R.string.txt_chart2, R.string.txt_chart3)
-    private var arrayFragChart = arrayListOf<Fragment>(PoidsChartBar())
-
+    private var lastPoua = 0f
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,9 +43,11 @@ class PoidsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // viewbinding
-        val poidsFrag = PoidsBinding.inflate(inflater, container, false)
-        binding = poidsFrag
-        return poidsFrag.root
+        val poidsFrg = PoidBinding.inflate(inflater, container, false)
+        binding = poidsFrg
+
+        //viewModel.recupLastPoids()
+        return poidsFrg.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,8 +56,10 @@ class PoidsFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             viewModel = viewModel
             binding?.fragPoids = this@PoidsFragment
-
         }
+
+
+
         // databinding
         val dao = DB_sante.getInstance(requireContext()).tabPoids
         val repository = PoidsRepo(dao)
@@ -63,20 +67,32 @@ class PoidsFragment : Fragment() {
         viewModel = ViewModelProvider(this, factory).get(VMPoids::class.java)
 
         val tabPoids = ArrayList<Float>()
-
         viewModel.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
-                //Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            //Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
+
 
         viewModel.getValeurPoids().observe(viewLifecycleOwner) { it ->
             tabPoids.clear()
             tabPoids.addAll(it)
-            initRecycler()
+            recupDataBarChart()
+            val p = tabPoids.size-1
+            if(p < 0) {
+                Toast.makeText(requireContext(), "Aucunes données",Toast.LENGTH_SHORT).show()
+            }else{
+                lastPoua = tabPoids.get(p)
+                val imc = calculerIMC(171,lastPoua)
+                binding!!.rere.text = calculerIMC(171,lastPoua).toString()
+                verifIMC(imc)
+            }
+
             //recupDataBarChart()
             //binding.chart0.invalidate()
         }
+
+       // Toast.makeText(requireContext(), "monpoids ="+viewModel.inputLastPoid.value,Toast.LENGTH_LONG).show()
 
         binding!!.btnPopulate.setOnClickListener {
             val poids1 = PoidsData(0, 66.0F)
@@ -89,7 +105,6 @@ class PoidsFragment : Fragment() {
             viewModel.insertPoids(poids3)
             viewModel.insertPoids(poids4)
 
-
         }
 
         binding!!.btnInsert.setOnClickListener{
@@ -97,12 +112,51 @@ class PoidsFragment : Fragment() {
             //Toast.makeText(requireContext(), "youhou", Toast.LENGTH_LONG).show()
         }
 
-        viewPagerCharts = binding?.viewpagercharts!!
-
-        configViewPagerChart(viewPagerCharts, arrayFragChart, arrayTabCharts)
         initRecycler()
         displayUser()
         touchRecycler()
+
+
+        //viewModel.afficherLastPoids()
+            //val d = viewModel.inputLastPoid.value
+
+
+
+
+
+    }
+
+    fun calculerIMC(taille: Int, poids: Float) : Float {
+        //  IMC = poids en kg/taille²
+        val poids = poids.toDouble()
+        val taille = (taille.toDouble() /100)
+
+        return  (poids / (taille*taille)).toFloat()
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    fun verifIMC(imc : Float){
+        if(imc <= 18.5F){
+            binding?.imgImc?.setImageDrawable(getResources().getDrawable(R.drawable.imc1))
+            binding?.resultat?.text = "Poids insuffisant"
+        }
+        if(imc > 18.5F && imc < 25){
+            binding?.imgImc?.setImageDrawable(getResources().getDrawable(R.drawable.imc2))
+            binding?.resultat?.text = "Poids normal"
+        }
+        if(imc >= 25F && imc < 30){
+            binding?.imgImc?.setImageDrawable(getResources().getDrawable(R.drawable.imc3))
+            binding?.resultat?.text = "Surpoids"
+        }
+        if(imc >= 30F && imc < 35){
+            binding?.imgImc?.setImageDrawable(getResources().getDrawable(R.drawable.imc4))
+            binding?.resultat?.text = "Obésité"
+        }
+        if(imc >= 35F){
+            binding?.imgImc?.setImageDrawable(getResources().getDrawable(R.drawable.imc5))
+            binding?.resultat?.text = "Obésité morbide"
+        }
+
     }
     fun initRecycler(){
         // Configuration du layout
@@ -170,7 +224,7 @@ class PoidsFragment : Fragment() {
         arrayFrag: ArrayList<Fragment>,
         arrayTab: ArrayList<Int>){
         viewPager.apply {
-            viewPager.adapter = ViewPagerChartsAdapter(
+            viewPager.adapter = AdapterViewPagerCharts(
                 arrayFrag, arrayTab,
                 childFragmentManager, context)
         }
@@ -181,6 +235,27 @@ class PoidsFragment : Fragment() {
         super.onDestroyView()
     }
 
+    fun recupDataBarChart(): ArrayList<BarEntry>{
+        val valu = ArrayList<BarEntry>()
+        val tabValeur = ArrayList<Float>()
+        val barChart = binding!!.chart0
+        val stringValue = ArrayList<String>()
+
+        viewModel.getValeurPoids().observe(viewLifecycleOwner){
+            tabValeur.clear()
+            tabValeur.addAll(it)
+
+            val r = tabValeur.size - 1
+
+            for (i in 0..r){
+                stringValue.add("")
+                valu.add(BarEntry(i.toFloat(), tabValeur[i].toFloat()))
+            }
+            createBarChart(barChart,valu,stringValue ,"Poids"  )
+        }
+
+        return valu
+    }
 
 
 

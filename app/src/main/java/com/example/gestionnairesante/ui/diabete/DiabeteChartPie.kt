@@ -6,24 +6,39 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import com.example.gestionnairesante.database.DB_sante
+import com.example.gestionnairesante.database.dao.glycemie.GlycemieRepo
 import com.example.gestionnairesante.database.viewmodels.VMGlycemie
+import com.example.gestionnairesante.database.viewmodels.VMGlycemieFactory
 import com.example.gestionnairesante.databinding.FragChartPieBinding
 import com.example.gestionnairesante.utils.createColorTab
 import com.example.gestionnairesante.utils.creationPieChart
 
 class DiabeteChartPie : Fragment() {
+/*
     private var binding: FragChartPieBinding?= null
     private val viewModel: VMGlycemie by viewModels ({ requireParentFragment() })
+*/
+    private lateinit var binding : FragChartPieBinding
+    private lateinit var viewModel: VMGlycemie
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // View binding
         val fragBinding =  FragChartPieBinding.inflate(inflater, container, false)
         binding = fragBinding
+
+        // Data binding
+        val dao = DB_sante.getInstance(requireContext()).tabGlycemie
+        val repository = GlycemieRepo(dao)
+        val factory = VMGlycemieFactory(repository)
+        viewModel = ViewModelProvider(this, factory).get(VMGlycemie::class.java)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
         // Inflate the layout for this fragment
         return fragBinding.root
@@ -32,11 +47,6 @@ class DiabeteChartPie : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.apply {
-            lifecycleOwner = viewLifecycleOwner
-            viewModel = viewModel
-            binding?.fragChartPie = this@DiabeteChartPie
-        }
         val tabNote = ArrayList<Int>()
 
         //creation de message pout l'utilisateur si qqc est arrivé
@@ -84,7 +94,7 @@ class DiabeteChartPie : Fragment() {
 
             val couleurs = createColorTab(requireContext(), arrayData.size)
 
-            creationPieChart(binding!!.chart0, arrayData, couleurs)
+            creationPieChart(binding.chart0, arrayData, couleurs)
 
         }
 

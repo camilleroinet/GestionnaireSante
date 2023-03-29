@@ -1,13 +1,11 @@
 package com.example.gestionnairesante.adapter
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gestionnairesante.R
-import com.example.gestionnairesante.database.dao.PlatData
-import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
+import com.example.gestionnairesante.database.dao.plats.PlatData
 import com.example.gestionnairesante.databinding.RepasCardviewPlatBinding
 
 class AdapterRecyclerPlat ( private val clickListener: (PlatData) -> Unit) : RecyclerView.Adapter<AdapterRecyclerPlat.MyViewHolder>(){

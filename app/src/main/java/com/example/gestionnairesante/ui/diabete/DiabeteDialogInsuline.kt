@@ -1,6 +1,6 @@
 package com.example.gestionnairesante.ui.diabete
 
-import android.R
+import com.example.gestionnairesante.R
 import android.os.Bundle
 import android.view.*
 import android.widget.AdapterView
@@ -69,6 +69,13 @@ class DiabeteDialogInsuline : DialogFragment() {
         val spinner = binding!!.spinnerPeriode
 
         // TODO a decocher quand implementation du code
+
+        val tabPeriode=resources.getStringArray(R.array.periodes)
+
+        configSpinner(tabPeriode)
+        setupNumberPicker()
+
+        // TODO a decocher quand implementation du code
 /*        viewModel.getAllPeriode().observe(viewLifecycleOwner){
             val tabPeriode= ArrayList<String>()
             tabPeriode.clear()
@@ -104,22 +111,22 @@ class DiabeteDialogInsuline : DialogFragment() {
     }
 
     fun save(){
+        val val1 = binding!!.pickerRapide1.value
+        val val2 = binding!!.pickerRapide2.value
+        val val3 = binding!!.pickerLente1.value
+        val val4 = binding!!.pickerLente2.value
 
-        if (binding!!.etPoids.text.isBlank() ) {
-            Toast.makeText(context, "youhou ya rien", Toast.LENGTH_LONG).show()
-        }else{
-            val note = binding!!.etPoids.text.toString()
-            val note2 = binding!!.etPoids.text.toString()
+        val tempRapide : String = val1.toString() + val2.toString()
+        val tempLente : String = val3.toString() + val4.toString()
 
-            val newInsert = InsulineData(0, note.toInt(), note2.toInt())
-            viewModelinsuline.insertInsuline(newInsert)
-        }
+        val newInsert = InsulineData(0, tempRapide.toInt(), tempLente.toInt())
+        viewModelinsuline.insertInsuline(newInsert)
     }
 
     /**
      * Fonction de gestion du spinner
      */
-    fun configSpinner(arrayCat: ArrayList<String>){
+    fun configSpinner(arrayCat: Array<String>){
         /* en simple java
         mInterpolatorSpinner = (Spinner) view.findViewById(R.id.interpolatorSpinner);
         ArrayAdapter<String> spinnerAdapter =
@@ -128,7 +135,7 @@ class DiabeteDialogInsuline : DialogFragment() {
         mInterpolatorSpinner.setAdapter(spinnerAdapter);*/
 
         //val arrayCat = resources.getStringArray(R.array.categoriesfs)
-        val adapt = ArrayAdapter(requireContext(), R.layout.simple_spinner_item, arrayCat)
+        val adapt = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, arrayCat)
         binding?.let {
             with(it.spinnerPeriode){
                 adapter = adapt
@@ -156,6 +163,38 @@ class DiabeteDialogInsuline : DialogFragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
+    private fun setupNumberPicker(){
+        val numberPicker1 = binding!!.pickerRapide1
+        val numberPicker2 = binding!!.pickerRapide2
+        val numberPicker3 = binding!!.pickerLente1
+        val numberPicker4 = binding!!.pickerLente2
+
+        numberPicker1.minValue = 0
+        numberPicker1.maxValue = 9
+        numberPicker1.wrapSelectorWheel = true
+        numberPicker1.setOnValueChangedListener { picker, oldVal, newVal ->
+        }
+
+        numberPicker2.minValue = 0
+        numberPicker2.maxValue = 9
+        numberPicker2.wrapSelectorWheel = true
+        numberPicker2.setOnValueChangedListener { picker, oldVal, newVal ->
+        }
+
+        numberPicker3.minValue = 0
+        numberPicker3.maxValue = 9
+        numberPicker3.wrapSelectorWheel = true
+        numberPicker3.setOnValueChangedListener { picker, oldVal, newVal ->
+        }
+
+        numberPicker4.minValue = 0
+        numberPicker4.maxValue = 9
+        numberPicker4.wrapSelectorWheel = true
+        numberPicker4.setOnValueChangedListener { picker, oldVal, newVal ->
+        }
+
+    }
+
 }
 
 

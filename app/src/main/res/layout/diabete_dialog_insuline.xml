@@ -112,30 +112,6 @@
             </LinearLayout>
         </LinearLayout>
 
-
-        <LinearLayout
-            android:visibility="visible"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="center"
-                android:gravity="center"
-
-                android:text="Poids"/>
-            <EditText
-                android:id="@+id/et_poids"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_weight="1"/>
-        </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -161,11 +137,9 @@
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-
                 android:background="@drawable/shape_bouton"
                 android:textSize="16sp"
                 android:textColor="#442C2E"
-
                 android:text="Annuler"
                 />
         </LinearLayout>

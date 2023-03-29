@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.poids.PoidsIMC">
+
+    <data>
+        <variable name="viewModelbis" type="com.example.gestionnairesante.database.viewmodels.VMPoids" />
+        <variable name="fragImc" type="com.example.gestionnairesante.ui.poids.PoidsIMC" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:layout_gravity="left"
+            android:background="@drawable/shape_bouton"
+
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:text="Calcul de votre I.M.C."
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/imciiii"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:background="@color/color03"
+                android:gravity="center"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</layout>

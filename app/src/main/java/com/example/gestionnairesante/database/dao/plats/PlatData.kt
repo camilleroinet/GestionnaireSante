@@ -1,4 +1,4 @@
-package com.example.gestionnairesante.database.dao
+package com.example.gestionnairesante.database.dao.plats
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

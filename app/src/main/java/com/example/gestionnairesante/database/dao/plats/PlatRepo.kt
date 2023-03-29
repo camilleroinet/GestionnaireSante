@@ -1,6 +1,4 @@
-package com.example.gestionnairesante.database.dao
-
-import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
+package com.example.gestionnairesante.database.dao.plats
 
 class PlatRepo (private val dao: PlatDao){
     val allPlat = dao.getAllPlat()

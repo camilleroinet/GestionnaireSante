@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="frag_poids_card" type="com.example.gestionnairesante.database.dao.PoidsDao" />
+        <variable name="frag_poids_card" type="com.example.gestionnairesante.database.dao.poids.PoidsDao" />
     </data>
 
     <LinearLayout
@@ -57,7 +57,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_gravity="center"
-                        android:gravity="left"
+                        android:gravity="start"
                         android:paddingTop="10dp"
                         android:textColor="@color/black"
                         android:textSize="16sp"
@@ -69,7 +69,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_gravity="center"
-                        android:gravity="left"
+                        android:gravity="start"
                         android:paddingTop="10dp"
                         android:textColor="@color/black"
                         android:textSize="16sp"/>

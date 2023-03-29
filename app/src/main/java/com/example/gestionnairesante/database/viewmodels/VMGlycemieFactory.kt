@@ -12,5 +12,4 @@ class VMGlycemieFactory  (private val repo: GlycemieRepo) : ViewModelProvider.Fa
             throw IllegalArgumentException("View Model inconnu")
         }
     }
-
 }

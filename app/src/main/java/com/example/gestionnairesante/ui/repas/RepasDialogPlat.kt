@@ -2,19 +2,12 @@ package com.example.gestionnairesante.ui.repas
 
 import android.os.Bundle
 import android.view.*
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import com.example.gestionnairesante.R
-import com.example.gestionnairesante.database.dao.PlatData
-import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
-import com.example.gestionnairesante.database.viewmodels.VMGlycemie
+import com.example.gestionnairesante.database.dao.plats.PlatData
 import com.example.gestionnairesante.database.viewmodels.VMPLat
-import com.example.gestionnairesante.databinding.DiabeteDialogBinding
 import com.example.gestionnairesante.databinding.RepasDialogPlatBinding
-import com.example.gestionnairesante.ui.diabete.DiabeteDialogGlycemie
 
 class RepasDialogPlat : DialogFragment() {
     private var binding: RepasDialogPlatBinding? = null

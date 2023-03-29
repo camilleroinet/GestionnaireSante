@@ -1,6 +1,7 @@
 package com.example.gestionnairesante.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -9,9 +10,7 @@ import com.example.gestionnairesante.database.dao.insuline.InsulineData
 import com.example.gestionnairesante.databinding.DiabeteCardviewInsulineBinding
 
 class AdapterRecyclerInsuline (private val clickListener: (InsulineData) -> Unit) : RecyclerView.Adapter<AdapterRecyclerInsuline.MyViewHolder>(){
-
-    private val noteList = ArrayList<InsulineData>()
-    private val listeNote = ArrayList<Int>()
+    private val dataList = ArrayList<InsulineData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -20,16 +19,16 @@ class AdapterRecyclerInsuline (private val clickListener: (InsulineData) -> Unit
     }
 
     fun getDbObjet(position: Int): InsulineData {
-        return noteList.get(position)
+        return dataList.get(position)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int){
-        holder.bind(noteList[position], clickListener)
+        holder.bind(dataList[position], clickListener)
     }
 
     fun setList(daousers: List<InsulineData>){
-        noteList.clear()
-        noteList.addAll(daousers)
+        dataList.clear()
+        dataList.addAll(daousers)
     }
 /*    fun setListNotes(dataNotes: List<DataNote>){
         listeNote.clear()
@@ -37,19 +36,25 @@ class AdapterRecyclerInsuline (private val clickListener: (InsulineData) -> Unit
     }*/
 
     class MyViewHolder(val binding: DiabeteCardviewInsulineBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(dataNote: InsulineData, clickListener: (InsulineData) -> Unit){
+        fun bind(data: InsulineData, clickListener: (InsulineData) -> Unit){
 
+            if(data.insuline_lente == 0){
+                binding.llLente.visibility = View.INVISIBLE
+            }
+            if(data.insuline_rapide == 0){
+                binding.llRapide.visibility = View.INVISIBLE
+            }
 
-            binding.poids.text = dataNote.insuline_rapide.toString()
-            //binding.periodegly.text = dataNote.periode.libelle_periode.toString()
+            binding.rapide.text = data.insuline_rapide.toString()
+            binding.lente.text = data.insuline_lente.toString()
 
             binding.itemLayout2.setOnClickListener{
-                clickListener(dataNote)
+                clickListener(data)
             }
         }
     }
 
     override fun getItemCount(): Int {
-        return noteList.size
+        return dataList.size
     }
 }

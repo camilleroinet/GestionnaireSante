@@ -14,7 +14,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/card"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="match_parent"
             android:backgroundTint="@color/Tertiary"
             android:layout_margin="5dp"
             app:cardElevation="2dp">
@@ -35,42 +35,58 @@
                     android:orientation="horizontal"
                     android:padding="5dp">
                     <LinearLayout
-                        android:id="@+id/couleurAlerte"
-                        android:layout_width="15dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/teal_200"
+                        android:id="@+id/ll_rapide"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
+                        <LinearLayout
+                            android:id="@+id/couleurAlerte"
+                            android:layout_width="15dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:background="@color/color02"
+                            android:orientation="horizontal">
+                        </LinearLayout>
+                        <TextView
+                            android:id="@+id/rapide"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_weight="2"
+                            android:textSize="20sp"
+                            android:paddingTop="10dp"
+                            android:textColor="@color/black"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_lente"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:id="@+id/couleurAlerte2"
+                            android:layout_width="15dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:background="#4CAF50"
+                            android:orientation="horizontal">
+
+                        </LinearLayout>
+                        <TextView
+                            android:id="@+id/lente"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_weight="2"
+                            android:textSize="20sp"
+                            android:paddingTop="10dp"
+                            android:textColor="@color/black"/>
 
                     </LinearLayout>
-                    <TextView
-                        android:id="@+id/poids"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:textSize="20sp"
-                        android:paddingTop="10dp"
-                        android:textColor="@color/black"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:layout_gravity="center"
-                        android:gravity="left"
-                        android:paddingTop="10dp"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        android:text=" Lente : "/>
-                    <TextView
-                        android:id="@+id/periodegly"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:layout_gravity="center"
-                        android:gravity="left"
-                        android:paddingTop="10dp"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"/>
 
                 </LinearLayout>
 

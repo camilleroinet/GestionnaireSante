@@ -69,7 +69,7 @@ class DiabeteDialogGlycemie : DialogFragment() {
             val tabPeriode=resources.getStringArray(R.array.periodes)
 
             configSpinner(tabPeriode)
-
+        setupNumberPicker()
 
         // TODO a supprimer/cocher a la phase final
         //creation de message pout l'utilisateur si qqc est arrivé
@@ -99,14 +99,13 @@ class DiabeteDialogGlycemie : DialogFragment() {
     }
 
     fun save(){
+        val val1 = binding!!.picker1.value
+        val val2 = binding!!.picker2.value
+        val val3 = binding!!.picker3.value
+        val temp : String = val1.toString() + val2.toString() + val3.toString()
+        val newInsert = GlycemieData(0, temp.toInt())
+        viewModel.insertGlycemie(newInsert)
 
-        if (binding!!.etPoids.text.isBlank() ) {
-            Toast.makeText(context, "youhou ya rien", Toast.LENGTH_LONG).show()
-        }else{
-            val note = binding!!.etPoids.text.toString()
-            val newInsert = GlycemieData(0, note.toInt())
-            viewModel.insertGlycemie(newInsert)
-        }
     }
 
     /**
@@ -147,6 +146,29 @@ class DiabeteDialogGlycemie : DialogFragment() {
                 Toast.makeText(requireContext(), "spinner selection ======> $position", Toast.LENGTH_SHORT).show()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+    }
+    private fun setupNumberPicker(){
+        val numberPicker1 = binding!!.picker1
+        val numberPicker2 = binding!!.picker2
+        val numberPicker3 = binding!!.picker3
+
+        numberPicker1.minValue = 0
+        numberPicker1.maxValue = 9
+        numberPicker1.wrapSelectorWheel = true
+        numberPicker1.setOnValueChangedListener { picker, oldVal, newVal ->
+        }
+
+        numberPicker2.minValue = 0
+        numberPicker2.maxValue = 9
+        numberPicker2.wrapSelectorWheel = true
+        numberPicker2.setOnValueChangedListener { picker, oldVal, newVal ->
+        }
+
+        numberPicker3.minValue = 0
+        numberPicker3.maxValue = 9
+        numberPicker3.wrapSelectorWheel = true
+        numberPicker3.setOnValueChangedListener { picker, oldVal, newVal ->
         }
     }
 }

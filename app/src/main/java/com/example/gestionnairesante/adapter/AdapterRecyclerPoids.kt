@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gestionnairesante.R
-import com.example.gestionnairesante.database.dao.PoidsData
+import com.example.gestionnairesante.database.dao.poids.PoidsData
 import com.example.gestionnairesante.databinding.PoidsCardviewBinding
 
 class AdapterRecyclerPoids (private val clickListener: (PoidsData) -> Unit) : RecyclerView.Adapter<AdapterRecyclerPoids.MyViewHolder>(){

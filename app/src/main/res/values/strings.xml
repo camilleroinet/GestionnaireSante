@@ -23,7 +23,7 @@
     <string-array name="periodes">
         <item>Petit-déjeuner</item>
         <item>Matinée</item>
-        <item>name="periode3">Déjeuner</item>
+        <item>Déjeuner</item>
         <item>Après-midi</item>
         <item>Dîner</item>
         <item>Soirée</item>

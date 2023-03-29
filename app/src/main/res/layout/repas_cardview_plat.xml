@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="frag2_cardplat" type="com.example.gestionnairesante.database.dao.PlatDao" />
+        <variable name="frag2_cardplat" type="com.example.gestionnairesante.database.dao.plats.PlatDao" />
     </data>
 
     <LinearLayout
@@ -26,7 +26,6 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:orientation="horizontal">
-
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:layout_width="100dp"

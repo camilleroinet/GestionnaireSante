@@ -52,7 +52,8 @@ class PoidsChartBar : Fragment() {
         viewModel.getValeurPoids().observe(viewLifecycleOwner){ it ->
             tabPoids.clear()
             tabPoids.addAll(it)
-            recupDataBarChart()            //recupDataBarChart()
+            recupDataBarChart()
+            //recupDataBarChart()
             //binding.chart0.invalidate()
         }
     }

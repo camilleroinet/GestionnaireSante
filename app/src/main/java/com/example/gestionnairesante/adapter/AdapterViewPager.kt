@@ -5,15 +5,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 
-class ViewPagerChartsAdapter(
+class AdapterViewPager  (
     var arrayFrag: ArrayList<Fragment>,
     var arrayTab: ArrayList<Int>,
     fm: FragmentManager,
+    var tabCount: Int,
     private val context: Context
 ) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     override fun getCount(): Int {
-        return arrayFrag.size
+        return tabCount
     }
 
     override fun getItem(position: Int): Fragment {

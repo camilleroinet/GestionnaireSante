@@ -2,8 +2,8 @@ package com.example.gestionnairesante.database.viewmodels
 
 import androidx.lifecycle.*
 import com.example.gestionnairesante.Event
-import com.example.gestionnairesante.database.dao.PlatData
-import com.example.gestionnairesante.database.dao.PlatRepo
+import com.example.gestionnairesante.database.dao.plats.PlatData
+import com.example.gestionnairesante.database.dao.plats.PlatRepo
 import kotlinx.coroutines.launch
 
 class VMPLat (private val repo: PlatRepo) : ViewModel() {

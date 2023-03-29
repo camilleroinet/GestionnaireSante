@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.example.gestionnairesante.R
-import com.example.gestionnairesante.database.dao.PoidsData
+import com.example.gestionnairesante.database.dao.poids.PoidsData
 import com.example.gestionnairesante.database.viewmodels.VMPoids
 import com.example.gestionnairesante.databinding.PoidsDialogBinding
 
@@ -55,7 +55,7 @@ class PoidsDialog : DialogFragment() {
 
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = viewModel
+            //viewModel = viewModel
             binding?.dialogPoids = this@PoidsDialog
         }
 
@@ -69,7 +69,7 @@ class PoidsDialog : DialogFragment() {
         val tabPeriode=resources.getStringArray(R.array.periodes)
 
         configSpinner(tabPeriode)
-
+        setupNumberPicker()
 
         // TODO a supprimer/cocher a la phase final
         //creation de message pout l'utilisateur si qqc est arrivé
@@ -79,12 +79,6 @@ class PoidsDialog : DialogFragment() {
             }
         }
 
-        binding!!.btnDate.setOnClickListener(){
-            binding!!.llDate.visibility = View.VISIBLE
-            binding!!.btnDate.visibility = View.GONE
-            binding!!.llTitredate.visibility = View.GONE
-
-        }
         binding!!.btnSaveMalade.setOnClickListener{
             // TODO a decocher quand implementation du code
             save()
@@ -93,7 +87,7 @@ class PoidsDialog : DialogFragment() {
         binding!!.btnClearMalade.setOnClickListener{
             dismiss()
         }
-
+        //setupNumberPicker()
     }
 
     override fun onStart() {
@@ -105,14 +99,13 @@ class PoidsDialog : DialogFragment() {
     }
 
     fun save(){
+        val val1 = binding!!.picker1.value
+        val val2 = binding!!.picker2.value
+        val val3 = binding!!.picker3.value
+        val temp : String = val1.toString() + val2.toString() + val3.toString()
+        val newInsert = PoidsData(0, temp.toFloat())
+        viewModel.insertPoids(newInsert)
 
-        if (binding!!.etPoids.text.isBlank() ) {
-            Toast.makeText(context, "youhou ya rien", Toast.LENGTH_LONG).show()
-        }else{
-            val note = binding!!.etPoids.text.toString()
-            val newInsert = PoidsData(0, note.toFloat())
-            viewModel.insertPoids(newInsert)
-        }
     }
 
 
@@ -156,4 +149,28 @@ class PoidsDialog : DialogFragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
+    private fun setupNumberPicker(){
+        val numberPicker1 = binding!!.picker1
+        val numberPicker2 = binding!!.picker2
+        val numberPicker3 = binding!!.picker3
+
+        numberPicker1.minValue = 0
+        numberPicker1.maxValue = 9
+        numberPicker1.wrapSelectorWheel = true
+        numberPicker1.setOnValueChangedListener { picker, oldVal, newVal ->
+        }
+
+        numberPicker2.minValue = 0
+        numberPicker2.maxValue = 9
+        numberPicker2.wrapSelectorWheel = true
+        numberPicker2.setOnValueChangedListener { picker, oldVal, newVal ->
+        }
+
+        numberPicker3.minValue = 0
+        numberPicker3.maxValue = 9
+        numberPicker3.wrapSelectorWheel = true
+        numberPicker3.setOnValueChangedListener { picker, oldVal, newVal ->
+        }
+    }
+
 }

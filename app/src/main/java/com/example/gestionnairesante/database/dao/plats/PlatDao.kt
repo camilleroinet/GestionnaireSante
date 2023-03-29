@@ -1,7 +1,6 @@
-package com.example.gestionnairesante.database.dao
+package com.example.gestionnairesante.database.dao.plats
 
 import androidx.room.*
-import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
 import kotlinx.coroutines.flow.Flow
 
 @Dao

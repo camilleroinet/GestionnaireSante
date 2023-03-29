@@ -1,17 +1,22 @@
 package com.example.gestionnairesante.database.viewmodels
 
+import android.widget.Toast
 import androidx.lifecycle.*
 import com.example.gestionnairesante.Event
-import com.example.gestionnairesante.database.dao.PoidsData
-import com.example.gestionnairesante.database.dao.PoidsRepo
+import com.example.gestionnairesante.database.dao.poids.PoidsData
+import com.example.gestionnairesante.database.dao.poids.PoidsRepo
 import kotlinx.coroutines.launch
 
 class VMPoids (private val repo: PoidsRepo) : ViewModel() {
 
+    //val lastpoi = repo.getLastPoids()
+
+
+
     private var isUpdateOrDelete = false
     private lateinit var dataToUpdateOrDelete: PoidsData
 
-    val inputNameData = MutableLiveData<Int?>()
+    var inputLastPoid = MutableLiveData<String?>()
 
     val saveOrUpdateButtonText = MutableLiveData<String>()
     private val clearAllOrDeleteButtonText = MutableLiveData<String>()
@@ -22,6 +27,7 @@ class VMPoids (private val repo: PoidsRepo) : ViewModel() {
     init{
         saveOrUpdateButtonText.value = "rechercher"
         clearAllOrDeleteButtonText.value = "clear All"
+        inputLastPoid.value = "couchhhhhou"
     }
 
     fun insertPoids(data: PoidsData) = viewModelScope.launch {
@@ -38,6 +44,8 @@ class VMPoids (private val repo: PoidsRepo) : ViewModel() {
         dataToUpdateOrDelete = data
         saveOrUpdateButtonText.value = "Update"
         clearAllOrDeleteButtonText.value = "Delete"
+        inputLastPoid.value = "couchhhhhou"
+
     }
 
     private fun updatePoids(data: PoidsData) = viewModelScope.launch {
@@ -55,6 +63,7 @@ class VMPoids (private val repo: PoidsRepo) : ViewModel() {
     fun getAllPoids() = liveData {
         repo.allPoids.collect{
             emit(it)
+
         }
     }
     fun getValeurPoids() = liveData {
@@ -62,6 +71,17 @@ class VMPoids (private val repo: PoidsRepo) : ViewModel() {
             emit(it)
         }
     }
+
+    fun afficherLastPoids() = viewModelScope.launch {
+        val z =  repo.getLastPoids()
+        recupLastPoids(z.toString())
+    }
+     private fun recupLastPoids(d: String) {
+        inputLastPoid.value = d
+    }
+
+
+
     fun clearallOrdelete(){
 /*        if (isUpdateOrDelete){
             deleteGlycemie(dataToUpdateOrDelete)
@@ -92,5 +112,10 @@ class VMPoids (private val repo: PoidsRepo) : ViewModel() {
         }*/
     }
 
+    fun ff(): String?{
+        inputLastPoid.value = "alexandre"
+        val m = inputLastPoid.value
+        return m
+    }
 
 }

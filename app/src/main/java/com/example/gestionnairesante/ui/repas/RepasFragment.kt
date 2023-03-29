@@ -8,17 +8,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.example.gestionnairesante.R
-import com.example.gestionnairesante.adapter.ViewPagerAdapter
-import com.example.gestionnairesante.adapter.ViewPagerChartsAdapter
+import com.example.gestionnairesante.adapter.AdapterViewPager
+import com.example.gestionnairesante.adapter.AdapterViewPagerCharts
 import com.example.gestionnairesante.adapter.ZoomOutPageTransformer
 import com.example.gestionnairesante.database.DB_sante
-import com.example.gestionnairesante.database.dao.PlatData
-import com.example.gestionnairesante.database.dao.PlatRepo
-import com.example.gestionnairesante.database.dao.glycemie.GlycemieRepo
+import com.example.gestionnairesante.database.dao.plats.PlatData
+import com.example.gestionnairesante.database.dao.plats.PlatRepo
 import com.example.gestionnairesante.database.viewmodels.*
 import com.example.gestionnairesante.databinding.RepasBinding
 import com.example.gestionnairesante.ui.diabete.*
-import com.example.gestionnairesante.ui.poids.PoidsDialog
 import com.google.android.material.tabs.TabLayout
 
 class RepasFragment : Fragment() {
@@ -175,7 +173,7 @@ class RepasFragment : Fragment() {
         tablayout: TabLayout
     ) {
         viewPager.apply {
-            viewPager.adapter = ViewPagerAdapter(
+            viewPager.adapter = AdapterViewPager(
                 arrayFrag, arrayTab,
                 childFragmentManager, tablayout.tabCount, context
             )
@@ -190,7 +188,7 @@ class RepasFragment : Fragment() {
         arrayTab: ArrayList<Int>
     ) {
         viewPager.apply {
-            viewPager.adapter = ViewPagerChartsAdapter(
+            viewPager.adapter = AdapterViewPagerCharts(
                 arrayFrag, arrayTab,
                 childFragmentManager, context
             )
