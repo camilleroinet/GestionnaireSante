@@ -6,7 +6,7 @@
     tools:context=".ui.diabete.DiabeteChartBar">
 
     <data>
-        <variable name="viewModel" type="com.example.gestionnairesante.database.viewmodels.VMGlycemie" />
+        <variable name="viewModel" type="com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie" />
         <variable name="fragChartLine" type="com.example.gestionnairesante.ui.diabete.DiabeteChartLine" />
     </data>
 

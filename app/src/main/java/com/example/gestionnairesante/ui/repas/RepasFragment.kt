@@ -12,9 +12,15 @@ import com.example.gestionnairesante.adapter.AdapterViewPager
 import com.example.gestionnairesante.adapter.AdapterViewPagerCharts
 import com.example.gestionnairesante.adapter.ZoomOutPageTransformer
 import com.example.gestionnairesante.database.DB_sante
+import com.example.gestionnairesante.database.dao.menu.MenuData
+import com.example.gestionnairesante.database.dao.menu.MenuRepo
 import com.example.gestionnairesante.database.dao.plats.PlatData
 import com.example.gestionnairesante.database.dao.plats.PlatRepo
 import com.example.gestionnairesante.database.viewmodels.*
+import com.example.gestionnairesante.database.viewmodels.menu.VMMenu
+import com.example.gestionnairesante.database.viewmodels.menu.VMMenuFactory
+import com.example.gestionnairesante.database.viewmodels.plat.VMPLat
+import com.example.gestionnairesante.database.viewmodels.plat.VMPlatFactory
 import com.example.gestionnairesante.databinding.RepasBinding
 import com.example.gestionnairesante.ui.diabete.*
 import com.google.android.material.tabs.TabLayout
@@ -22,7 +28,7 @@ import com.google.android.material.tabs.TabLayout
 class RepasFragment : Fragment() {
     private var binding: RepasBinding? = null
     private lateinit var viewModel: VMPLat
-    //private lateinit var viewModelinsuline: VMInsuline
+    private lateinit var viewModelMenu: VMMenu
 
     private lateinit var tablayoutTabs: TabLayout
     private lateinit var viewPagerTabs: ViewPager
@@ -33,8 +39,7 @@ class RepasFragment : Fragment() {
     private var arrayTab = arrayListOf<Int>(R.string.txt_fragmenu, R.string.txt_fragrepas)
     private var arrayFragTab = arrayListOf<Fragment>(RepasTab1(), RepasTab2())
 
-    private var arrayTabCharts =
-        arrayListOf<Int>(R.string.txt_chart1, R.string.txt_chart2, R.string.txt_chart3)
+    private var arrayTabCharts = arrayListOf<Int>(R.string.txt_chart1, R.string.txt_chart2, R.string.txt_chart3)
     private var arrayFragChart = arrayListOf<Fragment>(DiabeteChartLine(), DiabeteChartPie())
 
 
@@ -54,22 +59,22 @@ class RepasFragment : Fragment() {
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = viewModel
-            //viewModelinsuline = viewModelinsuline
+            viewModelMenu = viewModelMenu
             binding?.fragRepas = this@RepasFragment
 
         }
         // databinding
         val dao = DB_sante.getInstance(requireContext()).tabPlat
-        //val dao2 = DB_sante.getInstance(requireContext()).tabInsuline
+        val dao2 = DB_sante.getInstance(requireContext()).tabMenu
 
         val repository = PlatRepo(dao)
-        //val repositoryInsuline = InsulineRepo(dao2)
+        val repositoryMenu = MenuRepo(dao2)
 
         val factory = VMPlatFactory(repository)
-       // val factoryInsuline = VMInsulineFactory(repositoryInsuline)
+        val factoryMenu = VMMenuFactory(repositoryMenu)
 
         viewModel = ViewModelProvider(this, factory).get(VMPLat::class.java)
-        //viewModelinsuline = ViewModelProvider(this, factoryInsuline).get(VMInsuline::class.java)
+        viewModelMenu = ViewModelProvider(this, factoryMenu).get(VMMenu::class.java)
 
         val tabPlat = ArrayList<PlatData>()
         val tabInsulineRapide = ArrayList<Int>()
@@ -94,10 +99,20 @@ class RepasFragment : Fragment() {
             val plat3 = PlatData(0,"sandwich", 40,240)
             val plat4 = PlatData(0,"soupe", 5,18)
 
+            val menu1 = MenuData(0,"petitdej")
+            val menu2 = MenuData(0,"dej")
+            val menu3 = MenuData(0,"collation")
+            val menu4 = MenuData(0,"diner")
+
             viewModel.insertPlat(plat1)
             viewModel.insertPlat(plat2)
             viewModel.insertPlat(plat3)
             viewModel.insertPlat(plat4)
+
+            viewModelMenu.insertMenu(menu1)
+            viewModelMenu.insertMenu(menu2)
+            viewModelMenu.insertMenu(menu3)
+            viewModelMenu.insertMenu(menu4)
 
             binding!!.btnInsert.setOnClickListener(){
                 RepasDialogPlat.newInstance("Nouveau Repas", "subtitre", ind).show(childFragmentManager, RepasDialogPlat.TAG)

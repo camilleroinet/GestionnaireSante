@@ -9,7 +9,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.example.gestionnairesante.R
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
-import com.example.gestionnairesante.database.viewmodels.VMGlycemie
+import com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie
 import com.example.gestionnairesante.databinding.DiabeteDialogBinding
 
 class DiabeteDialogGlycemie : DialogFragment() {

@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.gestionnairesante.database.dao.menu.MenuDao
+import com.example.gestionnairesante.database.dao.menu.MenuData
 import com.example.gestionnairesante.database.dao.plats.PlatDao
 import com.example.gestionnairesante.database.dao.plats.PlatData
 import com.example.gestionnairesante.database.dao.poids.PoidsDao
@@ -13,7 +15,7 @@ import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
 import com.example.gestionnairesante.database.dao.insuline.InsulineDao
 import com.example.gestionnairesante.database.dao.insuline.InsulineData
 
-@Database(entities = [PlatData::class,GlycemieData::class, InsulineData::class, PoidsData::class], version = 1, exportSchema = false)
+@Database(entities = [MenuData::class,PlatData::class,GlycemieData::class, InsulineData::class, PoidsData::class], version = 1, exportSchema = false)
 //@Database(entities = [PeriodeData::class,GlycemieData::class], version =2, exportSchema = true,   autoMigrations = [AutoMigration (from = 1, to = 2)])
 
 abstract class DB_sante: RoomDatabase() {
@@ -21,6 +23,7 @@ abstract class DB_sante: RoomDatabase() {
     abstract val tabInsuline: InsulineDao
     abstract val tabPoids: PoidsDao
     abstract val tabPlat: PlatDao
+    abstract val tabMenu: MenuDao
 
     companion object{
         @Volatile

@@ -5,8 +5,8 @@
     tools:context=".ui.diabete.DiabeteFragment">
 
     <data>
-        <variable name="viewModel" type="com.example.gestionnairesante.database.viewmodels.VMGlycemie" />
-        <variable name="viewModelinsuline" type="com.example.gestionnairesante.database.viewmodels.VMInsuline" />
+        <variable name="viewModel" type="com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie" />
+        <variable name="viewModelinsuline" type="com.example.gestionnairesante.database.viewmodels.insuline.VMInsuline" />
         <variable name="fragDiabete" type="com.example.gestionnairesante.ui.diabete.DiabeteFragment" />
     </data>
 
@@ -46,6 +46,7 @@
             tools:ignore="MissingConstraints">
 
         </androidx.viewpager.widget.ViewPager>
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_populate"
             android:visibility="visible"

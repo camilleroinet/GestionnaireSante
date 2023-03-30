@@ -1,15 +1,15 @@
-package com.example.gestionnairesante.database.viewmodels
+package com.example.gestionnairesante.database.viewmodels.plat
 
 import androidx.lifecycle.*
 import com.example.gestionnairesante.Event
-import com.example.gestionnairesante.database.dao.insuline.InsulineData
-import com.example.gestionnairesante.database.dao.insuline.InsulineRepo
+import com.example.gestionnairesante.database.dao.plats.PlatData
+import com.example.gestionnairesante.database.dao.plats.PlatRepo
 import kotlinx.coroutines.launch
 
-class VMInsuline(private val repo: InsulineRepo) : ViewModel() {
+class VMPLat (private val repo: PlatRepo) : ViewModel() {
 
     private var isUpdateOrDelete = false
-    private lateinit var dataToUpdateOrDelete: InsulineData
+    private lateinit var dataToUpdateOrDelete: PlatData
 
     val inputNameData = MutableLiveData<Int?>()
 
@@ -24,8 +24,8 @@ class VMInsuline(private val repo: InsulineRepo) : ViewModel() {
         clearAllOrDeleteButtonText.value = "clear All"
     }
 
-    fun insertInsuline(data: InsulineData) = viewModelScope.launch {
-        val newRowId = repo.insertInsuline(data)
+    fun insertPlat(data: PlatData) = viewModelScope.launch {
+        val newRowId = repo.insertPlat(data)
         if (newRowId > -1){
             statusMessage.value = Event("insertion ok $newRowId")
         } else {
@@ -33,15 +33,15 @@ class VMInsuline(private val repo: InsulineRepo) : ViewModel() {
         }
     }
 
-    fun initUpdateAndDelete(data: InsulineData){
+    fun initUpdateAndDelete(data: PlatData){
         isUpdateOrDelete = true
         dataToUpdateOrDelete = data
         saveOrUpdateButtonText.value = "Update"
         clearAllOrDeleteButtonText.value = "Delete"
     }
 
-    private fun updateGlycemie(data: InsulineData) = viewModelScope.launch {
-/*        val noOfRow = repo.updateGlycemie(data)
+    private fun updatePlat(data: PlatData) = viewModelScope.launch {
+        val noOfRow = repo.updatePlat(data)
         if (noOfRow > 0){
             inputNameData.value = 0
             isUpdateOrDelete = false
@@ -50,33 +50,25 @@ class VMInsuline(private val repo: InsulineRepo) : ViewModel() {
             statusMessage.value = Event("$noOfRow update ok")
         }else {
             statusMessage.value = Event("Problemes")
-        }*/
+        }
     }
-    fun getallInsuline() = liveData {
-        repo.allInsuline.collect{
+
+    fun getallPlat() = liveData {
+        repo.allPlat.collect{
             emit(it)
         }
     }
-    fun getallRapide() = liveData {
-        repo.allRapide.collect{
-            emit(it)
-        }
-    }
-    fun getallLente() = liveData {
-        repo.allLente.collect{
-            emit(it)
-        }
-    }
+
     fun clearallOrdelete(){
-/*        if (isUpdateOrDelete){
+        if (isUpdateOrDelete){
             deleteGlycemie(dataToUpdateOrDelete)
         }else{
             clearAll()
-        }*/
+        }
     }
 
-    fun deleteGlycemie(data: InsulineData) = viewModelScope.launch {
-/*        val noOfRowDeleted = repo.deleteInsuline(data)
+    fun deleteGlycemie(data: PlatData) = viewModelScope.launch {
+        val noOfRowDeleted = repo.deletePlat(data)
         if (noOfRowDeleted > 0){
             inputNameData.value = 0
             isUpdateOrDelete = false
@@ -85,16 +77,16 @@ class VMInsuline(private val repo: InsulineRepo) : ViewModel() {
             statusMessage.value = Event("$noOfRowDeleted Row supprimee")
         }else{
             statusMessage.value = Event("Probleme")
-        }*/
+        }
     }
 
     private fun clearAll() = viewModelScope.launch {
-/*        val noOfRowDeleted = repo.deleteAllGlycemie()
+        val noOfRowDeleted = repo.deleteAllPlat()
         if (noOfRowDeleted > 0){
             statusMessage.value = Event("$noOfRowDeleted user supprimee")
         }else{
             statusMessage.value = Event("Probleme")
-        }*/
+        }
     }
 
 

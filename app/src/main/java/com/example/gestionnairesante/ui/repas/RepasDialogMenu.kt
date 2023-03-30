@@ -1,30 +1,34 @@
 package com.example.gestionnairesante.ui.repas
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import com.example.gestionnairesante.database.dao.plats.PlatData
-import com.example.gestionnairesante.database.viewmodels.plat.VMPLat
-import com.example.gestionnairesante.databinding.RepasDialogPlatBinding
+import com.example.gestionnairesante.database.dao.menu.MenuData
+import com.example.gestionnairesante.database.viewmodels.menu.VMMenu
+import com.example.gestionnairesante.databinding.RepasDialogMenuBinding
 
-class RepasDialogPlat : DialogFragment() {
-    private var binding: RepasDialogPlatBinding? = null
-    private val viewModel: VMPLat by viewModels ({ requireParentFragment() })
+
+class RepasDialogMenu : DialogFragment() {
+    private var binding: RepasDialogMenuBinding? = null
+    private val viewModel: VMMenu by viewModels ({ requireParentFragment() })
 
     companion object {
-        const val TAG = "Dialog_plat"
+        const val TAG = "Dialog_menu"
         private const val KEY_TITLE = "KEY_TITLE"
         private const val KEY_SUBTITLE = "KEY_SUBTITLE"
         private var keyg = "indice"
 
         var indice = 0
 
-        val frag = RepasDialogPlat()
+        val frag = RepasDialogMenu()
         var argFrag = frag.arguments
 
-        fun newInstance(title: String, subTitle: String, indicefrag: Int): RepasDialogPlat {
+        fun newInstance(title: String, subTitle: String, indicefrag: Int): RepasDialogMenu {
             //permet le transfert de variables entre le parent et le fragment
             //seul les 2 premiers putstring sont importants
             val args = Bundle()
@@ -41,7 +45,7 @@ class RepasDialogPlat : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val dialogFrag1Binding = RepasDialogPlatBinding.inflate(inflater, container, false)
+        val dialogFrag1Binding = RepasDialogMenuBinding.inflate(inflater, container, false)
         binding = dialogFrag1Binding
 
         return dialogFrag1Binding.root
@@ -53,7 +57,7 @@ class RepasDialogPlat : DialogFragment() {
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = viewModel
-            binding?.dialogPlat = this@RepasDialogPlat
+            binding?.dialogMenu = this@RepasDialogMenu
         }
 
         // TODO a supprimer/cocher a la phase final
@@ -88,12 +92,12 @@ class RepasDialogPlat : DialogFragment() {
         if (binding!!.etNomplat.text.isBlank() ) {
             Toast.makeText(context, "youhou ya rien", Toast.LENGTH_LONG).show()
         }else{
-            val nomPlat = binding!!.etNomplat.text.toString()
+            val nomMenu = binding!!.etNomplat.text.toString()
             val caloriePlat = binding!!.etCalories.text.toString()
             val glucidePlat = binding!!.etGlucide.text.toString()
 
-            val newInsert = PlatData(0, nomPlat, caloriePlat.toInt(), glucidePlat.toInt())
-            viewModel.insertPlat(newInsert)
+            val newInsert = MenuData(0, nomMenu)
+            viewModel.insertMenu(newInsert)
         }
     }
 

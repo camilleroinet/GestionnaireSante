@@ -5,7 +5,7 @@
     tools:context=".ui.repas.RepasDialogPlat">
 
     <data>
-        <variable name="viewModel" type="com.example.gestionnairesante.database.viewmodels.VMPLat" />
+        <variable name="viewModel" type="com.example.gestionnairesante.database.viewmodels.plat.VMPLat" />
         <variable name="dialogPlat" type="com.example.gestionnairesante.ui.repas.RepasDialogPlat" />
     </data>
 

@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
-    tools:context=".ui.repas.RepasFragTab1">
+    tools:context=".ui.repas.RepasFragTab2">
     <data>
-        <variable name="viewModel" type="com.example.gestionnairesante.database.viewmodels.VMRepas" />
+        <variable name="viewModel" type="com.example.gestionnairesante.database.viewmodels.repas.VMRepas" />
         <variable name="recyclerPlats" type="com.example.gestionnairesante.ui.repas.RepasTab2" />
     </data>
     <LinearLayout

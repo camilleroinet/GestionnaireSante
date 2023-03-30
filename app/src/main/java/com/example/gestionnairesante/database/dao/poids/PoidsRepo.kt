@@ -1,19 +1,20 @@
 package com.example.gestionnairesante.database.dao.poids
 
-import kotlinx.coroutines.flow.Flow
+import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
 
 class PoidsRepo (private val dao: PoidsDao){
     val allValeurPoids = dao.getAllValeurPoids()
     val allPoids = dao.getAllPoids()
+    val allValeurPoidsDesc = dao.getAllValeurPoidsDesc()
 
     suspend fun insertPoids(userdao: PoidsData) : Long{
         return dao.insertPoids(userdao)
     }
 
-    fun getLastPoids(): Float {
-        return dao.getLastPoids()
+    suspend fun deletePoids(userdao: PoidsData): Int{
+        return dao.deletePoids(userdao)
     }
-
-
-
+    suspend fun deleteAllPoids(id : Int): Int{
+        return dao.deleteAllPoids(id)
+    }
 }

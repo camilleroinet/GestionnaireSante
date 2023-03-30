@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gestionnairesante.adapter.AdapterRecyclerPlat
 import com.example.gestionnairesante.database.dao.plats.PlatData
-import com.example.gestionnairesante.database.viewmodels.VMPLat
+import com.example.gestionnairesante.database.viewmodels.plat.VMPLat
 import com.example.gestionnairesante.databinding.RepasTab2Binding
 
 class RepasTab2 : Fragment(){

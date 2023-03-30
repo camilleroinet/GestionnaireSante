@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.gestionnairesante.database.DB_sante
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieRepo
-import com.example.gestionnairesante.database.viewmodels.VMGlycemie
-import com.example.gestionnairesante.database.viewmodels.VMGlycemieFactory
+import com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie
+import com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemieFactory
 import com.example.gestionnairesante.databinding.FragChartPieBinding
 import com.example.gestionnairesante.utils.createColorTab
 import com.example.gestionnairesante.utils.creationPieChart

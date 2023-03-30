@@ -5,7 +5,7 @@
 
     tools:context=".ui.diabete.DiabetFrag2">
     <data>
-        <variable name="viewModelinsuline" type="com.example.gestionnairesante.database.viewmodels.VMInsuline" />
+        <variable name="viewModelinsuline" type="com.example.gestionnairesante.database.viewmodels.insuline.VMInsuline" />
         <variable name="recyclerinsuline" type="com.example.gestionnairesante.ui.diabete.DiabeteTab2" />
     </data>
     <LinearLayout

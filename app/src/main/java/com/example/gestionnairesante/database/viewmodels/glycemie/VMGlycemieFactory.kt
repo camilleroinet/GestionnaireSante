@@ -1,4 +1,4 @@
-package com.example.gestionnairesante.database.viewmodels
+package com.example.gestionnairesante.database.viewmodels.glycemie
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

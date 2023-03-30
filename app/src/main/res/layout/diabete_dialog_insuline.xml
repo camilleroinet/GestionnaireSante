@@ -5,8 +5,8 @@
     tools:context=".ui.diabete.DiabeteDialogInsuline">
 
     <data>
-        <variable name="viewModel" type="com.example.gestionnairesante.database.viewmodels.VMGlycemie" />
-        <variable name="viewModelinsuline" type="com.example.gestionnairesante.database.viewmodels.VMInsuline" />
+        <variable name="viewModel" type="com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie" />
+        <variable name="viewModelinsuline" type="com.example.gestionnairesante.database.viewmodels.insuline.VMInsuline" />
 
         <variable name="dialogInsuline" type="com.example.gestionnairesante.ui.diabete.DiabeteDialogInsuline" />
     </data>

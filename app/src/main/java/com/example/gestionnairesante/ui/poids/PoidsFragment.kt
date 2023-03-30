@@ -1,41 +1,113 @@
 package com.example.gestionnairesante.ui.poids
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipDescription
+import android.graphics.Color
+import android.graphics.Path
 import android.os.Bundle
+import android.view.DragEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AccelerateInterpolator
+import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
 import com.example.gestionnairesante.R
 import com.example.gestionnairesante.adapter.AdapterRecyclerPoids
-import com.example.gestionnairesante.adapter.AdapterViewPagerCharts
-import com.example.gestionnairesante.adapter.ZoomOutPageTransformer
 import com.example.gestionnairesante.database.DB_sante
 import com.example.gestionnairesante.database.dao.poids.PoidsData
 import com.example.gestionnairesante.database.dao.poids.PoidsRepo
-import com.example.gestionnairesante.database.viewmodels.VMPoids
-import com.example.gestionnairesante.database.viewmodels.VMPoidsFactory
+import com.example.gestionnairesante.database.viewmodels.poids.VMPoids
+import com.example.gestionnairesante.database.viewmodels.poids.VMPoidsFactory
 import com.example.gestionnairesante.databinding.PoidBinding
+import com.example.gestionnairesante.divers.MyDragShadowBuilder
 import com.example.gestionnairesante.utils.createBarChart
 import com.github.mikephil.charting.data.BarEntry
-import java.math.RoundingMode
-import java.text.DecimalFormat
-import kotlin.math.roundToInt
+import kotlinx.coroutines.*
+import java.util.concurrent.TimeUnit
 
 
 class PoidsFragment : Fragment() {
+
     private var binding: PoidBinding? = null
     private lateinit var viewModel: VMPoids
     private lateinit var adapter: AdapterRecyclerPoids
     private var ind = 0
     private var lastPoua = 0f
+    lateinit var targetMotion: LinearLayout
+    lateinit var motionLayout: MotionLayout
+    val dureeanimation: Long = 500
+
+    private val onDragTV  = View.OnDragListener { view, dragEvent ->
+        (view as View).let {
+            when(dragEvent.action){
+                DragEvent.ACTION_DRAG_STARTED -> {
+                    if (!targetMotion.isVisible){
+                        //targetMotion.visibility = View.VISIBLE
+                        createAnimation(0)
+                    }
+                    return@OnDragListener true
+                }
+                else -> return@OnDragListener false
+            }
+        }
+    }
+
+    private val onDragListener = View.OnDragListener { view, dragEvent ->
+        //  TODO ATTENTION BIEN VERIFIER QUE LE TYPE CORRESPOND AU XML
+        // si cible = linear, ou si cible = framelayout, ou si cible = motionlayout ou autre
+        // sinon plante pour erreur de cast
+        (view as LinearLayout).let {
+            when(dragEvent.action){
+
+                DragEvent.ACTION_DRAG_STARTED -> {
+                    return@OnDragListener true
+                }
+
+                DragEvent.ACTION_DRAG_ENTERED -> {
+                    return@OnDragListener true
+                }
+
+                DragEvent.ACTION_DRAG_LOCATION -> {
+                    it.setBackgroundColor(Color.BLUE)
+                    return@OnDragListener true
+                }
+
+                DragEvent.ACTION_DRAG_EXITED -> {
+                    return@OnDragListener true
+                }
+
+                DragEvent.ACTION_DROP -> {
+                    if (targetMotion.isVisible){
+                        it.setBackgroundColor(Color.BLUE)
+                        createAnimation(1)
+                        deleteMove(adapter)
+                    }
+                    return@OnDragListener true
+                }
+
+                DragEvent.ACTION_DRAG_ENDED -> {
+                    return@OnDragListener true
+                }
+
+                else -> return@OnDragListener false
+            }
+        }
+    }
+
+
+    val tabPoids = ArrayList<Float>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +118,6 @@ class PoidsFragment : Fragment() {
         val poidsFrg = PoidBinding.inflate(inflater, container, false)
         binding = poidsFrg
 
-        //viewModel.recupLastPoids()
         return poidsFrg.root
     }
 
@@ -58,21 +129,64 @@ class PoidsFragment : Fragment() {
             binding?.fragPoids = this@PoidsFragment
         }
 
-
-
+        //
         // databinding
+        //
         val dao = DB_sante.getInstance(requireContext()).tabPoids
         val repository = PoidsRepo(dao)
         val factory = VMPoidsFactory(repository)
         viewModel = ViewModelProvider(this, factory).get(VMPoids::class.java)
 
-        val tabPoids = ArrayList<Float>()
+
+        //on declare que le linearlayout est droppable
+        //le ll ecoute si qqc a été Drop
+        //utilisation du findviewbyid à cause de l'utilisation du framework transition
+        targetMotion = view.findViewById<LinearLayout>(R.id.targetMotion)
+        targetMotion.setOnDragListener(onDragListener)
+
+        motionLayout = view.findViewById<MotionLayout>(R.id.motionLayout)
+        motionLayout.setTransitionListener(object : MotionLayout.TransitionListener{
+            override fun onTransitionTrigger(
+                motionLayout: MotionLayout?,
+                triggerId: Int,
+                positive: Boolean,
+                progress: Float
+            ) {
+                // TODO
+            }
+
+            override fun onTransitionStarted(
+                motionLayout: MotionLayout?,
+                startId: Int,
+                endId: Int
+            ) {
+                //target.visibility = View.VISIBLE
+                //motionLayout?.transitionToStart()
+                Toast.makeText(context, "----> transition débbutée", Toast.LENGTH_SHORT).show()
+
+            }
+
+            override fun onTransitionChange(
+                motionLayout: MotionLayout?,
+                startId: Int,
+                endId: Int,
+                progress: Float
+            ) {
+                // TODO
+            }
+
+            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
+                Toast.makeText(context, "transition terminée", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        // TODO a cocher a la fin
+        // Message de test du viewModel
         viewModel.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
-            //Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
-
 
         viewModel.getValeurPoids().observe(viewLifecycleOwner) { it ->
             tabPoids.clear()
@@ -87,13 +201,12 @@ class PoidsFragment : Fragment() {
                 binding!!.rere.text = calculerIMC(171,lastPoua).toString()
                 verifIMC(imc)
             }
-
-            //recupDataBarChart()
-            //binding.chart0.invalidate()
         }
 
-       // Toast.makeText(requireContext(), "monpoids ="+viewModel.inputLastPoid.value,Toast.LENGTH_LONG).show()
-
+        // TODO A cocher ou decocher selon si la db est vide ou pas
+        // TODO faire un check de la taille de la base de données
+        //  si non vide cacher le bouton
+        //  sinon afficher
         binding!!.btnPopulate.setOnClickListener {
             val poids1 = PoidsData(0, 66.0F)
             val poids2 = PoidsData(0, 68.0F)
@@ -109,23 +222,31 @@ class PoidsFragment : Fragment() {
 
         binding!!.btnInsert.setOnClickListener{
             PoidsDialog.newInstance("titre", "subtitre", ind).show(childFragmentManager, PoidsDialog.TAG)
-            //Toast.makeText(requireContext(), "youhou", Toast.LENGTH_LONG).show()
         }
 
         initRecycler()
         displayUser()
         touchRecycler()
 
-
-        //viewModel.afficherLastPoids()
-            //val d = viewModel.inputLastPoid.value
-
-
-
-
-
     }
 
+    // Permet de faire un delete apres un dragNdrop
+    fun deleteMove(adapt: AdapterRecyclerPoids){
+        val sp = adapt.maposition
+        val obj = adapter.getDbObjet(sp)
+        viewModel.deletePoids(obj)
+    }
+
+    // TODO implementer l'update
+    // Permet de lancer l'update du poids en cliquant
+    fun listItemClicked(viewModel: VMPoids, daouser: PoidsData){
+        viewModel.initUpdateAndDelete(daouser)
+        viewModel.clearallOrdelete()
+    }
+
+    // TODO Apres implementation du profil modifier la valeur
+    //  par defaut de la taille
+    // Calcule de l'imc
     fun calculerIMC(taille: Int, poids: Float) : Float {
         //  IMC = poids en kg/taille²
         val poids = poids.toDouble()
@@ -134,52 +255,55 @@ class PoidsFragment : Fragment() {
         return  (poids / (taille*taille)).toFloat()
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+    @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
+    // Test et retour du traitement en fonction de la valeur de l'imc
     fun verifIMC(imc : Float){
-        if(imc <= 18.5F){
-            binding?.imgImc?.setImageDrawable(getResources().getDrawable(R.drawable.imc1))
-            binding?.resultat?.text = "Poids insuffisant"
-        }
-        if(imc > 18.5F && imc < 25){
-            binding?.imgImc?.setImageDrawable(getResources().getDrawable(R.drawable.imc2))
-            binding?.resultat?.text = "Poids normal"
-        }
-        if(imc >= 25F && imc < 30){
-            binding?.imgImc?.setImageDrawable(getResources().getDrawable(R.drawable.imc3))
-            binding?.resultat?.text = "Surpoids"
-        }
-        if(imc >= 30F && imc < 35){
-            binding?.imgImc?.setImageDrawable(getResources().getDrawable(R.drawable.imc4))
-            binding?.resultat?.text = "Obésité"
-        }
-        if(imc >= 35F){
-            binding?.imgImc?.setImageDrawable(getResources().getDrawable(R.drawable.imc5))
-            binding?.resultat?.text = "Obésité morbide"
+        when(imc){
+            in 0.0F..18.5F -> {
+                binding?.imgImc?.setImageDrawable(resources.getDrawable(R.drawable.imc1))
+                binding?.resultat?.text = "Poids insuffisant"
+             }
+            in 18.5F..25F -> {
+                binding?.imgImc?.setImageDrawable(resources.getDrawable(R.drawable.imc2))
+                binding?.resultat?.text = "Poids normal"
+            }
+            in 25F..30F -> {
+                binding?.imgImc?.setImageDrawable(resources.getDrawable(R.drawable.imc3))
+                binding?.resultat?.text = "Surpoids"
+            }
+            in 30F..35F -> {
+                binding?.imgImc?.setImageDrawable(resources.getDrawable(R.drawable.imc4))
+                binding?.resultat?.text = "Obésité"
+            }
+            else -> {
+                binding?.imgImc?.setImageDrawable(resources.getDrawable(R.drawable.imc5))
+                binding?.resultat?.text = "Obésité morbide"
+            }
         }
 
     }
+
+    // Initialisation du recylcer
     fun initRecycler(){
         // Configuration du layout
         binding?.recyclerPoids?.layoutManager = LinearLayoutManager(context)
-
         // Configuration de l'adapter
-        adapter = AdapterRecyclerPoids { daouser: PoidsData -> listItemClicked(viewModel, daouser)}
+        // adapter = AdapterSportD { h: View -> longclickListener(h) }
+        adapter = AdapterRecyclerPoids { h: View -> longclickListener(h)}
         binding?.recyclerPoids?.adapter = adapter
 
     }
-    fun listItemClicked(viewModel: VMPoids, daouser: PoidsData){
-        viewModel.initUpdateAndDelete(daouser)
-        viewModel.clearallOrdelete()
-    }
 
+    // Afficher les données dans le recycler
+    @SuppressLint("NotifyDataSetChanged")
     fun displayUser(){
         viewModel.getAllPoids().observe(viewLifecycleOwner, Observer {
-            //Toast.makeText(requireContext(), "size ==>> ${it.size}", Toast.LENGTH_LONG).show()
             adapter.setList(it)
             adapter.notifyDataSetChanged()
         })
     }
 
+    // Gestion tactile du recycler view
     fun touchRecycler() {
         val itemTouchHelper by lazy {
             val simplecall = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
@@ -200,7 +324,7 @@ class PoidsFragment : Fragment() {
                     val sp = viewHolder.adapterPosition
                     val obj = adapter.getDbObjet(sp)
                     //DialogFragHomeSuppr.newInstance("titre", "subtitre", ind).show(childFragmentManager, DialogFragHomeSuppr.TAG)
-                    viewModel.deleteGlycemie(obj)
+                    viewModel.deletePoids(obj)
                 }
 
                 override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
@@ -219,24 +343,10 @@ class PoidsFragment : Fragment() {
         }
         itemTouchHelper.attachToRecyclerView(binding?.recyclerPoids)
     }
-    fun configViewPagerChart(
-        viewPager: ViewPager,
-        arrayFrag: ArrayList<Fragment>,
-        arrayTab: ArrayList<Int>){
-        viewPager.apply {
-            viewPager.adapter = AdapterViewPagerCharts(
-                arrayFrag, arrayTab,
-                childFragmentManager, context)
-        }
-        viewPager.setPageTransformer(true, ZoomOutPageTransformer())
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
+    // Traitement du bar chart
     fun recupDataBarChart(): ArrayList<BarEntry>{
-        val valu = ArrayList<BarEntry>()
+        val data = ArrayList<BarEntry>()
         val tabValeur = ArrayList<Float>()
         val barChart = binding!!.chart0
         val stringValue = ArrayList<String>()
@@ -246,17 +356,91 @@ class PoidsFragment : Fragment() {
             tabValeur.addAll(it)
 
             val r = tabValeur.size - 1
-
             for (i in 0..r){
                 stringValue.add("")
-                valu.add(BarEntry(i.toFloat(), tabValeur[i].toFloat()))
+                data.add(BarEntry(i.toFloat(), tabValeur[i].toFloat()))
             }
-            createBarChart(barChart,valu,stringValue ,"Poids"  )
+            createBarChart(barChart,data,stringValue ,"Poids"  )
         }
 
-        return valu
+        return data
     }
 
+    // Animation du dragNdop
+    fun createAnimation(indice: Int){
+        when(indice){
+            0 -> {
+                targetMotion.setBackgroundColor(Color.BLACK)
+                targetMotion.visibility = View.VISIBLE
+                startAnimation(targetMotion, AccelerateDecelerateInterpolator(), dureeanimation, indice)
+            }
+            1 -> {
+                attendre()
+                startAnimation2(targetMotion,  AccelerateInterpolator(), dureeanimation, indice)
+                targetMotion.visibility = View.GONE
+                targetMotion.setBackgroundColor(Color.BLACK)
+            }
+        }
+    }
 
+    /**
+     * Gestion de l'animation
+     */
+    fun startAnimation(view: View, interpolator: AccelerateDecelerateInterpolator, duration: Long, indice:Int): ObjectAnimator{
+        val animator = ObjectAnimator.ofFloat(view, View.SCALE_X, View.SCALE_Y, initPath(indice))
+        animator.duration = duration
+        animator.interpolator = interpolator
+        animator.start()
+        return animator
+    }
+    // Ou
+    fun startAnimation2(view: View, interpolator: AccelerateInterpolator, duration: Long, indice:Int): ObjectAnimator{
+        val animator = ObjectAnimator.ofFloat(view, View.SCALE_X, View.SCALE_Y, initPath(indice))
+        animator.duration = duration
+        animator.interpolator = interpolator
+        animator.start()
+        return animator
+    }
+    fun attendre(){
+        CoroutineScope(Dispatchers.IO).launch {
+            delay(TimeUnit.SECONDS.toMillis(dureeanimation))
+            withContext(Dispatchers.Main){
+                //createAnimation(1)
+                targetMotion.visibility = View.GONE
+                targetMotion.setBackgroundColor(Color.BLACK)
+            }
+        }
+    }
+    private fun initPath(indice: Int): Path {
+        val path = Path()
 
+        if (indice==0){
+            path.moveTo(0.2f, 0.2f)
+            path.lineTo(1f, 1f)
+        }else if (indice==1){
+            path.moveTo(1f, 1f)
+            path.lineTo(0.2f, 0.2f)
+        }
+        return path
+    }
+
+    /**
+     * Gestion du dragNdrop
+     */
+    fun longclickListener (f: View){
+        f.setOnDragListener(onDragTV)
+        gestionDrag(f)
+    }
+
+    fun gestionDrag(v: View){
+        val item = ClipData.Item(v.tag as? CharSequence)
+        val dragData = ClipData(
+            v.tag as? CharSequence,
+            arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN),
+            item
+        )
+        val myShadow = MyDragShadowBuilder(v)
+
+        v.startDragAndDrop(dragData, myShadow, null, 0)
+    }
 }

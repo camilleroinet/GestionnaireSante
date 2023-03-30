@@ -6,8 +6,8 @@
     tools:context=".ui.repas.RepasFragment">
 
     <data>
-        <variable name="viewModel" type="com.example.gestionnairesante.database.viewmodels.VMPLat" />
-<!--        <variable name="viewModelinsuline" type="com.example.gestionnairesante.database.viewmodels.VMInsuline" />-->
+        <variable name="viewModel" type="com.example.gestionnairesante.database.viewmodels.plat.VMPLat" />
+        <variable name="viewModelMenu" type="com.example.gestionnairesante.database.viewmodels.menu.VMMenu" />
 
         <variable name="fragRepas" type="com.example.gestionnairesante.ui.repas.RepasFragment" />
     </data>
@@ -45,12 +45,11 @@
             android:layout_width="wrap_content"
             android:layout_height="380dp"
             tools:ignore="MissingConstraints">
-
         </androidx.viewpager.widget.ViewPager>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_populate"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_width="80dp"
             android:layout_height="80dp"
             app:layout_constraintTop_toTopOf="parent"

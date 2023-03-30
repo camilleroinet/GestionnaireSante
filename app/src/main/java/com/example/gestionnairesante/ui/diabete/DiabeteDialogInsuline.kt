@@ -9,8 +9,8 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.example.gestionnairesante.database.dao.insuline.InsulineData
-import com.example.gestionnairesante.database.viewmodels.VMGlycemie
-import com.example.gestionnairesante.database.viewmodels.VMInsuline
+import com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie
+import com.example.gestionnairesante.database.viewmodels.insuline.VMInsuline
 import com.example.gestionnairesante.databinding.DiabeteDialogInsulineBinding
 
 class DiabeteDialogInsuline : DialogFragment() {

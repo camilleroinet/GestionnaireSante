@@ -19,6 +19,7 @@
     <string name="my_image_01">image repas</string>
     <string name="txt_fragmenu">Menu</string>
     <string name="txt_fragrepas">Repas</string>
+    <string name="erasetext">supprimer</string>
 
     <string-array name="periodes">
         <item>Petit-déjeuner</item>

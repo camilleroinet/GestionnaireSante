@@ -5,7 +5,7 @@
     tools:context=".ui.diabete.DiabeteDialogGlycemie">
 
     <data>
-        <variable name="viewModel" type="com.example.gestionnairesante.database.viewmodels.VMGlycemie" />
+        <variable name="viewModel" type="com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie" />
         <variable name="dialogDiabete" type="com.example.gestionnairesante.ui.diabete.DiabeteDialogGlycemie" />
     </data>
 

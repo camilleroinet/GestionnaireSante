@@ -9,27 +9,27 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.example.gestionnairesante.R
 import com.example.gestionnairesante.database.dao.poids.PoidsData
-import com.example.gestionnairesante.database.viewmodels.VMPoids
+import com.example.gestionnairesante.database.viewmodels.poids.VMPoids
 import com.example.gestionnairesante.databinding.PoidsDialogBinding
 
 class PoidsDialog : DialogFragment() {
     private var binding: PoidsDialogBinding? = null
     private val viewModel: VMPoids by viewModels ({ requireParentFragment() })
 
+
+    // Configuration de dialogfrag
     companion object {
         const val TAG = "Poids_Dialog"
         private const val KEY_TITLE = "KEY_TITLE"
         private const val KEY_SUBTITLE = "KEY_SUBTITLE"
         private var keyg = "indice"
-
         var indice = 0
-
         val frag = PoidsDialog()
         var argFrag = frag.arguments
 
         fun newInstance(title: String, subTitle: String, indicefrag: Int): PoidsDialog {
             //permet le transfert de variables entre le parent et le fragment
-            //seul les 2 premiers putstring sont importants
+            //seuls les 2 premiers putstring sont importants
             val args = Bundle()
             args.putString(KEY_TITLE, title)
             args.putString(KEY_SUBTITLE, subTitle)
@@ -39,11 +39,13 @@ class PoidsDialog : DialogFragment() {
             return frag
         }
     }
-    override fun onCreateView(
+
+   // Creation de la vue
+   override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val dialogFragBinding = PoidsDialogBinding.inflate(inflater, container, false)
         binding = dialogFragBinding
 
@@ -62,8 +64,6 @@ class PoidsDialog : DialogFragment() {
         /**
          * Spinner
          */
-        val spinner = binding!!.spinnerPeriode
-
         // TODO a decocher quand implementation du code
 
         val tabPeriode=resources.getStringArray(R.array.periodes)
@@ -81,13 +81,14 @@ class PoidsDialog : DialogFragment() {
 
         binding!!.btnSaveMalade.setOnClickListener{
             // TODO a decocher quand implementation du code
+            // Sauvegrade des données et fermeture de la dialog
             save()
             dismiss()
         }
         binding!!.btnClearMalade.setOnClickListener{
+            // Fermeture de la dialog sans tansfert de données
             dismiss()
         }
-        //setupNumberPicker()
     }
 
     override fun onStart() {
@@ -105,9 +106,7 @@ class PoidsDialog : DialogFragment() {
         val temp : String = val1.toString() + val2.toString() + val3.toString()
         val newInsert = PoidsData(0, temp.toFloat())
         viewModel.insertPoids(newInsert)
-
     }
-
 
     /**
      * Fonction de gestion du spinner
@@ -141,10 +140,10 @@ class PoidsDialog : DialogFragment() {
                 position: Int,
                 id: Long
             ) {
-                //posAdapter = position
-                //nomCategorie = arrayCat[position]
-                //gestionRecycler(position, nomCategorie)
-                Toast.makeText(requireContext(), "spinner selection ======> $position", Toast.LENGTH_SHORT).show()
+                //  posAdapter = position
+                //  nomCategorie = arrayCat[position]
+                //  gestionRecycler(position, nomCategorie)
+                //  Toast.makeText(requireContext(), "spinner selection ======> $position", Toast.LENGTH_SHORT).show()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
@@ -154,18 +153,19 @@ class PoidsDialog : DialogFragment() {
         val numberPicker2 = binding!!.picker2
         val numberPicker3 = binding!!.picker3
 
+        // Picker des centaines
         numberPicker1.minValue = 0
         numberPicker1.maxValue = 9
         numberPicker1.wrapSelectorWheel = true
         numberPicker1.setOnValueChangedListener { picker, oldVal, newVal ->
         }
-
+        // Picker des dizaines
         numberPicker2.minValue = 0
         numberPicker2.maxValue = 9
         numberPicker2.wrapSelectorWheel = true
         numberPicker2.setOnValueChangedListener { picker, oldVal, newVal ->
         }
-
+        // Picker des unites
         numberPicker3.minValue = 0
         numberPicker3.maxValue = 9
         numberPicker3.wrapSelectorWheel = true

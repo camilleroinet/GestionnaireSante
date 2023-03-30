@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.example.gestionnairesante.database.viewmodels.VMGlycemie
+import com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie
 import com.example.gestionnairesante.databinding.FragChartLineBinding
 import com.example.gestionnairesante.utils.createLineChart
 import com.example.gestionnairesante.utils.recupDataChart

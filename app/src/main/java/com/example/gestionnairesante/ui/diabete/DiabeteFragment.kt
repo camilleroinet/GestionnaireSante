@@ -16,10 +16,10 @@ import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieRepo
 import com.example.gestionnairesante.database.dao.insuline.InsulineData
 import com.example.gestionnairesante.database.dao.insuline.InsulineRepo
-import com.example.gestionnairesante.database.viewmodels.VMGlycemie
-import com.example.gestionnairesante.database.viewmodels.VMGlycemieFactory
-import com.example.gestionnairesante.database.viewmodels.VMInsuline
-import com.example.gestionnairesante.database.viewmodels.VMInsulineFactory
+import com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie
+import com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemieFactory
+import com.example.gestionnairesante.database.viewmodels.insuline.VMInsuline
+import com.example.gestionnairesante.database.viewmodels.insuline.VMInsulineFactory
 import com.example.gestionnairesante.databinding.DiabeteBinding
 import com.google.android.material.tabs.TabLayout
 
