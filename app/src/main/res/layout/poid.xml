@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.gestionnairesante.ui.poids.PoidsFragment">
 
-
     <data>
         <variable name="viewModel" type="com.example.gestionnairesante.database.viewmodels.poids.VMPoids" />
         <variable name="fragPoids" type="com.example.gestionnairesante.ui.poids.PoidsFragment" />
@@ -38,7 +37,7 @@
         </LinearLayout>
 
 
-<LinearLayout
+        <LinearLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,41 +54,7 @@
                 android:background="@drawable/shape_bouton"
 
                 />
-            <LinearLayout
-                android:id="@+id/targetMotion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:minHeight="0dp"
-                android:minWidth="0dp"
-                android:orientation="horizontal"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:padding="5dp"
-                android:background="@color/black">
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@android:drawable/ic_menu_delete"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:text="@string/erasetext"/>
-            </LinearLayout>
-            <androidx.constraintlayout.motion.widget.MotionLayout
-                android:id="@+id/motionLayout"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                app:layoutDescription="@xml/transitionfade"
-                tools:context=".ui.pratiques.Pratiques"
-                android:visibility="gone">
 
-            </androidx.constraintlayout.motion.widget.MotionLayout>
 
     <LinearLayout
                 android:layout_width="match_parent"
@@ -128,7 +93,43 @@
             app:layout_constraintTop_toBottomOf="@id/tab_layout"
             app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/recyclerPoids"/>
+        <LinearLayout
+            android:id="@+id/targetMotion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="5dp"
+            android:background="@color/black"
+            tools:ignore="MissingConstraints">
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_menu_delete"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:text="@string/erasetext"/>
+        </LinearLayout>
+        <androidx.constraintlayout.motion.widget.MotionLayout
+            android:id="@+id/motionLayout"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:layoutDescription="@xml/transitionfade"
+            tools:context=".ui.pratiques.Pratiques"
+            android:visibility="gone"
+            tools:ignore="MissingConstraints">
 
+        </androidx.constraintlayout.motion.widget.MotionLayout>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_populate"
             android:visibility="gone"
@@ -142,18 +143,18 @@
             android:textAllCaps="true"
             android:textColor="@color/white" />
 
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_insert"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/SecondaryColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="@drawable/shape_bouton"
-            android:backgroundTint="@color/SecondaryColor"
-            android:layout_margin="25dp"
-
-            android:textAllCaps="true"
-            android:textColor="@color/white" />
+            app:maxImageSize="48dp"
+            android:layout_marginEnd="@dimen/fab_margin"
+            android:layout_marginBottom="32dp"
+            app:srcCompat="@android:drawable/ic_input_add"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

@@ -23,17 +23,28 @@ class PoidsDialog : DialogFragment() {
         private const val KEY_TITLE = "KEY_TITLE"
         private const val KEY_SUBTITLE = "KEY_SUBTITLE"
         private var keyg = "indice"
+        private var idtxt = "id"
+        private var poidstxt = "poids"
+
+        var oldid: Int = 0
+        var oldpoids : Float = 0F
         var indice = 0
         val frag = PoidsDialog()
         var argFrag = frag.arguments
 
-        fun newInstance(title: String, subTitle: String, indicefrag: Int): PoidsDialog {
+        fun newInstance(title: String, subTitle: String, indicefrag: Int, id: Int, poids : Float): PoidsDialog {
             //permet le transfert de variables entre le parent et le fragment
             //seuls les 2 premiers putstring sont importants
             val args = Bundle()
             args.putString(KEY_TITLE, title)
             args.putString(KEY_SUBTITLE, subTitle)
             args.putInt(keyg, indicefrag)
+            args.putInt(idtxt, id)
+            args.putFloat(poidstxt, poids)
+
+            oldid = id
+            oldpoids = poids
+
             argFrag = args
             indice = indicefrag
             return frag
@@ -60,7 +71,6 @@ class PoidsDialog : DialogFragment() {
             //viewModel = viewModel
             binding?.dialogPoids = this@PoidsDialog
         }
-
         /**
          * Spinner
          */
@@ -71,6 +81,14 @@ class PoidsDialog : DialogFragment() {
         configSpinner(tabPeriode)
         setupNumberPicker()
 
+        if(oldid == 0 && oldpoids == 0F){
+            binding!!.btnInsertPoids.visibility = View.VISIBLE
+            binding!!.btnUpdatePoids.visibility = View.GONE
+        }else{
+            binding!!.btnInsertPoids.visibility = View.GONE
+            binding!!.btnUpdatePoids.visibility = View.VISIBLE
+        }
+
         // TODO a supprimer/cocher a la phase final
         //creation de message pout l'utilisateur si qqc est arrivé
         viewModel.message.observe(viewLifecycleOwner){ it ->
@@ -78,14 +96,19 @@ class PoidsDialog : DialogFragment() {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
-
-        binding!!.btnSaveMalade.setOnClickListener{
+        binding!!.btnInsertPoids.setOnClickListener{
             // TODO a decocher quand implementation du code
             // Sauvegrade des données et fermeture de la dialog
             save()
             dismiss()
         }
-        binding!!.btnClearMalade.setOnClickListener{
+        binding!!.btnUpdatePoids.setOnClickListener{
+            // TODO a decocher quand implementation du code
+            // Sauvegrade des données et fermeture de la dialog
+            update()
+            dismiss()
+        }
+        binding!!.btnCancel.setOnClickListener{
             // Fermeture de la dialog sans tansfert de données
             dismiss()
         }
@@ -107,7 +130,13 @@ class PoidsDialog : DialogFragment() {
         val newInsert = PoidsData(0, temp.toFloat())
         viewModel.insertPoids(newInsert)
     }
-
+    fun update(){
+        val val1 = binding!!.picker1.value
+        val val2 = binding!!.picker2.value
+        val val3 = binding!!.picker3.value
+        val temp : String = val1.toString() + val2.toString() + val3.toString()
+        viewModel.updatePoids(oldid, temp.toFloat())
+    }
     /**
      * Fonction de gestion du spinner
      */

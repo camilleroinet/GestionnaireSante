@@ -97,7 +97,8 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_saveMalade"
+                android:id="@+id/btn_insertPoids"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
@@ -107,9 +108,20 @@
                 android:text="Enregistrer"
                 android:textColor="@color/white"
                 />
-
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_clearMalade"
+                android:id="@+id/btn_updatePoids"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape_bouton"
+                android:backgroundTint="@color/SecondaryColor"
+                android:text="Modifier"
+                android:textColor="@color/white"
+                />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_cancel"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="5dp"

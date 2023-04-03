@@ -60,7 +60,6 @@ class DiabeteTab1 : Fragment(){
             //binding.chart0.invalidate()
         }
 
-
         initRecycler()
         displayUser()
         touchRecycler()

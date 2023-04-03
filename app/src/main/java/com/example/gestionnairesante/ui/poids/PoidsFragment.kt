@@ -49,6 +49,8 @@ class PoidsFragment : Fragment() {
     lateinit var motionLayout: MotionLayout
     val dureeanimation: Long = 500
 
+    private lateinit var item : PoidsData
+
     private val onDragTV  = View.OnDragListener { view, dragEvent ->
         (view as View).let {
             when(dragEvent.action){
@@ -90,9 +92,9 @@ class PoidsFragment : Fragment() {
 
                 DragEvent.ACTION_DROP -> {
                     if (targetMotion.isVisible){
-                        it.setBackgroundColor(Color.BLUE)
+                        //it.setBackgroundColor(Color.BLUE)
                         createAnimation(1)
-                        deleteMove(adapter)
+                        undoSwipe(adapter, adapter.maPos)
                     }
                     return@OnDragListener true
                 }
@@ -105,7 +107,6 @@ class PoidsFragment : Fragment() {
             }
         }
     }
-
 
     val tabPoids = ArrayList<Float>()
 
@@ -160,8 +161,8 @@ class PoidsFragment : Fragment() {
                 startId: Int,
                 endId: Int
             ) {
-                //target.visibility = View.VISIBLE
-                //motionLayout?.transitionToStart()
+               //target.visibility = View.VISIBLE
+                motionLayout?.transitionToStart()
                 Toast.makeText(context, "----> transition débbutée", Toast.LENGTH_SHORT).show()
 
             }
@@ -221,7 +222,7 @@ class PoidsFragment : Fragment() {
         }
 
         binding!!.btnInsert.setOnClickListener{
-            PoidsDialog.newInstance("titre", "subtitre", ind).show(childFragmentManager, PoidsDialog.TAG)
+            PoidsDialog.newInstance("titre", "subtitre", ind, 0, 0F).show(childFragmentManager, PoidsDialog.TAG)
         }
 
         initRecycler()
@@ -230,20 +231,11 @@ class PoidsFragment : Fragment() {
 
     }
 
-    // Permet de faire un delete apres un dragNdrop
-    fun deleteMove(adapt: AdapterRecyclerPoids){
-        val sp = adapt.maposition
-        val obj = adapter.getDbObjet(sp)
-        viewModel.deletePoids(obj)
+    fun undoSwipe(adapt: AdapterRecyclerPoids, pos: Int){
+        adapt.notifyItemRemoved(pos)
+        viewModel.deletePoids(adapt.getDbObjet(pos))
+        //adapt.notifyItemInserted(pos)
     }
-
-    // TODO implementer l'update
-    // Permet de lancer l'update du poids en cliquant
-    fun listItemClicked(viewModel: VMPoids, daouser: PoidsData){
-        viewModel.initUpdateAndDelete(daouser)
-        viewModel.clearallOrdelete()
-    }
-
     // TODO Apres implementation du profil modifier la valeur
     //  par defaut de la taille
     // Calcule de l'imc
@@ -323,8 +315,13 @@ class PoidsFragment : Fragment() {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val sp = viewHolder.adapterPosition
                     val obj = adapter.getDbObjet(sp)
-                    //DialogFragHomeSuppr.newInstance("titre", "subtitre", ind).show(childFragmentManager, DialogFragHomeSuppr.TAG)
-                    viewModel.deletePoids(obj)
+                    obj.valeur_poids?.let {
+                        PoidsDialog.newInstance("titre", "subtitre", ind, obj.id_poids,
+                            it
+                        ).show(childFragmentManager, PoidsDialog.TAG)
+                    }
+                    //viewModel.deletePoids(obj)
+
                 }
 
                 override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
@@ -430,10 +427,11 @@ class PoidsFragment : Fragment() {
     fun longclickListener (f: View){
         f.setOnDragListener(onDragTV)
         gestionDrag(f)
+
     }
 
     fun gestionDrag(v: View){
-        val item = ClipData.Item(v.tag as? CharSequence)
+        var item = ClipData.Item(v.tag as? CharSequence)
         val dragData = ClipData(
             v.tag as? CharSequence,
             arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN),

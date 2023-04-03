@@ -42,17 +42,16 @@ class VMPoids (private val repo: PoidsRepo) : ViewModel() {
 
     }
 
-    private fun updatePoids(data: PoidsData) = viewModelScope.launch {
-/*        val noOfRow = repo.updateGlycemie(data)
+    fun updatePoids(id:Int, poids: Float) = viewModelScope.launch {
+        val noOfRow = repo.updatePoids(id, poids)
         if (noOfRow > 0){
-            inputNameData.value = 0
             isUpdateOrDelete = false
             saveOrUpdateButtonText.value = "save"
             clearAllOrDeleteButtonText.value = "clear all"
             statusMessage.value = Event("$noOfRow update ok")
         }else {
             statusMessage.value = Event("Problemes")
-        }*/
+        }
     }
     fun getAllPoids() = liveData {
         repo.allPoids.collect{
@@ -91,8 +90,8 @@ class VMPoids (private val repo: PoidsRepo) : ViewModel() {
         }
     }
 
-    fun deleteAllPoids(id: String) = viewModelScope.launch {
-        val noOfRowDeleted = repo.deleteAllPoids(id.toInt())
+    fun deleteAllPoids(id: Int) = viewModelScope.launch {
+        val noOfRowDeleted = repo.deleteAllPoids(id)
         if (noOfRowDeleted > 0){
             isUpdateOrDelete = false
             saveOrUpdateButtonText.value = "save"

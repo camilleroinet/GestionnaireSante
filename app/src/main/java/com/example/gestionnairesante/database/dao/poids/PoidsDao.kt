@@ -1,9 +1,6 @@
 package com.example.gestionnairesante.database.dao.poids
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
 import kotlinx.coroutines.flow.Flow
 
@@ -12,6 +9,9 @@ interface PoidsDao {
 
     @Insert
     suspend fun insertPoids(user: PoidsData) : Long
+
+    @Query("UPDATE poids SET valeur_poids = :poids WHERE id_poids = :id" )
+    suspend fun updatePoids(id: Int, poids:Float) : Int
 
     @Delete
     suspend fun deletePoids(user: PoidsData) : Int
