@@ -110,29 +110,6 @@ class DiabeteFragment : Fragment() {
             //binding.chart0.invalidate()
         }
 
-        binding!!.btnPopulate.setOnClickListener {
-            val gly1 = GlycemieData(0, 66)
-            val gly2 = GlycemieData(0, 133)
-            val gly3 = GlycemieData(0, 189)
-            val gly4 = GlycemieData(0, 257)
-
-            viewModel.insertGlycemie(gly1)
-            viewModel.insertGlycemie(gly2)
-            viewModel.insertGlycemie(gly3)
-            viewModel.insertGlycemie(gly4)
-
-            val ins1 = InsulineData(0, 11,67)
-            val ins2 = InsulineData(0, 14,76)
-            val ins3 = InsulineData(0, 12,78)
-            val ins4 = InsulineData(0, 14,77)
-
-            viewModelinsuline.insertInsuline(ins1)
-            viewModelinsuline.insertInsuline(ins2)
-            viewModelinsuline.insertInsuline(ins3)
-            viewModelinsuline.insertInsuline(ins4)
-
-
-        }
 
         binding!!.btnInsert.setOnClickListener{
             DiabeteDialogGlycemie.newInstance("titre", "subtitre", ind).show(childFragmentManager, DiabeteDialogGlycemie.TAG)

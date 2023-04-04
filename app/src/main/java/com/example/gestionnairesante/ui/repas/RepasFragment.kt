@@ -77,8 +77,7 @@ class RepasFragment : Fragment() {
         viewModelMenu = ViewModelProvider(this, factoryMenu).get(VMMenu::class.java)
 
         val tabPlat = ArrayList<PlatData>()
-        val tabInsulineRapide = ArrayList<Int>()
-        val tabInsulineLente = ArrayList<Int>()
+
 
         viewModel.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
@@ -93,35 +92,8 @@ class RepasFragment : Fragment() {
             //binding.chart0.invalidate()
         }
 
-        binding!!.btnPopulate.setOnClickListener {
-            val plat1 = PlatData(0,"croissant", 40,40)
-            val plat2 = PlatData(0,"café", 0,0)
-            val plat3 = PlatData(0,"sandwich", 40,240)
-            val plat4 = PlatData(0,"soupe", 5,18)
 
-            val menu1 = MenuData(0,"petitdej")
-            val menu2 = MenuData(0,"dej")
-            val menu3 = MenuData(0,"collation")
-            val menu4 = MenuData(0,"diner")
-
-            viewModel.insertPlat(plat1)
-            viewModel.insertPlat(plat2)
-            viewModel.insertPlat(plat3)
-            viewModel.insertPlat(plat4)
-
-            viewModelMenu.insertMenu(menu1)
-            viewModelMenu.insertMenu(menu2)
-            viewModelMenu.insertMenu(menu3)
-            viewModelMenu.insertMenu(menu4)
-
-            binding!!.btnInsert.setOnClickListener(){
-                RepasDialogPlat.newInstance("Nouveau Repas", "subtitre", ind).show(childFragmentManager, RepasDialogPlat.TAG)
-
-            }
-
-        }
-
-        binding!!.btnInsert.setOnClickListener {
+        binding!!.btnInsertRepas.setOnClickListener {
             RepasDialogPlat.newInstance("titre", "subtitre", ind)
                 .show(childFragmentManager, RepasDialogPlat.TAG)
             //Toast.makeText(requireContext(), "youhou", Toast.LENGTH_LONG).show()

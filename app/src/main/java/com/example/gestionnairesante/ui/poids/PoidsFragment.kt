@@ -204,22 +204,6 @@ class PoidsFragment : Fragment() {
             }
         }
 
-        // TODO A cocher ou decocher selon si la db est vide ou pas
-        // TODO faire un check de la taille de la base de données
-        //  si non vide cacher le bouton
-        //  sinon afficher
-        binding!!.btnPopulate.setOnClickListener {
-            val poids1 = PoidsData(0, 66.0F)
-            val poids2 = PoidsData(0, 68.0F)
-            val poids3 = PoidsData(0, 122.0F)
-            val poids4 = PoidsData(0, 66.0F)
-
-            viewModel.insertPoids(poids1)
-            viewModel.insertPoids(poids2)
-            viewModel.insertPoids(poids3)
-            viewModel.insertPoids(poids4)
-
-        }
 
         binding!!.btnInsert.setOnClickListener{
             PoidsDialog.newInstance("titre", "subtitre", ind, 0, 0F).show(childFragmentManager, PoidsDialog.TAG)
