@@ -1,21 +1,21 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-
     tools:context=".ui.repas.RepasDialogPlat">
-<data>
-    <variable
-        name="viewModel"
-        type="com.example.gestionnairesante.database.viewmodels.menu.VMMenu" />
-    <variable
-        name="dialogMenu"
-        type="com.example.gestionnairesante.ui.repas.RepasDialogMenu" />
-</data>
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.gestionnairesante.database.viewmodels.menu.VMMenu" />
+        <variable
+            name="dialogMenu"
+            type="com.example.gestionnairesante.ui.repas.RepasDialogMenu" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <LinearLayout
             android:id="@+id/ll_titredate"
             android:layout_width="match_parent"
@@ -26,6 +26,7 @@
             android:background="@drawable/shape_bouton"
             android:backgroundTint="@color/SecondaryColor"
             android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/btn_date"
                 android:layout_width="match_parent"
@@ -35,6 +36,7 @@
                 android:textSize="18sp"
                 android:textColor="@color/white"
                 android:text="Choisir une date"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -42,22 +44,24 @@
             android:layout_height="200dp"
             android:paddingStart="60dp"
             android:paddingEnd="60dp"
-
             android:orientation="vertical" >
+
             <LinearLayout
                 android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:layout_gravity="center"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:textSize="16sp"
-                    android:text="Nom du plat"/>
+                    android:text="@string/nom_du_plat"/>
+
                 <EditText
                     android:id="@+id/et_nomplat"
                     android:layout_width="match_parent"
@@ -65,28 +69,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:layout_weight="1"/>
-            </LinearLayout>
-            <LinearLayout
-                android:visibility="visible"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:textSize="16sp"
-                    android:layout_gravity="center"
-                    android:gravity="left"
-                    android:text="Calories"/>
-                <EditText
-                    android:id="@+id/et_calories"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_weight="1"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -95,14 +78,41 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:textSize="16sp"
                     android:layout_gravity="center"
-                    android:gravity="left"
-                    android:text="Glucides"/>
+                    android:gravity="start"
+                    android:text="@string/calories"/>
+
+                <EditText
+                    android:id="@+id/et_calories"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textSize="16sp"
+                    android:layout_gravity="center"
+                    android:gravity="start"
+                    android:text="@string/glucides"/>
 
                 <EditText
                     android:id="@+id/et_glucide"
@@ -114,9 +124,6 @@
 
             </LinearLayout>
         </LinearLayout>
-
-
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -133,9 +140,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/shape_bouton"
                 android:backgroundTint="@color/SecondaryColor"
-                android:text="Enregistrer"
-                android:textColor="@color/white"
-                />
+                android:text="@string/enregistrer"
+                android:textColor="@color/white" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_clearMalade"
@@ -143,14 +149,11 @@
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-
                 android:background="@drawable/shape_bouton"
                 android:textSize="16sp"
                 android:textColor="#442C2E"
+                android:text="@string/annuler"/>
 
-                android:text="Annuler"
-                />
         </LinearLayout>
-
     </LinearLayout>
 </layout>

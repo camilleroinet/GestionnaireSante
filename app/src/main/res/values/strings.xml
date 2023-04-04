@@ -20,6 +20,19 @@
     <string name="txt_fragmenu">Menu</string>
     <string name="txt_fragrepas">Repas</string>
     <string name="erasetext">supprimer</string>
+    <string name="periode">Periode :</string>
+    <string name="enregistrer">Enregistrer</string>
+    <string name="annuler">Annuler</string>
+    <string name="choisir_une_date">Choisir une date</string>
+    <string name="calculIMC">Calcul de votre I.M.C.</string>
+    <string name="image_de_silhouette">Image de silhouette</string>
+    <string name="entrer_votre_poids_actuel">Entrer votre poids actuel</string>
+    <string name="modifier">Modifier</string>
+    <string name="insert">insert</string>
+    <string name="nombre_de_plats">Nombre de plats</string>
+    <string name="calories">Calories :</string>
+    <string name="glucides">Glucides :</string>
+    <string name="nom_du_plat">Nom du plat</string>
 
     <string-array name="periodes">
         <item>Petit-déjeuner</item>

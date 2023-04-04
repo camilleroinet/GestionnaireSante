@@ -2,15 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     tools:context=".ui.repas.RepasFragment">
 
     <data>
         <variable name="viewModel" type="com.example.gestionnairesante.database.viewmodels.plat.VMPLat" />
         <variable name="viewModelMenu" type="com.example.gestionnairesante.database.viewmodels.menu.VMMenu" />
-
         <variable name="fragRepas" type="com.example.gestionnairesante.ui.repas.RepasFragment" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -25,7 +24,6 @@
             android:layout_width="wrap_content"
             android:layout_height="250dp"
             tools:ignore="MissingConstraints">
-
         </androidx.viewpager.widget.ViewPager>
 
         <com.google.android.material.tabs.TabLayout
@@ -56,9 +54,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@drawable/shape_bouton"
             android:backgroundTint="#E879F2"
-            android:layout_margin="16dp"
-            android:textAllCaps="true"
-            android:textColor="@color/white" />
+            android:layout_margin="16dp"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_insert"
@@ -69,7 +65,7 @@
             android:background="@drawable/shape_bouton"
             android:backgroundTint="@color/SecondaryColor"
             android:layout_margin="16dp"
-            android:text="insert"
+            android:text="@string/insert"
             android:textAllCaps="true"
             android:textColor="@color/white" />
 
@@ -83,7 +79,7 @@
             android:background="@drawable/shape_bouton"
             android:backgroundTint="@color/Error"
             android:layout_margin="16dp"
-            android:text="insert"
+            android:text="@string/insert"
             android:textAllCaps="true"
             android:textColor="@color/white" />
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,45 +13,46 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:background="@drawable/shape_bouton"
-        android:backgroundTint="@color/SecondaryColor"
-        android:orientation="horizontal">
-        <TextView
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/shape_bouton"
+            android:backgroundTint="@color/SecondaryColor"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:text="Choisir une date"/>
+        </LinearLayout>
+
+        <DatePicker
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            android:text="Choisir une date"/>
-    </LinearLayout>
-    <DatePicker
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:datePickerMode="spinner"
-        android:calendarViewShown="false"
-        />
+            android:datePickerMode="spinner"
+            android:calendarViewShown="false"
+            />
 
         <Spinner
             android:id="@+id/spinner_periode"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:paddingStart="60dp"
             android:paddingEnd="60dp"
-
             android:orientation="horizontal" >
+
             <NumberPicker
                 android:id="@+id/picker1"
                 android:layout_width="50dp"
@@ -96,9 +97,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/shape_bouton"
                 android:backgroundTint="@color/SecondaryColor"
-                android:text="Enregistrer"
-                android:textColor="@color/white"
-                />
+                android:text="@string/enregistrer"
+                android:textColor="@color/white"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_clearMalade"
@@ -106,13 +106,10 @@
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-
                 android:background="@drawable/shape_bouton"
                 android:textSize="16sp"
                 android:textColor="#442C2E"
-
-                android:text="Annuler"
-                />
+                android:text="@string/annuler"/>
         </LinearLayout>
 
     </LinearLayout>

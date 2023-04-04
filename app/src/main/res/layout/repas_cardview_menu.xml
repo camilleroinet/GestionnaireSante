@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="3dp"
-
         android:orientation="vertical">
+
         <androidx.cardview.widget.CardView
             android:id="@+id/card_menu"
             android:layout_width="match_parent"
@@ -20,6 +20,7 @@
             android:backgroundTint="@color/Tertiary"
             android:layout_margin="5dp"
             app:cardElevation="2dp">
+
             <LinearLayout
                 android:id="@+id/itemLayout3"
                 android:layout_width="match_parent"
@@ -27,6 +28,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/nom_menu"
                     android:layout_width="match_parent"
@@ -38,10 +40,12 @@
                     android:paddingTop="10dp"
                     android:text="Menu du 01/01/01 du petit-dej"
                     android:textColor="@color/black"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -55,8 +59,9 @@
                             android:textSize="20sp"
                             android:layout_weight="1"
                             android:paddingTop="10dp"
-                            android:text="Nombre de plats "
+                            android:text="@string/nombre_de_plats"
                             android:textColor="@color/black"/>
+
                         <TextView
                             android:id="@+id/nb_plat"
                             android:layout_width="match_parent"
@@ -66,27 +71,26 @@
                             android:layout_weight="1"
                             android:textSize="20sp"
                             android:paddingTop="10dp"
-                            android:text="3"
                             android:textColor="@color/black"/>
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_weight="1">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
-
-
-
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
+
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -95,8 +99,9 @@
                                 android:textSize="20sp"
                                 android:layout_weight="1"
                                 android:paddingTop="10dp"
-                                android:text="Calories :"
+                                android:text="@string/calories"
                                 android:textColor="@color/black"/>
+
                             <TextView
                                 android:id="@+id/calories"
                                 android:layout_width="match_parent"
@@ -109,10 +114,12 @@
                                 android:textColor="@color/black"/>
 
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
+
                             <TextView
                                 android:id="@id/glucides"
                                 android:layout_width="match_parent"
@@ -122,8 +129,9 @@
                                 android:textSize="20sp"
                                 android:paddingTop="10dp"
                                 android:layout_weight="1"
-                                android:text="Glucides :"
+                                android:text="@string/glucides"
                                 android:textColor="@color/black"/>
+
                             <TextView
                                 android:id="@+id/glucides"
                                 android:layout_width="match_parent"
@@ -134,14 +142,10 @@
                                 android:paddingTop="10dp"
                                 android:layout_weight="1"
                                 android:textColor="@color/black"/>
-
                         </LinearLayout>
 
                     </LinearLayout>
-
                 </LinearLayout>
-
-
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

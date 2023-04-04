@@ -24,7 +24,6 @@
             android:layout_width="wrap_content"
             android:layout_height="250dp"
             tools:ignore="MissingConstraints">
-
         </androidx.viewpager.widget.ViewPager>
 
         <com.google.android.material.tabs.TabLayout
@@ -44,7 +43,6 @@
             android:layout_width="wrap_content"
             android:layout_height="380dp"
             tools:ignore="MissingConstraints">
-
         </androidx.viewpager.widget.ViewPager>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -56,9 +54,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@drawable/shape_bouton"
             android:backgroundTint="@color/SecondaryColor"
-            android:layout_margin="16dp"
-            android:textAllCaps="true"
-            android:textColor="@color/white" />
+            android:layout_margin="16dp"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_insert"
@@ -68,10 +64,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@drawable/shape_bouton"
             android:backgroundTint="@color/PrimaryColor"
-            android:layout_margin="16dp"
-            android:text="insert"
-            android:textAllCaps="true"
-            android:textColor="@color/white" />
+            android:layout_margin="16dp"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_insertInsuline"
@@ -82,9 +75,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@drawable/shape_bouton"
             android:backgroundTint="@color/Error"
-            android:layout_margin="16dp"
-            android:text="insert"
-            android:textAllCaps="true"
-            android:textColor="@color/white" />
+            android:layout_margin="16dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

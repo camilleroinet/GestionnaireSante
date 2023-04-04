@@ -1,7 +1,5 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-
     tools:context=".ui.poids.PoidsDialog">
 
     <data>
@@ -24,14 +22,14 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textSize="16sp"
                 android:textColor="@color/white"
-                android:text="Entrer votre poids actuel"/>
+                android:text="@string/entrer_votre_poids_actuel"/>
         </LinearLayout>
 
         <LinearLayout
@@ -40,6 +38,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:orientation="horizontal">
+
             <DatePicker
                 android:id="@+id/date_picker"
                 android:layout_width="match_parent"
@@ -47,19 +46,21 @@
                 android:calendarViewShown="false"
                 android:calendarTextColor="@color/black"
                 android:layout_gravity="center" />
+
         </LinearLayout>
+
         <Spinner
             android:id="@+id/spinner_periode"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            />
+            android:layout_height="50dp"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:paddingStart="60dp"
             android:paddingEnd="60dp"
-
             android:orientation="horizontal" >
+
             <NumberPicker
                 android:id="@+id/picker1"
                 android:layout_width="50dp"
@@ -69,6 +70,7 @@
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:layout_marginEnd="10dp"/>
+
             <NumberPicker
                 android:id="@+id/picker2"
                 android:layout_width="50dp"
@@ -78,6 +80,7 @@
                 android:gravity="center"
                 android:layout_marginEnd="10dp"
                 android:layout_height="125dp"/>
+
             <NumberPicker
                 android:id="@+id/picker3"
                 android:layout_width="50dp"
@@ -87,6 +90,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_height="125dp"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -105,9 +109,9 @@
                 android:layout_weight="1"
                 android:background="@drawable/shape_bouton"
                 android:backgroundTint="@color/SecondaryColor"
-                android:text="Enregistrer"
-                android:textColor="@color/white"
-                />
+                android:text="@string/enregistrer"
+                android:textColor="@color/white" />
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_updatePoids"
                 android:visibility="gone"
@@ -117,9 +121,9 @@
                 android:layout_weight="1"
                 android:background="@drawable/shape_bouton"
                 android:backgroundTint="@color/SecondaryColor"
-                android:text="Modifier"
-                android:textColor="@color/white"
-                />
+                android:text="@string/modifier"
+                android:textColor="@color/white"/>
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_cancel"
                 android:layout_width="match_parent"
@@ -129,9 +133,8 @@
                 android:background="@drawable/shape_bouton"
                 android:textSize="16sp"
                 android:textColor="#442C2E"
-                android:text="Annuler" />
+                android:text="@string/annuler" />
 
         </LinearLayout>
-
     </LinearLayout>
 </layout>
