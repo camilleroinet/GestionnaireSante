@@ -9,7 +9,6 @@ import kotlinx.coroutines.launch
 class VMGlycemie(private val repo: GlycemieRepo) : ViewModel() {
 
     private var isUpdateOrDelete = false
-    private lateinit var dataToUpdateOrDelete: GlycemieData
 
     val inputNameData = MutableLiveData<Int?>()
 
@@ -33,18 +32,9 @@ class VMGlycemie(private val repo: GlycemieRepo) : ViewModel() {
             statusMessage.value = Event("Tache non effectuee")
         }
     }
-
-    fun initUpdateAndDelete(data: GlycemieData) {
-        isUpdateOrDelete = true
-        dataToUpdateOrDelete = data
-        saveOrUpdateButtonText.value = "Update"
-        clearAllOrDeleteButtonText.value = "Delete"
-    }
-
-    private fun updateGlycemie(data: GlycemieData) = viewModelScope.launch {
-        val noOfRow = repo.updateGlycemie(data)
+    fun updateGlycemie(id: Int, glycemie: Int) = viewModelScope.launch {
+        val noOfRow = repo.updateGlycemie(id, glycemie)
         if (noOfRow > 0) {
-            inputNameData.value = 0
             isUpdateOrDelete = false
             saveOrUpdateButtonText.value = "save"
             clearAllOrDeleteButtonText.value = "clear all"
@@ -54,19 +44,15 @@ class VMGlycemie(private val repo: GlycemieRepo) : ViewModel() {
         }
     }
 
+    fun getGlycemieToUpdate(data: GlycemieData): GlycemieData{
+        return repo.getGlycemieToUpdate(data.id_glycemie)
+    }
     fun getallGlycemie() = liveData {
         repo.allglycemie.collect {
             emit(it)
         }
     }
 
-    fun clearallOrdelete() {
-        if (isUpdateOrDelete) {
-            deleteGlycemie(dataToUpdateOrDelete)
-        } else {
-            clearAll()
-        }
-    }
 
     fun deleteGlycemie(data: GlycemieData) = viewModelScope.launch {
         val noOfRowDeleted = repo.deleteGlycemie(data)
@@ -80,16 +66,6 @@ class VMGlycemie(private val repo: GlycemieRepo) : ViewModel() {
             statusMessage.value = Event("Probleme")
         }
     }
-
-    private fun clearAll() = viewModelScope.launch {
-        val noOfRowDeleted = repo.deleteAllGlycemie()
-        if (noOfRowDeleted > 0) {
-            statusMessage.value = Event("$noOfRowDeleted user supprimee")
-        } else {
-            statusMessage.value = Event("Probleme")
-        }
-    }
-
 
     fun getAllValeurGlycemie() = liveData {
         repo.allValeurGlycemie.collect {

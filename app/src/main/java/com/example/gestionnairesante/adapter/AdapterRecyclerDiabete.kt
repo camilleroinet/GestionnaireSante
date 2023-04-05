@@ -10,7 +10,6 @@ import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
 
 import com.example.gestionnairesante.databinding.DiabeteCardviewBinding
 
-
 class AdapterRecyclerDiabete(private val clickListener: (GlycemieData) -> Unit) :
     RecyclerView.Adapter<AdapterRecyclerDiabete.MyViewHolder>() {
 
@@ -42,9 +41,9 @@ class AdapterRecyclerDiabete(private val clickListener: (GlycemieData) -> Unit) 
 
     class MyViewHolder(val binding: DiabeteCardviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(dataNote: GlycemieData, clickListener2: (GlycemieData) -> Unit) {
+        fun bind(data: GlycemieData, clickListener2: (GlycemieData) -> Unit) {
 
-            val valeur = dataNote.valeur_glycemie
+            val valeur = data.valeur_glycemie
             if (valeur in 0..79) {
                 binding.couleurAlerte.setBackgroundColor(Color.CYAN)
             }
@@ -58,10 +57,10 @@ class AdapterRecyclerDiabete(private val clickListener: (GlycemieData) -> Unit) 
                 binding.couleurAlerte.setBackgroundColor(Color.RED)
             }
 
-            binding.gly.text = dataNote.valeur_glycemie.toString()
+            binding.gly.text = data.valeur_glycemie.toString()
 
             binding.itemLayout2.setOnClickListener {
-                clickListener2(dataNote)
+                clickListener2(data)
             }
         }
     }

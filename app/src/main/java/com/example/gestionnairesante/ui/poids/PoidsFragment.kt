@@ -92,7 +92,6 @@ class PoidsFragment : Fragment() {
                     if (targetMotion.isVisible) {
                         //it.setBackgroundColor(Color.BLUE)
                         createAnimation(1)
-                        undoSwipe(adapter, adapter.maPos)
                     }
                     return@OnDragListener true
                 }
@@ -202,7 +201,6 @@ class PoidsFragment : Fragment() {
             }
         }
 
-
         binding!!.btnInsert.setOnClickListener {
             PoidsDialog.newInstance("titre", "subtitre", ind, 0, 0F)
                 .show(childFragmentManager, PoidsDialog.TAG)
@@ -214,12 +212,23 @@ class PoidsFragment : Fragment() {
 
     }
 
-    fun undoSwipe(adapt: AdapterRecyclerPoids, pos: Int) {
-        adapt.notifyItemRemoved(pos)
-        viewModel.deletePoids(adapt.getDbObjet(pos))
-        //adapt.notifyItemInserted(pos)
-    }
+    fun listItemClicked(viewModel: VMPoids, data: PoidsData) {
+        val id = viewModel.getPoidsToUpdate(data).id_poids
+        val poids =  viewModel.getPoidsToUpdate(data).valeur_poids
 
+        if (poids != null) {
+            PoidsDialog.newInstance(
+                "titre",
+                "subtitre",
+                ind,
+                id, poids
+            ).show(childFragmentManager, PoidsDialog.TAG)
+        }
+    }
+/*    fun undoSwipe(adapt: AdapterSportD, pos: Int){
+        adapt.notifyItemRemoved(pos)
+        adapt.notifyItemInserted(pos)
+    }*/
     // TODO Apres implementation du profil modifier la valeur
     //  par defaut de la taille
     // Calcule de l'imc
@@ -265,7 +274,7 @@ class PoidsFragment : Fragment() {
         binding?.recyclerPoids?.layoutManager = LinearLayoutManager(context)
         // Configuration de l'adapter
         // adapter = AdapterSportD { h: View -> longclickListener(h) }
-        adapter = AdapterRecyclerPoids { h: View -> longclickListener(h) }
+        adapter = AdapterRecyclerPoids { daouser: PoidsData -> listItemClicked(viewModel, daouser) }
         binding?.recyclerPoids?.adapter = adapter
 
     }
@@ -278,12 +287,6 @@ class PoidsFragment : Fragment() {
             adapter.notifyDataSetChanged()
         })
     }
-
-    fun listItemClicked(viewModel: VMPoids, daouser: PoidsData) {
-        viewModel.initUpdateAndDelete(daouser)
-        viewModel.clearallOrdelete()
-    }
-
 
     // Gestion tactile du recycler view
     fun touchRecycler() {

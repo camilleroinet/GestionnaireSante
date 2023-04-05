@@ -34,15 +34,12 @@ class VMInsuline(private val repo: InsulineRepo) : ViewModel() {
         }
     }
 
-    fun initUpdateAndDelete(data: InsulineData) {
-        isUpdateOrDelete = true
-        dataToUpdateOrDelete = data
-        saveOrUpdateButtonText.value = "Update"
-        clearAllOrDeleteButtonText.value = "Delete"
+    fun getInsulineToUpdate(data: InsulineData): InsulineData{
+        return repo.getInsulineToUpadte(data.id_insuline)
     }
 
-    private fun updateGlycemie(data: InsulineData) = viewModelScope.launch {
-/*        val noOfRow = repo.updateGlycemie(data)
+    fun updateInsuline(id: Int, rapide: Int, lente: Int) = viewModelScope.launch {
+        val noOfRow = repo.insulineUpdate(id, rapide, lente)
         if (noOfRow > 0){
             inputNameData.value = 0
             isUpdateOrDelete = false
@@ -51,7 +48,7 @@ class VMInsuline(private val repo: InsulineRepo) : ViewModel() {
             statusMessage.value = Event("$noOfRow update ok")
         }else {
             statusMessage.value = Event("Problemes")
-        }*/
+        }
     }
 
     fun getallInsuline() = liveData {
@@ -72,13 +69,6 @@ class VMInsuline(private val repo: InsulineRepo) : ViewModel() {
         }
     }
 
-    fun clearallOrdelete() {
-/*        if (isUpdateOrDelete){
-            deleteGlycemie(dataToUpdateOrDelete)
-        }else{
-            clearAll()
-        }*/
-    }
 
     fun deleteInsuline(data: InsulineData) = viewModelScope.launch {
         val noOfRowDeleted = repo.deleteInsuline(data)
@@ -91,15 +81,6 @@ class VMInsuline(private val repo: InsulineRepo) : ViewModel() {
         } else {
             statusMessage.value = Event("Probleme")
         }
-    }
-
-    private fun clearAll() = viewModelScope.launch {
-/*        val noOfRowDeleted = repo.deleteAllGlycemie()
-        if (noOfRowDeleted > 0){
-            statusMessage.value = Event("$noOfRowDeleted user supprimee")
-        }else{
-            statusMessage.value = Event("Probleme")
-        }*/
     }
 
 

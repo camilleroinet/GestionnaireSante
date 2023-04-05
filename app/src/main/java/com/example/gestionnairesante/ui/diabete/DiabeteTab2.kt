@@ -15,11 +15,13 @@ import com.example.gestionnairesante.adapter.AdapterRecyclerInsuline
 import com.example.gestionnairesante.database.dao.insuline.InsulineData
 import com.example.gestionnairesante.database.viewmodels.insuline.VMInsuline
 import com.example.gestionnairesante.databinding.DiabeteTab2Binding
+import com.example.gestionnairesante.ui.poids.PoidsDialog
 
 class DiabeteTab2 : Fragment() {
     private var binding: DiabeteTab2Binding? = null
     private lateinit var adapter: AdapterRecyclerInsuline
     private val viewModelinsuline: VMInsuline by viewModels({ requireParentFragment() })
+    private var ind = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,6 +58,7 @@ class DiabeteTab2 : Fragment() {
             tabInsulineRapide.clear()
             tabInsulineRapide.addAll(it)
         }
+
         viewModelinsuline.getallLente().observe(viewLifecycleOwner) { it ->
             tabInsulineLente.clear()
             tabInsulineLente.addAll(it)
@@ -81,11 +84,18 @@ class DiabeteTab2 : Fragment() {
 
     }
 
-    fun listItemClicked(viewModel: VMInsuline, data: InsulineData) {
-        val insulineRapide = data.insuline_rapide
-        val insulineLente = data.insuline_lente
-        val idInsuline = data.id_insuline
-
+    fun listItemClicked(viewModelinsuline: VMInsuline, data: InsulineData) {
+        val insulineRapide = viewModelinsuline.getInsulineToUpdate(data).insuline_rapide
+        val insulineLente = viewModelinsuline.getInsulineToUpdate(data).insuline_lente
+        val idInsuline = viewModelinsuline.getInsulineToUpdate(data).id_insuline
+        if (insulineRapide != null && insulineLente != null) {
+            DiabeteDialogInsuline.newInstance(
+                    "titre",
+                    "subtitre",
+                    ind,
+                    idInsuline, insulineRapide, insulineLente
+                ).show(childFragmentManager, PoidsDialog.TAG)
+        }
     }
 
     fun displayUser() {

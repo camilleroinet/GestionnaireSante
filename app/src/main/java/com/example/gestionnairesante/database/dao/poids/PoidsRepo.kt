@@ -20,4 +20,8 @@ class PoidsRepo(private val dao: PoidsDao) {
     suspend fun deleteAllPoids(id: Int): Int {
         return dao.deleteAllPoids(id)
     }
+
+    fun getPoidsToUpdate(id: Int) : PoidsData {
+        return dao.getPoidsToUpdate(id)
+    }
 }

@@ -30,4 +30,9 @@ interface PoidsDao {
 
     @Query("SELECT valeur_poids FROM poids WHERE id_poids = ( SELECT MAX( id_poids )  FROM poids )")
     fun getLastPoids(): Float
+
+    @Query("SELECT * FROM poids WHERE id_poids = :id")
+    fun getPoidsToUpdate(id: Int): PoidsData
+
+
 }

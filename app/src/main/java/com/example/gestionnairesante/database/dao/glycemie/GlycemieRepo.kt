@@ -11,8 +11,8 @@ class GlycemieRepo (private val dao: GlycemieDao) {
     }
 
 
-    suspend fun updateGlycemie(userdao: GlycemieData): Int {
-        return dao.updateGlycemie(userdao)
+    suspend fun updateGlycemie(id: Int, gly: Int): Int {
+        return dao.updateGlycemie(id, gly)
     }
 
     suspend fun deleteGlycemie(userdao: GlycemieData): Int{
@@ -22,5 +22,8 @@ class GlycemieRepo (private val dao: GlycemieDao) {
         return dao.deleteAllGlycemie()
     }
 
+    fun getGlycemieToUpdate(id: Int) : GlycemieData{
+        return dao.getGlycemieToUpdate(id)
+    }
 
 }

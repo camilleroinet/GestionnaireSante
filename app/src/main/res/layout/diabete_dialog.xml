@@ -97,7 +97,7 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_saveMalade"
+                android:id="@+id/btn_saveGlycemie"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
@@ -108,7 +108,19 @@
                 android:textColor="@color/white" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_clearMalade"
+                android:id="@+id/btn_updateGlycemie"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape_bouton"
+                android:backgroundTint="@color/SecondaryColor"
+                android:visibility="gone"
+                android:text="@string/modifier"
+                android:textColor="@color/white" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_clearGlycemie"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="5dp"

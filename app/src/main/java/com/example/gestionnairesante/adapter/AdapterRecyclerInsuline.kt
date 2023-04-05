@@ -36,10 +36,6 @@ class AdapterRecyclerInsuline(private val clickListener: (InsulineData) -> Unit)
         dataList.clear()
         dataList.addAll(daousers)
     }
-/*    fun setListNotes(dataNotes: List<DataNote>){
-        listeNote.clear()
-        listeNote.addAll(dataNotes)
-    }*/
 
     class MyViewHolder(val binding: DiabeteCardviewInsulineBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -47,9 +43,13 @@ class AdapterRecyclerInsuline(private val clickListener: (InsulineData) -> Unit)
 
             if (data.insuline_lente == 0) {
                 binding.llLente.visibility = View.INVISIBLE
+            } else {
+                binding.llLente.visibility = View.VISIBLE
             }
             if (data.insuline_rapide == 0) {
                 binding.llRapide.visibility = View.INVISIBLE
+            } else {
+                binding.llRapide.visibility = View.VISIBLE
             }
 
             binding.rapide.text = data.insuline_rapide.toString()

@@ -94,21 +94,13 @@ class DiabeteDialogInsuline : DialogFragment() {
         configSpinner(tabPeriode)
         setupNumberPicker()
 
-        if (idInsuline == 0 && oldRapide == 0 && oldLente == 0) {
+        if (idInsuline == 0) {
             binding!!.btnInsertInsuline.visibility = View.VISIBLE
             binding!!.btnModifInsuline.visibility = View.GONE
         } else {
-            binding!!.btnModifInsuline.visibility = View.GONE
+            binding!!.btnInsertInsuline.visibility = View.GONE
             binding!!.btnModifInsuline.visibility = View.VISIBLE
         }
-
-        // TODO a decocher quand implementation du code
-/*        viewModel.getAllPeriode().observe(viewLifecycleOwner){
-            val tabPeriode= ArrayList<String>()
-            tabPeriode.clear()
-            tabPeriode.addAll(it)
-            configSpinner(tabPeriode)
-        }*/
 
         // TODO a supprimer/cocher a la phase final
         //creation de message pout l'utilisateur si qqc est arrivé
@@ -121,6 +113,11 @@ class DiabeteDialogInsuline : DialogFragment() {
         binding!!.btnInsertInsuline.setOnClickListener {
             // TODO a decocher quand implementation du code
             save()
+            dismiss()
+        }
+        binding!!.btnModifInsuline.setOnClickListener {
+            // TODO a decocher quand implementation du code
+            update()
             dismiss()
         }
         binding!!.btnClearMalade.setOnClickListener {
@@ -149,6 +146,18 @@ class DiabeteDialogInsuline : DialogFragment() {
         val newInsert = InsulineData(0, tempRapide.toInt(), tempLente.toInt())
         viewModelinsuline.insertInsuline(newInsert)
     }
+
+    fun update() {
+        val val1 = binding!!.pickerRapide1.value
+        val val2 = binding!!.pickerRapide2.value
+        val val3 = binding!!.pickerLente1.value
+        val val4 = binding!!.pickerLente2.value
+
+        val tempRapide: String = val1.toString() + val2.toString()
+        val tempLente: String = val3.toString() + val4.toString()
+        viewModelinsuline.updateInsuline(idInsuline, tempRapide.toInt(), tempLente.toInt())
+    }
+
 
     /**
      * Fonction de gestion du spinner

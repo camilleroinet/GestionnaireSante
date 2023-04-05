@@ -135,14 +135,25 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_saveMalade"
+                android:id="@+id/btn_savePlat"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/shape_bouton"
                 android:backgroundTint="@color/SecondaryColor"
-                android:text="Enregistrer"
+                android:text="@string/enregistrer"
+                android:textColor="@color/white" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_updatePlat"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape_bouton"
+                android:backgroundTint="@color/SecondaryColor"
+                android:text="@string/modifier"
                 android:textColor="@color/white" />
 
             <androidx.appcompat.widget.AppCompatButton

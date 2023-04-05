@@ -34,13 +34,8 @@ class VMPoids(private val repo: PoidsRepo) : ViewModel() {
         }
     }
 
-    fun initUpdateAndDelete(data: PoidsData) {
-        isUpdateOrDelete = true
-        dataToUpdateOrDelete = data
-        saveOrUpdateButtonText.value = "Update"
-        clearAllOrDeleteButtonText.value = "Delete"
-        inputLastPoid.value = "couchhhhhou"
-
+    fun getPoidsToUpdate(data : PoidsData): PoidsData {
+        return repo.getPoidsToUpdate(data.id_poids)
     }
 
     fun updatePoids(id: Int, poids: Float) = viewModelScope.launch {
@@ -58,22 +53,12 @@ class VMPoids(private val repo: PoidsRepo) : ViewModel() {
     fun getAllPoids() = liveData {
         repo.allPoids.collect {
             emit(it)
-
         }
     }
 
     fun getValeurPoids() = liveData {
         repo.allValeurPoids.collect {
             emit(it)
-        }
-    }
-
-
-    fun clearallOrdelete() {
-        if (isUpdateOrDelete) {
-            deletePoids(dataToUpdateOrDelete)
-        } else {
-            clearAll()
         }
     }
 
@@ -87,27 +72,6 @@ class VMPoids(private val repo: PoidsRepo) : ViewModel() {
         } else {
             statusMessage.value = Event("Probleme")
         }
-    }
-
-    fun deleteAllPoids(id: Int) = viewModelScope.launch {
-        val noOfRowDeleted = repo.deleteAllPoids(id)
-        if (noOfRowDeleted > 0) {
-            isUpdateOrDelete = false
-            saveOrUpdateButtonText.value = "save"
-            clearAllOrDeleteButtonText.value = "clear all"
-            statusMessage.value = Event("$noOfRowDeleted Row supprimee")
-        } else {
-            statusMessage.value = Event("Probleme")
-        }
-    }
-
-    private fun clearAll() = viewModelScope.launch {
-/*        val noOfRowDeleted = repo.deleteAllPoids()
-        if (noOfRowDeleted > 0){
-            statusMessage.value = Event("$noOfRowDeleted user supprimee")
-        }else{
-            statusMessage.value = Event("Probleme")
-        }*/
     }
 
 }

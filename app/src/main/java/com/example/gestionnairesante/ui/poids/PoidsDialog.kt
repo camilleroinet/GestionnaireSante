@@ -22,11 +22,13 @@ class PoidsDialog : DialogFragment() {
         private const val KEY_TITLE = "KEY_TITLE"
         private const val KEY_SUBTITLE = "KEY_SUBTITLE"
         private var keyg = "indice"
+
         private var idtxt = "id"
         private var poidstxt = "poids"
 
         var oldid: Int = 0
-        var oldpoids: Float = 0F
+        var oldpoids = 0F
+
         var indice = 0
         val frag = PoidsDialog()
         var argFrag = frag.arguments

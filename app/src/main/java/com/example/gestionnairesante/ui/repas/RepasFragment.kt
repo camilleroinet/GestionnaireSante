@@ -93,10 +93,18 @@ class RepasFragment : Fragment() {
 
 
         binding!!.btnInsertRepas.setOnClickListener {
-            RepasDialogPlat.newInstance("titre", "subtitre", ind)
+            RepasDialogPlat.newInstance("titre", "subtitre", ind, 0, "", 0, 0)
                 .show(childFragmentManager, RepasDialogPlat.TAG)
             //Toast.makeText(requireContext(), "youhou", Toast.LENGTH_LONG).show()
         }
+
+        binding!!.btnInsertPlat.setOnClickListener {
+            RepasDialogPlat.newInstance("titre", "subtitre", ind, 0, "", 0, 0)
+                .show(childFragmentManager, RepasDialogPlat.TAG)
+            //Toast.makeText(requireContext(), "youhou", Toast.LENGTH_LONG).show()
+        }
+
+
 
         viewPagerCharts = binding?.viewpagercharts!!
 
@@ -123,29 +131,25 @@ class RepasFragment : Fragment() {
 
                         when (tab?.position) {
                             0 -> {
-                                binding!!.btnInsert.visibility = View.VISIBLE
-                                binding!!.btnInsertRepas.visibility = View.INVISIBLE
+                                binding!!.btnInsertRepas.visibility = View.VISIBLE
+                                binding!!.btnInsertPlat.visibility = View.INVISIBLE
                             }
                             1 -> {
-                                binding!!.btnInsert.visibility = View.INVISIBLE
-                                binding!!.btnInsertRepas.visibility = View.VISIBLE
+                                binding!!.btnInsertRepas.visibility = View.INVISIBLE
+                                binding!!.btnInsertPlat.visibility = View.VISIBLE
                             }
                             else -> {
-                                binding!!.btnInsert.visibility = View.VISIBLE
-                                binding!!.btnInsertRepas.visibility = View.INVISIBLE
+                                binding!!.btnInsertRepas.visibility = View.VISIBLE
+                                binding!!.btnInsertPlat.visibility = View.INVISIBLE
                             }
                         }
 
                     }
                 }
 
-                override fun onTabUnselected(tab: TabLayout.Tab?) {
+                override fun onTabUnselected(tab: TabLayout.Tab?) {}
 
-                }
-
-                override fun onTabReselected(tab: TabLayout.Tab?) {
-
-                }
+                override fun onTabReselected(tab: TabLayout.Tab?) {}
 
             })
 

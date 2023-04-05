@@ -34,15 +34,12 @@ class VMPLat(private val repo: PlatRepo) : ViewModel() {
         }
     }
 
-    fun initUpdateAndDelete(data: PlatData) {
-        isUpdateOrDelete = true
-        dataToUpdateOrDelete = data
-        saveOrUpdateButtonText.value = "Update"
-        clearAllOrDeleteButtonText.value = "Delete"
+    fun getPlatToUpdate(data: PlatData) : PlatData {
+        return repo.getPlatToUpdate(data.id_plat)
     }
 
-    private fun updatePlat(data: PlatData) = viewModelScope.launch {
-        val noOfRow = repo.updatePlat(data)
+    fun updatePlat(id: Int, nomPlat: String, glucidePlat: Int, caloriePlat: Int) = viewModelScope.launch {
+        val noOfRow = repo.updatePlat(id, nomPlat, glucidePlat, caloriePlat)
         if (noOfRow > 0) {
             inputNameData.value = 0
             isUpdateOrDelete = false

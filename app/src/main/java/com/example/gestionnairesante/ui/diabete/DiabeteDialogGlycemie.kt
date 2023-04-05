@@ -11,10 +11,12 @@ import com.example.gestionnairesante.R
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
 import com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie
 import com.example.gestionnairesante.databinding.DiabeteDialogBinding
+import com.example.gestionnairesante.ui.poids.PoidsDialog
 
 class DiabeteDialogGlycemie : DialogFragment() {
     private var binding: DiabeteDialogBinding? = null
     private val viewModel: VMGlycemie by viewModels({ requireParentFragment() })
+
 
     companion object {
         const val TAG = "Dialog_Frag1"
@@ -22,18 +24,31 @@ class DiabeteDialogGlycemie : DialogFragment() {
         private const val KEY_SUBTITLE = "KEY_SUBTITLE"
         private var keyg = "indice"
 
+        private var idtxt = "id"
+        private var glytxt = "glycemie"
+
+        var oldid: Int = 0
+        var oldglycemie = 0
+
         var indice = 0
 
         val frag = DiabeteDialogGlycemie()
         var argFrag = frag.arguments
 
-        fun newInstance(title: String, subTitle: String, indicefrag: Int): DiabeteDialogGlycemie {
+        fun newInstance(title: String, subTitle: String, indicefrag: Int, id: Int, glycemie: Int): DiabeteDialogGlycemie {
             //permet le transfert de variables entre le parent et le fragment
             //seul les 2 premiers putstring sont importants
             val args = Bundle()
             args.putString(KEY_TITLE, title)
             args.putString(KEY_SUBTITLE, subTitle)
             args.putInt(keyg, indicefrag)
+
+            args.putInt(idtxt, id)
+            args.putInt(glytxt, glycemie)
+
+            oldid = id
+            oldglycemie = glycemie
+
             argFrag = args
             indice = indicefrag
             return frag
@@ -65,6 +80,14 @@ class DiabeteDialogGlycemie : DialogFragment() {
         configSpinner(tabPeriode)
         setupNumberPicker()
 
+        if (oldid == 0) {
+            binding!!.btnSaveGlycemie.visibility = View.VISIBLE
+            binding!!.btnUpdateGlycemie.visibility = View.GONE
+        } else {
+            binding!!.btnSaveGlycemie.visibility = View.GONE
+            binding!!.btnUpdateGlycemie.visibility = View.VISIBLE
+        }
+
         // TODO a supprimer/cocher a la phase final
         //creation de message pout l'utilisateur si qqc est arrivé
         viewModel.message.observe(viewLifecycleOwner) { it ->
@@ -73,12 +96,19 @@ class DiabeteDialogGlycemie : DialogFragment() {
             }
         }
 
-        binding!!.btnSaveMalade.setOnClickListener {
+        binding!!.btnSaveGlycemie.setOnClickListener {
             // TODO a decocher quand implementation du code
             save()
             dismiss()
         }
-        binding!!.btnClearMalade.setOnClickListener {
+
+        binding!!.btnUpdateGlycemie.setOnClickListener {
+            // TODO a decocher quand implementation du code
+            update()
+            dismiss()
+        }
+
+        binding!!.btnClearGlycemie.setOnClickListener {
             dismiss()
         }
 
@@ -99,6 +129,14 @@ class DiabeteDialogGlycemie : DialogFragment() {
         val temp: String = val1.toString() + val2.toString() + val3.toString()
         val newInsert = GlycemieData(0, temp.toInt())
         viewModel.insertGlycemie(newInsert)
+    }
+
+    fun update() {
+        val val1 = binding!!.picker1.value
+        val val2 = binding!!.picker2.value
+        val val3 = binding!!.picker3.value
+        val temp: String = val1.toString() + val2.toString() + val3.toString()
+        viewModel.updateGlycemie(oldid, temp.toInt())
     }
 
     /**
@@ -171,6 +209,3 @@ class DiabeteDialogGlycemie : DialogFragment() {
         }
     }
 }
-
-
-

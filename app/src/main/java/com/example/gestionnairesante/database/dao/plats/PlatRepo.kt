@@ -7,8 +7,11 @@ class PlatRepo(private val dao: PlatDao) {
         return dao.insertPlat(userdao)
     }
 
-    suspend fun updatePlat(userdao: PlatData): Int {
-        return dao.updatePlat(userdao)
+    suspend fun updatePlat(id: Int, nom: String, glucide: Int, calorie: Int): Int {
+        return dao.updatePlat(id, nom, glucide, calorie)
+    }
+    fun getPlatToUpdate(id: Int) : PlatData {
+        return dao.getPlatToUpdate(id)
     }
 
     suspend fun deletePlat(userdao: PlatData): Int {

@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "plat")
 data class PlatData(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id_pplat")
-    val id_glycemie: Int,
+    @ColumnInfo(name = "id_plat")
+    val id_plat: Int,
 
     @ColumnInfo(name = "nom_plat")
     var nom_plat: String?,

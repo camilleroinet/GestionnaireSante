@@ -103,14 +103,13 @@ class DiabeteFragment : Fragment() {
 
 
         binding!!.btnInsert.setOnClickListener {
-            DiabeteDialogGlycemie.newInstance("titre", "subtitre", ind)
+            DiabeteDialogGlycemie.newInstance("titre", "subtitre", ind, 0, 0)
                 .show(childFragmentManager, DiabeteDialogGlycemie.TAG)
             //Toast.makeText(requireContext(), "youhou", Toast.LENGTH_LONG).show()
         }
         binding!!.btnInsertInsuline.setOnClickListener {
             DiabeteDialogInsuline.newInstance("titre", "subtitre", ind, 0, 0, 0)
                 .show(childFragmentManager, DiabeteDialogInsuline.TAG)
-            //Toast.makeText(requireContext(), "youhou", Toast.LENGTH_LONG).show()
         }
 
         viewPagerCharts = binding?.viewpagercharts!!
@@ -123,7 +122,6 @@ class DiabeteFragment : Fragment() {
         configViewPager(viewPagerTabs, arrayFragTab, arrayTab, tablayoutTabs)
 
     }
-
 
     fun configTablelayout(array: ArrayList<Int>) {
         tablayoutTabs.apply {

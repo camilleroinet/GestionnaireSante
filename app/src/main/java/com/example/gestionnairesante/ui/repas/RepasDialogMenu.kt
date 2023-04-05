@@ -89,7 +89,6 @@ class RepasDialogMenu : DialogFragment() {
     }
 
     fun save() {
-
         if (binding!!.etNomplat.text.isBlank()) {
             Toast.makeText(context, "youhou ya rien", Toast.LENGTH_LONG).show()
         } else {
@@ -103,4 +102,3 @@ class RepasDialogMenu : DialogFragment() {
     }
 
 }
-

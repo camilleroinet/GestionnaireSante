@@ -15,12 +15,13 @@ import com.example.gestionnairesante.adapter.AdapterRecyclerDiabete
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
 import com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie
 import com.example.gestionnairesante.databinding.DiabeteTab1Binding
+import com.example.gestionnairesante.ui.poids.PoidsDialog
 
 class DiabeteTab1 : Fragment(){
     private var binding: DiabeteTab1Binding? = null
     private lateinit var adapter: AdapterRecyclerDiabete
     private val viewModel: VMGlycemie by viewModels ({ requireParentFragment() })
-
+    private var ind = 0
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -70,7 +71,17 @@ class DiabeteTab1 : Fragment(){
 
     }
 
-    fun listItemClicked(viewModel: VMGlycemie, daouser: GlycemieData){
+    fun listItemClicked(viewModel: VMGlycemie, data: GlycemieData){
+        val id = viewModel.getGlycemieToUpdate(data).id_glycemie
+        val glycemie = viewModel.getGlycemieToUpdate(data).valeur_glycemie
+        if (glycemie != null) {
+            DiabeteDialogGlycemie.newInstance(
+                "titre",
+                "subtitre",
+                ind,
+                id, glycemie
+            ).show(childFragmentManager, PoidsDialog.TAG)
+        }
 
     }
 

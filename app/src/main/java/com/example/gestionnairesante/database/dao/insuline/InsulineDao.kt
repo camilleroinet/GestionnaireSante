@@ -18,6 +18,12 @@ interface InsulineDao {
     @Query("SELECT * FROM insuline")
     fun getAllInsuline(): Flow<List<InsulineData>>
 
+    @Query("UPDATE insuline SET insuline_rapide = :rapide, insuline_lente = :lente WHERE id_insuline = :id")
+    fun insulineUpdate(id: Int, rapide: Int, lente: Int) : Int
+
+    @Query("SELECT * from insuline WHERE id_insuline = :id")
+    fun getInsulineToUdpate(id: Int): InsulineData
+
     @Query("SELECT insuline_rapide FROM insuline")
     fun getAllRapide(): Flow<List<Int>>
 
