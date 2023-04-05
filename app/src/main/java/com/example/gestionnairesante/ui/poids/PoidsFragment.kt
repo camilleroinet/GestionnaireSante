@@ -26,10 +26,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gestionnairesante.R
 import com.example.gestionnairesante.adapter.AdapterRecyclerPoids
 import com.example.gestionnairesante.database.DB_sante
-import com.example.gestionnairesante.database.dao.insuline.InsulineData
 import com.example.gestionnairesante.database.dao.poids.PoidsData
 import com.example.gestionnairesante.database.dao.poids.PoidsRepo
-import com.example.gestionnairesante.database.viewmodels.insuline.VMInsuline
 import com.example.gestionnairesante.database.viewmodels.poids.VMPoids
 import com.example.gestionnairesante.database.viewmodels.poids.VMPoidsFactory
 import com.example.gestionnairesante.databinding.PoidBinding
@@ -50,8 +48,6 @@ class PoidsFragment : Fragment() {
     lateinit var targetMotion: LinearLayout
     lateinit var motionLayout: MotionLayout
     val dureeanimation: Long = 500
-
-    private lateinit var item: PoidsData
 
     private val onDragTV = View.OnDragListener { view, dragEvent ->
         (view as View).let {
@@ -229,10 +225,10 @@ class PoidsFragment : Fragment() {
     // Calcule de l'imc
     fun calculerIMC(taille: Int, poids: Float): Float {
         //  IMC = poids en kg/taille²
-        val poids = poids.toDouble()
-        val taille = (taille.toDouble() / 100)
+        val weight = poids.toDouble()
+        val height = (taille.toDouble() / 100)
 
-        return (poids / (taille * taille)).toFloat()
+        return (weight / (height * height)).toFloat()
     }
 
     @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
@@ -354,7 +350,7 @@ class PoidsFragment : Fragment() {
             val r = tabValeur.size - 1
             for (i in 0..r) {
                 stringValue.add("")
-                data.add(BarEntry(i.toFloat(), tabValeur[i].toFloat()))
+                data.add(BarEntry(i.toFloat(), tabValeur[i]))
             }
             createBarChart(barChart, data, stringValue, "Poids")
         }
@@ -447,7 +443,7 @@ class PoidsFragment : Fragment() {
     }
 
     fun gestionDrag(v: View) {
-        var item = ClipData.Item(v.tag as? CharSequence)
+        val item = ClipData.Item(v.tag as? CharSequence)
         val dragData = ClipData(
             v.tag as? CharSequence,
             arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN),

@@ -12,7 +12,6 @@ import com.example.gestionnairesante.databinding.RepasDialogPlatBinding
 class RepasDialogPlat : DialogFragment() {
     private var binding: RepasDialogPlatBinding? = null
     private val viewModel: VMPLat by viewModels({ requireParentFragment() })
-
     companion object {
         const val TAG = "Dialog_plat"
         private const val KEY_TITLE = "KEY_TITLE"

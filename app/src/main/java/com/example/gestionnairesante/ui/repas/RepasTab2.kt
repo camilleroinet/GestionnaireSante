@@ -20,7 +20,6 @@ class RepasTab2 : Fragment() {
     private var binding: RepasTab2Binding? = null
     private lateinit var adapter: AdapterRecyclerPlat
     private val viewModel: VMPLat by viewModels({ requireParentFragment() })
-    private var ind = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,11 +54,7 @@ class RepasTab2 : Fragment() {
         viewModel.getallPlat().observe(viewLifecycleOwner) { it ->
             tabPlat.clear()
             tabPlat.addAll(it)
-
-            //recupDataBarChart()
-            //binding.chart0.invalidate()
         }
-
 
         initRecycler()
         displayUser()
@@ -133,10 +128,6 @@ class RepasTab2 : Fragment() {
             ItemTouchHelper(simplecall)
         }
         itemTouchHelper.attachToRecyclerView(binding?.recyclerPlat)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
     }
 
 }

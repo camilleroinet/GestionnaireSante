@@ -14,8 +14,7 @@ import com.example.gestionnairesante.databinding.DiabeteCardviewBinding
 class AdapterRecyclerDiabete(private val clickListener: (GlycemieData) -> Unit) :
     RecyclerView.Adapter<AdapterRecyclerDiabete.MyViewHolder>() {
 
-    private val noteList = ArrayList<GlycemieData>()
-    private val listeNote = ArrayList<Int>()
+    private val dataList = ArrayList<GlycemieData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -25,16 +24,16 @@ class AdapterRecyclerDiabete(private val clickListener: (GlycemieData) -> Unit) 
     }
 
     fun getDbObjet(position: Int): GlycemieData {
-        return noteList.get(position)
+        return dataList.get(position)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bind(noteList[position], clickListener)
+        holder.bind(dataList[position], clickListener)
     }
 
     fun setList(daousers: List<GlycemieData>) {
-        noteList.clear()
-        noteList.addAll(daousers)
+        dataList.clear()
+        dataList.addAll(daousers)
     }
 /*    fun setListNotes(dataNotes: List<DataNote>){
         listeNote.clear()
@@ -59,8 +58,7 @@ class AdapterRecyclerDiabete(private val clickListener: (GlycemieData) -> Unit) 
                 binding.couleurAlerte.setBackgroundColor(Color.RED)
             }
 
-            binding.poids.text = dataNote.valeur_glycemie.toString()
-            //binding.periodegly.text = dataNote.periode.libelle_periode.toString()
+            binding.gly.text = dataNote.valeur_glycemie.toString()
 
             binding.itemLayout2.setOnClickListener {
                 clickListener2(dataNote)
@@ -69,6 +67,6 @@ class AdapterRecyclerDiabete(private val clickListener: (GlycemieData) -> Unit) 
     }
 
     override fun getItemCount(): Int {
-        return noteList.size
+        return dataList.size
     }
 }

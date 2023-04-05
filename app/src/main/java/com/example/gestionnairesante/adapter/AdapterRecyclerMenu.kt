@@ -39,7 +39,6 @@ class AdapterRecyclerMenu(private val clickListener: (MenuData) -> Unit) :
         fun bind(dataNote: MenuData, clickListener: (MenuData) -> Unit) {
             binding.nomMenu.text = dataNote.nom_menu
 
-
             binding.itemLayout3.setOnClickListener {
                 clickListener(dataNote)
             }

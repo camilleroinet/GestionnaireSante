@@ -44,7 +44,7 @@ class DiabeteDialogGlycemie : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val dialogFrag1Binding = DiabeteDialogBinding.inflate(inflater, container, false)
         binding = dialogFrag1Binding
 
@@ -59,12 +59,6 @@ class DiabeteDialogGlycemie : DialogFragment() {
             viewModel = viewModel
             binding?.dialogDiabete = this@DiabeteDialogGlycemie
         }
-
-        /**
-         * Spinner
-         */
-        val spinner = binding!!.spinnerPeriode
-
 
         val tabPeriode = resources.getStringArray(R.array.periodes)
 
@@ -105,7 +99,6 @@ class DiabeteDialogGlycemie : DialogFragment() {
         val temp: String = val1.toString() + val2.toString() + val3.toString()
         val newInsert = GlycemieData(0, temp.toInt())
         viewModel.insertGlycemie(newInsert)
-
     }
 
     /**

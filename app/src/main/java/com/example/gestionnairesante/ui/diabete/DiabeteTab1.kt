@@ -20,13 +20,12 @@ class DiabeteTab1 : Fragment(){
     private var binding: DiabeteTab1Binding? = null
     private lateinit var adapter: AdapterRecyclerDiabete
     private val viewModel: VMGlycemie by viewModels ({ requireParentFragment() })
-    private var ind = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // View binding
         val tab1Binding =  DiabeteTab1Binding.inflate(inflater, container, false)
         binding = tab1Binding
@@ -43,7 +42,6 @@ class DiabeteTab1 : Fragment(){
             binding?.recyclerDiabete = this@DiabeteTab1
         }
         val tabGlycemie = ArrayList<Int>()
-        val tabGlycemiePeriode = ArrayList<GlycemieData>()
 
         //creation de message pout l'utilisateur si qqc est arrivé
         viewModel.message.observe(viewLifecycleOwner){ it ->
@@ -55,9 +53,6 @@ class DiabeteTab1 : Fragment(){
         viewModel.getAllValeurGlycemie().observe(viewLifecycleOwner){ it ->
             tabGlycemie.clear()
             tabGlycemie.addAll(it)
-
-            //recupDataBarChart()
-            //binding.chart0.invalidate()
         }
 
         initRecycler()
@@ -76,13 +71,11 @@ class DiabeteTab1 : Fragment(){
     }
 
     fun listItemClicked(viewModel: VMGlycemie, daouser: GlycemieData){
-//        viewModel.initUpdateAndDelete(daouser)
-//        viewModel.clearallOrdelete()
+
     }
 
     fun displayUser(){
         viewModel.getallGlycemie().observe(viewLifecycleOwner, Observer {
-            //Toast.makeText(requireContext(), "size ==>> ${it.size}", Toast.LENGTH_LONG).show()
             adapter.setList(it)
             adapter.notifyDataSetChanged()
         })
@@ -107,7 +100,6 @@ class DiabeteTab1 : Fragment(){
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val sp = viewHolder.adapterPosition
                     val obj = adapter.getDbObjet(sp)
-                    //DialogFragHomeSuppr.newInstance("titre", "subtitre", ind).show(childFragmentManager, DialogFragHomeSuppr.TAG)
                     viewModel.deleteGlycemie(obj)
                 }
 
@@ -126,10 +118,6 @@ class DiabeteTab1 : Fragment(){
             ItemTouchHelper(simplecall)
         }
         itemTouchHelper.attachToRecyclerView(binding?.recyclerPoids)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
     }
 
 }

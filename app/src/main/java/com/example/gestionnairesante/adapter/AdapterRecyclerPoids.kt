@@ -45,10 +45,6 @@ class AdapterRecyclerPoids(private val longclickListener: (View) -> Unit) :
         poidsList.addAll(daousers)
     }
 
-    fun getId(): Int {
-        return id
-    }
-
     fun getDbObjet(position: Int): PoidsData {
         return poidsList[position]
     }

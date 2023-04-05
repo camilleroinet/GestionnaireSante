@@ -37,9 +37,10 @@ class DiabeteChartBar : Fragment() {
             viewModel = viewModel
             binding?.fragChartBar = this@DiabeteChartBar
         }
-        val tabNote = ArrayList<Int>()
+        val tabData = ArrayList<Int>()
 
         //creation de message pout l'utilisateur si qqc est arrivé
+        // todo a commenter
         viewModel.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
@@ -47,15 +48,16 @@ class DiabeteChartBar : Fragment() {
         }
 
         viewModel.getAllValeurGlycemie().observe(viewLifecycleOwner) { it ->
-            tabNote.clear()
-            tabNote.addAll(it)
-            recupDataBarChart()            //recupDataBarChart()
+            tabData.clear()
+            tabData.addAll(it)
+            recupDataBarChart()
+            //recupDataBarChart()
             //binding.chart0.invalidate()
         }
     }
 
     fun recupDataBarChart(): ArrayList<BarEntry> {
-        val valu = ArrayList<BarEntry>()
+        val valeur = ArrayList<BarEntry>()
         val tabValeur = ArrayList<Int>()
         val barChart = binding!!.chart0
         val stringValue = ArrayList<String>()
@@ -68,12 +70,11 @@ class DiabeteChartBar : Fragment() {
 
             for (i in 0..r) {
                 stringValue.add("")
-                valu.add(BarEntry(i.toFloat(), tabValeur[i].toFloat()))
+                valeur.add(BarEntry(i.toFloat(), tabValeur[i].toFloat()))
             }
-            createBarChart(barChart, valu, stringValue, "Notes de 0 à 10")
+            createBarChart(barChart, valeur, stringValue, "Notes de 0 à 10")
         }
-
-        return valu
+        return valeur
     }
 
     override fun onDestroyView() {

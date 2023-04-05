@@ -47,7 +47,7 @@ class DiabeteChartPie : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val tabNote = ArrayList<Int>()
+        val tabData = ArrayList<Int>()
 
         //creation de message pout l'utilisateur si qqc est arrivé
         viewModel.message.observe(viewLifecycleOwner) { it ->
@@ -57,10 +57,10 @@ class DiabeteChartPie : Fragment() {
         }
 
         viewModel.getAllValeurGlycemie().observe(viewLifecycleOwner) { it ->
-            tabNote.clear()
-            tabNote.addAll(it)
-
+            tabData.clear()
+            tabData.addAll(it)
         }
+
         createDataPieChart()
     }
 
@@ -91,17 +91,12 @@ class DiabeteChartPie : Fragment() {
             arrayData.add(fort.toFloat())
             arrayData.add(hyper.toFloat())
 
-
             val couleurs = createColorTab(requireContext(), arrayData.size)
 
             creationPieChart(binding.chart0, arrayData, couleurs)
 
         }
 
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
     }
 
 }

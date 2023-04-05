@@ -16,7 +16,6 @@ class PoidsDialog : DialogFragment() {
     private var binding: PoidsDialogBinding? = null
     private val viewModel: VMPoids by viewModels({ requireParentFragment() })
 
-
     // Configuration de dialogfrag
     companion object {
         const val TAG = "Poids_Dialog"
@@ -74,13 +73,8 @@ class PoidsDialog : DialogFragment() {
 
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            //viewModel = viewModel
             binding?.dialogPoids = this@PoidsDialog
         }
-        /**
-         * Spinner
-         */
-        // TODO a decocher quand implementation du code
 
         val tabPeriode = resources.getStringArray(R.array.periodes)
 

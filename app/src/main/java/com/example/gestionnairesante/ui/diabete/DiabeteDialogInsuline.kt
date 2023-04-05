@@ -1,6 +1,5 @@
 package com.example.gestionnairesante.ui.diabete
 
-import com.example.gestionnairesante.R
 import android.os.Bundle
 import android.view.*
 import android.widget.AdapterView
@@ -8,11 +7,11 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import com.example.gestionnairesante.R
 import com.example.gestionnairesante.database.dao.insuline.InsulineData
 import com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie
 import com.example.gestionnairesante.database.viewmodels.insuline.VMInsuline
 import com.example.gestionnairesante.databinding.DiabeteDialogInsulineBinding
-import com.example.gestionnairesante.ui.poids.PoidsDialog
 
 class DiabeteDialogInsuline : DialogFragment() {
     private var binding: DiabeteDialogInsulineBinding? = null
@@ -74,7 +73,7 @@ class DiabeteDialogInsuline : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val dialogFragBinding = DiabeteDialogInsulineBinding.inflate(inflater, container, false)
         binding = dialogFragBinding
 
@@ -86,18 +85,9 @@ class DiabeteDialogInsuline : DialogFragment() {
 
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = viewModel
-            viewModelinsuline = viewModelinsuline
             binding?.dialogInsuline = this@DiabeteDialogInsuline
 
         }
-
-        /**
-         * Spinner
-         */
-        val spinner = binding!!.spinnerPeriode
-
-        // TODO a decocher quand implementation du code
 
         val tabPeriode = resources.getStringArray(R.array.periodes)
 

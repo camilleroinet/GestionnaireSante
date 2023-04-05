@@ -21,7 +21,7 @@ class DiabeteChartLine : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // View binding
         val fragBinding = FragChartLineBinding.inflate(inflater, container, false)
         binding = fragBinding
@@ -38,9 +38,10 @@ class DiabeteChartLine : Fragment() {
             viewModel = viewModel
             binding?.fragChartLine = this@DiabeteChartLine
         }
-        val tabNote = ArrayList<Int>()
+        val tabData = ArrayList<Int>()
 
         //creation de message pout l'utilisateur si qqc est arrivé
+        // todo a commenter
         viewModel.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
@@ -48,8 +49,8 @@ class DiabeteChartLine : Fragment() {
         }
 
         viewModel.getAllValeurGlycemie().observe(viewLifecycleOwner) { it ->
-            tabNote.clear()
-            tabNote.addAll(it)
+            tabData.clear()
+            tabData.addAll(it)
             recupDataLineChart()
         }
     }
@@ -62,10 +63,6 @@ class DiabeteChartLine : Fragment() {
             valuesBdd.addAll(it)
             createLineChart(requireContext(), binding!!.chart0, recupDataChart(valuesBdd))
         })
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
     }
 
 }

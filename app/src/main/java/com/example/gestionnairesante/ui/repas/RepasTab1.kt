@@ -20,7 +20,6 @@ class RepasTab1 : Fragment() {
     private var binding: RepasTab1Binding? = null
     private lateinit var adapter: AdapterRecyclerMenu
     private val viewModel: VMMenu by viewModels({ requireParentFragment() })
-    private var ind = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -131,10 +130,6 @@ class RepasTab1 : Fragment() {
             ItemTouchHelper(simplecall)
         }
         itemTouchHelper.attachToRecyclerView(binding?.recyclerMenud)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
     }
 
 }

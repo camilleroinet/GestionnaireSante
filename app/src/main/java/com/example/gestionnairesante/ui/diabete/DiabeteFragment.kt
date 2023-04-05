@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
@@ -12,9 +13,7 @@ import com.example.gestionnairesante.adapter.AdapterViewPager
 import com.example.gestionnairesante.adapter.AdapterViewPagerCharts
 import com.example.gestionnairesante.adapter.ZoomOutPageTransformer
 import com.example.gestionnairesante.database.DB_sante
-import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieRepo
-import com.example.gestionnairesante.database.dao.insuline.InsulineData
 import com.example.gestionnairesante.database.dao.insuline.InsulineRepo
 import com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie
 import com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemieFactory
@@ -27,7 +26,6 @@ class DiabeteFragment : Fragment() {
     private var binding: DiabeteBinding? = null
     private lateinit var viewModel: VMGlycemie
     private lateinit var viewModelinsuline: VMInsuline
-
     private lateinit var tablayoutTabs: TabLayout
     private lateinit var viewPagerTabs: ViewPager
     private lateinit var viewPagerCharts: ViewPager
@@ -39,8 +37,8 @@ class DiabeteFragment : Fragment() {
 
     private var arrayTabCharts =
         arrayListOf<Int>(R.string.txt_chart1, R.string.txt_chart2, R.string.txt_chart3)
-    private var arrayFragChart = arrayListOf<Fragment>(DiabeteChartLine(), DiabeteChartPie())
-
+    private var arrayFragChart =
+        arrayListOf<Fragment>(DiabeteChartLine(), DiabeteChartPie())
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,11 +55,9 @@ class DiabeteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = viewModel
-            viewModelinsuline = viewModelinsuline
             binding?.fragDiabete = this@DiabeteFragment
-
         }
+
         // databinding
         val dao = DB_sante.getInstance(requireContext()).tabGlycemie
         val dao2 = DB_sante.getInstance(requireContext()).tabInsuline
@@ -81,34 +77,28 @@ class DiabeteFragment : Fragment() {
 
         viewModel.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
-                //Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
         viewModelinsuline.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
-                //Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
 
         viewModelinsuline.getallRapide().observe(viewLifecycleOwner) { it ->
             tabInsulineRapide.clear()
             tabInsulineRapide.addAll(it)
-            //recupDataBarChart()
-            //binding.chart0.invalidate()
         }
 
         viewModelinsuline.getallLente().observe(viewLifecycleOwner) { it ->
             tabInsulineLente.clear()
             tabInsulineLente.addAll(it)
-            //recupDataBarChart()
-            //binding.chart0.invalidate()
         }
 
         viewModel.getAllValeurGlycemie().observe(viewLifecycleOwner) { it ->
             tabGlycemie.clear()
             tabGlycemie.addAll(it)
-            //recupDataBarChart()
-            //binding.chart0.invalidate()
         }
 
 
@@ -122,6 +112,7 @@ class DiabeteFragment : Fragment() {
                 .show(childFragmentManager, DiabeteDialogInsuline.TAG)
             //Toast.makeText(requireContext(), "youhou", Toast.LENGTH_LONG).show()
         }
+
         viewPagerCharts = binding?.viewpagercharts!!
 
         tablayoutTabs = binding?.tabLayout!!
@@ -145,7 +136,7 @@ class DiabeteFragment : Fragment() {
                     tab?.position?.let {
                         viewPagerTabs.currentItem = it
 
-                        when (tab?.position) {
+                        when (tab.position) {
                             0 -> {
                                 binding!!.btnInsert.visibility = View.VISIBLE
                                 binding!!.btnInsertInsuline.visibility = View.INVISIBLE
@@ -206,7 +197,4 @@ class DiabeteFragment : Fragment() {
         viewPager.setPageTransformer(true, ZoomOutPageTransformer())
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
 }

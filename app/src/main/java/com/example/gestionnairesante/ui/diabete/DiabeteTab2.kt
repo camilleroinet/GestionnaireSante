@@ -20,13 +20,12 @@ class DiabeteTab2 : Fragment() {
     private var binding: DiabeteTab2Binding? = null
     private lateinit var adapter: AdapterRecyclerInsuline
     private val viewModelinsuline: VMInsuline by viewModels({ requireParentFragment() })
-    private var ind = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // View binding
         val tab2Binding = DiabeteTab2Binding.inflate(inflater, container, false)
         binding = tab2Binding
@@ -91,7 +90,6 @@ class DiabeteTab2 : Fragment() {
 
     fun displayUser() {
         viewModelinsuline.getallInsuline().observe(viewLifecycleOwner, Observer {
-            //Toast.makeText(requireContext(), "size ==>> ${it.size}", Toast.LENGTH_LONG).show()
             adapter.setList(it)
             adapter.notifyDataSetChanged()
         })
@@ -116,7 +114,6 @@ class DiabeteTab2 : Fragment() {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val sp = viewHolder.adapterPosition
                     val obj = adapter.getDbObjet(sp)
-                    //DialogFragHomeSuppr.newInstance("titre", "subtitre", ind).show(childFragmentManager, DialogFragHomeSuppr.TAG)
                     viewModelinsuline.deleteInsuline(obj)
                 }
 
@@ -141,10 +138,6 @@ class DiabeteTab2 : Fragment() {
             ItemTouchHelper(simplecall)
         }
         itemTouchHelper.attachToRecyclerView(binding?.recyclerInsuline)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
     }
 
 }

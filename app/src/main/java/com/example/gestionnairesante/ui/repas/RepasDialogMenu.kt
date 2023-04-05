@@ -45,7 +45,7 @@ class RepasDialogMenu : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val dialogFrag1Binding = RepasDialogMenuBinding.inflate(inflater, container, false)
         binding = dialogFrag1Binding
 

@@ -89,8 +89,6 @@ class RepasFragment : Fragment() {
         viewModel.getallPlat().observe(viewLifecycleOwner) { it ->
             tabPlat.clear()
             tabPlat.addAll(it)
-            //recupDataBarChart()
-            //binding.chart0.invalidate()
         }
 
 
@@ -183,10 +181,5 @@ class RepasFragment : Fragment() {
         }
         viewPager.setPageTransformer(true, ZoomOutPageTransformer())
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
 
 }

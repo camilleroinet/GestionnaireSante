@@ -45,8 +45,6 @@ class AdapterRecyclerPlat(private val clickListener: (PlatData) -> Unit) :
             binding.glucides.text = data.glucide_plat.toString()
             binding.calories.text = data.calorie_plat.toString()
 
-            //binding.periodegly.text = dataNote.periode.libelle_periode.toString()
-
             binding.itemLayout2.setOnClickListener {
                 clickListener2(data)
             }
