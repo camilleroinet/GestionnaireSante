@@ -16,10 +16,10 @@ import com.example.gestionnairesante.database.dao.insuline.InsulineData
 import com.example.gestionnairesante.database.viewmodels.insuline.VMInsuline
 import com.example.gestionnairesante.databinding.DiabeteTab2Binding
 
-class DiabeteTab2  : Fragment(){
+class DiabeteTab2 : Fragment() {
     private var binding: DiabeteTab2Binding? = null
     private lateinit var adapter: AdapterRecyclerInsuline
-    private val viewModelinsuline: VMInsuline by viewModels ({ requireParentFragment() })
+    private val viewModelinsuline: VMInsuline by viewModels({ requireParentFragment() })
     private var ind = 0
 
     override fun onCreateView(
@@ -28,12 +28,13 @@ class DiabeteTab2  : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         // View binding
-        val tab2Binding =  DiabeteTab2Binding.inflate(inflater, container, false)
+        val tab2Binding = DiabeteTab2Binding.inflate(inflater, container, false)
         binding = tab2Binding
 
         // Inflate the layout for this fragment
         return tab2Binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -46,25 +47,19 @@ class DiabeteTab2  : Fragment(){
         val tabInsulineLente = ArrayList<Int>()
 
         //creation de message pout l'utilisateur si qqc est arrivé
-        viewModelinsuline.message.observe(viewLifecycleOwner){ it ->
+        viewModelinsuline.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
 
-        viewModelinsuline.getallRapide().observe(viewLifecycleOwner){ it ->
+        viewModelinsuline.getallRapide().observe(viewLifecycleOwner) { it ->
             tabInsulineRapide.clear()
             tabInsulineRapide.addAll(it)
-
-            //recupDataBarChart()
-            //binding.chart0.invalidate()
         }
-        viewModelinsuline.getallLente().observe(viewLifecycleOwner){ it ->
+        viewModelinsuline.getallLente().observe(viewLifecycleOwner) { it ->
             tabInsulineLente.clear()
             tabInsulineLente.addAll(it)
-
-            //recupDataBarChart()
-            //binding.chart0.invalidate()
         }
 
         initRecycler()
@@ -72,22 +67,29 @@ class DiabeteTab2  : Fragment(){
         touchRecycler()
     }
 
-    fun initRecycler(){
+    fun initRecycler() {
         // Configuration du layout
         binding?.recyclerInsuline?.layoutManager = LinearLayoutManager(context)
 
         // Configuration de l'adapter
-        adapter = AdapterRecyclerInsuline { daouser: InsulineData -> listItemClicked(viewModelinsuline, daouser)}
+        adapter = AdapterRecyclerInsuline { daouser: InsulineData ->
+            listItemClicked(
+                viewModelinsuline,
+                daouser
+            )
+        }
         binding?.recyclerInsuline?.adapter = adapter
 
     }
 
-    fun listItemClicked(viewModel: VMInsuline, daouser: InsulineData){
-        viewModel.initUpdateAndDelete(daouser)
-        viewModel.clearallOrdelete()
+    fun listItemClicked(viewModel: VMInsuline, data: InsulineData) {
+        val insulineRapide = data.insuline_rapide
+        val insulineLente = data.insuline_lente
+        val idInsuline = data.id_insuline
+
     }
 
-    fun displayUser(){
+    fun displayUser() {
         viewModelinsuline.getallInsuline().observe(viewLifecycleOwner, Observer {
             //Toast.makeText(requireContext(), "size ==>> ${it.size}", Toast.LENGTH_LONG).show()
             adapter.setList(it)
@@ -115,17 +117,23 @@ class DiabeteTab2  : Fragment(){
                     val sp = viewHolder.adapterPosition
                     val obj = adapter.getDbObjet(sp)
                     //DialogFragHomeSuppr.newInstance("titre", "subtitre", ind).show(childFragmentManager, DialogFragHomeSuppr.TAG)
-                    viewModelinsuline.deleteGlycemie(obj)
+                    viewModelinsuline.deleteInsuline(obj)
                 }
 
-                override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+                override fun onSelectedChanged(
+                    viewHolder: RecyclerView.ViewHolder?,
+                    actionState: Int
+                ) {
                     super.onSelectedChanged(viewHolder, actionState)
-                    if (actionState == ItemTouchHelper.RIGHT){
+                    if (actionState == ItemTouchHelper.RIGHT) {
                         viewHolder?.itemView?.alpha = 0.5F
                     }
                 }
 
-                override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+                override fun clearView(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder
+                ) {
                     super.clearView(recyclerView, viewHolder)
                     viewHolder.itemView.alpha = 1.0F
                 }

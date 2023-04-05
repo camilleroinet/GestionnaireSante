@@ -2,7 +2,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="frag2_cardplat" type="com.example.gestionnairesante.database.dao.plats.PlatDao" />
+
+        <variable
+            name="frag2_cardplat"
+            type="com.example.gestionnairesante.database.dao.plats.PlatDao" />
     </data>
 
     <LinearLayout
@@ -15,8 +18,8 @@
             android:id="@+id/card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/Tertiary"
             android:layout_margin="5dp"
+            android:backgroundTint="@color/Tertiary"
             app:cardElevation="2dp">
 
             <LinearLayout
@@ -30,10 +33,10 @@
                 <com.google.android.material.imageview.ShapeableImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:scaleType="centerCrop"
-                    app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
                     android:layout_gravity="left"
-                    android:background="@drawable/img_repas"/>
+                    android:background="@drawable/img_repas"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearanceOverlay="@style/roundedImageViewRounded" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -50,11 +53,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:textStyle="bold"
                             android:gravity="center"
-                            android:textSize="20sp"
                             android:paddingTop="10dp"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/black"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
@@ -67,23 +70,23 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:gravity="center"
-                            android:textSize="20sp"
                             android:layout_weight="1"
+                            android:gravity="center"
                             android:paddingTop="10dp"
                             android:text="Calories :"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
 
                         <TextView
                             android:id="@+id/calories"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:gravity="center"
-                            android:textSize="20sp"
                             android:layout_weight="1"
+                            android:gravity="center"
                             android:paddingTop="10dp"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
 
                     </LinearLayout>
 
@@ -96,23 +99,23 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:gravity="center"
-                            android:textSize="20sp"
-                            android:paddingTop="10dp"
                             android:layout_weight="1"
+                            android:gravity="center"
+                            android:paddingTop="10dp"
                             android:text="Glucides :"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
 
                         <TextView
                             android:id="@+id/glucides"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:gravity="center"
-                            android:textSize="20sp"
-                            android:paddingTop="10dp"
                             android:layout_weight="1"
-                            android:textColor="@color/black"/>
+                            android:gravity="center"
+                            android:paddingTop="10dp"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
 
                     </LinearLayout>
                 </LinearLayout>

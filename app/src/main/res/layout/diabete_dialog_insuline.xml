@@ -3,9 +3,18 @@
     tools:context=".ui.diabete.DiabeteDialogInsuline">
 
     <data>
-        <variable name="viewModel" type="com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie" />
-        <variable name="viewModelinsuline" type="com.example.gestionnairesante.database.viewmodels.insuline.VMInsuline" />
-        <variable name="dialogInsuline" type="com.example.gestionnairesante.ui.diabete.DiabeteDialogInsuline" />
+
+        <variable
+            name="viewModel"
+            type="com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie" />
+
+        <variable
+            name="viewModelinsuline"
+            type="com.example.gestionnairesante.database.viewmodels.insuline.VMInsuline" />
+
+        <variable
+            name="dialogInsuline"
+            type="com.example.gestionnairesante.ui.diabete.DiabeteDialogInsuline" />
     </data>
 
     <LinearLayout
@@ -16,8 +25,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="15dp"
             android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="15dp"
             android:background="@drawable/shape_bouton"
             android:backgroundTint="@color/SecondaryColor"
@@ -26,83 +35,84 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
                 android:layout_gravity="center"
+                android:layout_weight="2"
                 android:gravity="center"
-                android:textSize="16sp"
+                android:text="@string/choisir_une_date"
                 android:textColor="@color/white"
-                android:text="@string/choisir_une_date"/>
+                android:textSize="16sp" />
         </LinearLayout>
 
         <DatePicker
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:datePickerMode="spinner"
-            android:calendarViewShown="false"/>
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner" />
 
         <Spinner
             android:id="@+id/spinner_periode"
             android:layout_width="match_parent"
-            android:layout_height="50dp"/>
+            android:layout_height="50dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:orientation="horizontal"
             android:paddingStart="60dp"
-            android:paddingEnd="60dp"
-            android:orientation="horizontal" >
+            android:paddingEnd="60dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:layout_weight="1" >
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
                 <NumberPicker
                     android:id="@+id/pickerRapide1"
                     android:layout_width="50dp"
                     android:layout_height="125dp"
-                    android:layout_marginStart="10dp"
-                    android:gravity="center"
                     android:layout_gravity="center"
-                    android:layout_marginEnd="10dp"/>
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center" />
+
                 <NumberPicker
                     android:id="@+id/pickerRapide2"
                     android:layout_width="50dp"
+                    android:layout_height="125dp"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
-                    android:gravity="center"
                     android:layout_marginEnd="10dp"
-                    android:layout_height="125dp"/>
+                    android:gravity="center" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
                 <NumberPicker
                     android:id="@+id/pickerLente1"
                     android:layout_width="50dp"
                     android:layout_height="125dp"
-                    android:layout_marginStart="10dp"
-                    android:gravity="center"
                     android:layout_gravity="center"
-                    android:layout_marginEnd="10dp"/>
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center" />
 
                 <NumberPicker
                     android:id="@+id/pickerLente2"
                     android:layout_width="50dp"
+                    android:layout_height="125dp"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
-                    android:gravity="center"
                     android:layout_marginEnd="10dp"
-                    android:layout_height="125dp"/>
+                    android:gravity="center" />
 
             </LinearLayout>
         </LinearLayout>
@@ -115,7 +125,7 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_saveMalade"
+                android:id="@+id/btn_insertInsuline"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
@@ -123,7 +133,19 @@
                 android:background="@drawable/shape_bouton"
                 android:backgroundTint="@color/SecondaryColor"
                 android:text="@string/enregistrer"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_modifInsuline"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape_bouton"
+                android:backgroundTint="@color/SecondaryColor"
+                android:text="@string/modifier"
+                android:textColor="@color/white"
+                android:visibility="gone" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_clearMalade"
@@ -132,9 +154,9 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/shape_bouton"
-                android:textSize="16sp"
+                android:text="@string/annuler"
                 android:textColor="#442C2E"
-                android:text="@string/annuler"/>
+                android:textSize="16sp" />
 
         </LinearLayout>
     </LinearLayout>

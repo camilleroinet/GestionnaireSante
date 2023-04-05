@@ -39,7 +39,8 @@ class RepasFragment : Fragment() {
     private var arrayTab = arrayListOf<Int>(R.string.txt_fragmenu, R.string.txt_fragrepas)
     private var arrayFragTab = arrayListOf<Fragment>(RepasTab1(), RepasTab2())
 
-    private var arrayTabCharts = arrayListOf<Int>(R.string.txt_chart1, R.string.txt_chart2, R.string.txt_chart3)
+    private var arrayTabCharts =
+        arrayListOf<Int>(R.string.txt_chart1, R.string.txt_chart2, R.string.txt_chart3)
     private var arrayFragChart = arrayListOf<Fragment>(DiabeteChartLine(), DiabeteChartPie())
 
 

@@ -7,11 +7,11 @@ import android.content.Context
 import com.example.gestionnairesante.R
 
 
-fun createColorTab(context: Context, taille: Int) : ArrayList<Int> {
+fun createColorTab(context: Context, taille: Int): ArrayList<Int> {
     val tabCouleur = ArrayList<Int>()
-    val tabColor : IntArray = context.resources.getIntArray(R.array.tabCouleur)
+    val tabColor: IntArray = context.resources.getIntArray(R.array.tabCouleur)
 
-    for(i in 0..taille){
+    for (i in 0..taille) {
 
         tabCouleur.add(tabColor[i])
     }

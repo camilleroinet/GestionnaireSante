@@ -14,7 +14,7 @@ import com.example.gestionnairesante.databinding.DiabeteDialogBinding
 
 class DiabeteDialogGlycemie : DialogFragment() {
     private var binding: DiabeteDialogBinding? = null
-    private val viewModel: VMGlycemie by viewModels ({ requireParentFragment() })
+    private val viewModel: VMGlycemie by viewModels({ requireParentFragment() })
 
     companion object {
         const val TAG = "Dialog_Frag1"
@@ -39,6 +39,7 @@ class DiabeteDialogGlycemie : DialogFragment() {
             return frag
         }
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -64,27 +65,26 @@ class DiabeteDialogGlycemie : DialogFragment() {
          */
         val spinner = binding!!.spinnerPeriode
 
-        // TODO a decocher quand implementation du code
 
-            val tabPeriode=resources.getStringArray(R.array.periodes)
+        val tabPeriode = resources.getStringArray(R.array.periodes)
 
-            configSpinner(tabPeriode)
+        configSpinner(tabPeriode)
         setupNumberPicker()
 
         // TODO a supprimer/cocher a la phase final
         //creation de message pout l'utilisateur si qqc est arrivé
-        viewModel.message.observe(viewLifecycleOwner){ it ->
+        viewModel.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
 
-        binding!!.btnSaveMalade.setOnClickListener{
+        binding!!.btnSaveMalade.setOnClickListener {
             // TODO a decocher quand implementation du code
             save()
             dismiss()
         }
-        binding!!.btnClearMalade.setOnClickListener{
+        binding!!.btnClearMalade.setOnClickListener {
             dismiss()
         }
 
@@ -98,11 +98,11 @@ class DiabeteDialogGlycemie : DialogFragment() {
         )
     }
 
-    fun save(){
+    fun save() {
         val val1 = binding!!.picker1.value
         val val2 = binding!!.picker2.value
         val val3 = binding!!.picker3.value
-        val temp : String = val1.toString() + val2.toString() + val3.toString()
+        val temp: String = val1.toString() + val2.toString() + val3.toString()
         val newInsert = GlycemieData(0, temp.toInt())
         viewModel.insertGlycemie(newInsert)
 
@@ -111,7 +111,7 @@ class DiabeteDialogGlycemie : DialogFragment() {
     /**
      * Fonction de gestion du spinner
      */
-    fun configSpinner(arrayCat: Array<String>){
+    fun configSpinner(arrayCat: Array<String>) {
         /* en simple java
         mInterpolatorSpinner = (Spinner) view.findViewById(R.id.interpolatorSpinner);
         ArrayAdapter<String> spinnerAdapter =
@@ -122,10 +122,10 @@ class DiabeteDialogGlycemie : DialogFragment() {
         //val arrayCat = resources.getStringArray(R.array.categoriesfs)
         val adapt = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, arrayCat)
         binding?.let {
-            with(it.spinnerPeriode){
+            with(it.spinnerPeriode) {
                 adapter = adapt
                 setSelection(0, false)
-                prompt= "Selection catagorie"
+                prompt = "Selection catagorie"
                 gravity = Gravity.CENTER
                 //posAdapter = 0
                 //nomCategorie = arrayCat[0]
@@ -143,12 +143,18 @@ class DiabeteDialogGlycemie : DialogFragment() {
                 //posAdapter = position
                 //nomCategorie = arrayCat[position]
                 //gestionRecycler(position, nomCategorie)
-                Toast.makeText(requireContext(), "spinner selection ======> $position", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "spinner selection ======> $position",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
-    private fun setupNumberPicker(){
+
+    private fun setupNumberPicker() {
         val numberPicker1 = binding!!.picker1
         val numberPicker2 = binding!!.picker2
         val numberPicker3 = binding!!.picker3

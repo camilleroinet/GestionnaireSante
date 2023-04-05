@@ -4,8 +4,14 @@
     tools:context=".ui.repas.RepasFragTab1">
 
     <data>
-        <variable name="viewModel" type="com.example.gestionnairesante.database.viewmodels.menu.VMMenu" />
-        <variable name="recyclerMenu" type="com.example.gestionnairesante.ui.repas.RepasTab1" />
+
+        <variable
+            name="viewModel"
+            type="com.example.gestionnairesante.database.viewmodels.menu.VMMenu" />
+
+        <variable
+            name="recyclerMenu"
+            type="com.example.gestionnairesante.ui.repas.RepasTab1" />
     </data>
 
     <LinearLayout
@@ -15,6 +21,6 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerMenud"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
     </LinearLayout>
 </layout>

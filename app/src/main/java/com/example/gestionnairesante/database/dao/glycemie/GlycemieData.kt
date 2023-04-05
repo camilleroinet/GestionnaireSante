@@ -15,4 +15,4 @@ data class GlycemieData(
     var valeur_glycemie: Int?,
 
 
-)
+    )

@@ -4,8 +4,14 @@
     tools:context=".ui.diabete.DiabeteFrag1">
 
     <data>
-        <variable name="viewModel" type="com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie" />
-        <variable name="recyclerDiabete" type="com.example.gestionnairesante.ui.diabete.DiabeteTab1" />
+
+        <variable
+            name="viewModel"
+            type="com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie" />
+
+        <variable
+            name="recyclerDiabete"
+            type="com.example.gestionnairesante.ui.diabete.DiabeteTab1" />
     </data>
 
     <LinearLayout
@@ -13,9 +19,9 @@
         android:layout_height="420dp">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerPoids"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/recyclerPoids"/>
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 </layout>

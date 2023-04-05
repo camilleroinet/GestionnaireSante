@@ -15,7 +15,7 @@ import com.example.gestionnairesante.databinding.RepasDialogMenuBinding
 
 class RepasDialogMenu : DialogFragment() {
     private var binding: RepasDialogMenuBinding? = null
-    private val viewModel: VMMenu by viewModels ({ requireParentFragment() })
+    private val viewModel: VMMenu by viewModels({ requireParentFragment() })
 
     companion object {
         const val TAG = "Dialog_menu"
@@ -40,6 +40,7 @@ class RepasDialogMenu : DialogFragment() {
             return frag
         }
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -62,18 +63,18 @@ class RepasDialogMenu : DialogFragment() {
 
         // TODO a supprimer/cocher a la phase final
         //creation de message pout l'utilisateur si qqc est arrivé
-        viewModel.message.observe(viewLifecycleOwner){ it ->
+        viewModel.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
 
-        binding!!.btnSaveMalade.setOnClickListener{
+        binding!!.btnSaveMalade.setOnClickListener {
             // TODO a decocher quand implementation du code
             save()
             dismiss()
         }
-        binding!!.btnClearMalade.setOnClickListener{
+        binding!!.btnClearMalade.setOnClickListener {
             dismiss()
         }
 
@@ -87,11 +88,11 @@ class RepasDialogMenu : DialogFragment() {
         )
     }
 
-    fun save(){
+    fun save() {
 
-        if (binding!!.etNomplat.text.isBlank() ) {
+        if (binding!!.etNomplat.text.isBlank()) {
             Toast.makeText(context, "youhou ya rien", Toast.LENGTH_LONG).show()
-        }else{
+        } else {
             val nomMenu = binding!!.etNomplat.text.toString()
             val caloriePlat = binding!!.etCalories.text.toString()
             val glucidePlat = binding!!.etGlucide.text.toString()

@@ -4,8 +4,14 @@
     tools:context=".ui.diabete.DiabeteChartBar">
 
     <data>
-        <variable name="viewModel" type="com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie" />
-        <variable name="fragChartBar" type="com.example.gestionnairesante.ui.diabete.DiabeteChartBar" />
+
+        <variable
+            name="viewModel"
+            type="com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie" />
+
+        <variable
+            name="fragChartBar"
+            type="com.example.gestionnairesante.ui.diabete.DiabeteChartBar" />
     </data>
 
     <LinearLayout
@@ -16,8 +22,8 @@
             android:id="@+id/chart0"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:padding="5dp"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:padding="5dp" />
 
     </LinearLayout>
 </layout>

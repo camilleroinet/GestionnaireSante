@@ -13,8 +13,8 @@ import com.example.gestionnairesante.utils.createBarChart
 import com.github.mikephil.charting.data.BarEntry
 
 class DiabeteChartBar : Fragment() {
-    private var binding: FragChartBarBinding?= null
-    private val viewModel: VMGlycemie by viewModels ({ requireParentFragment() })
+    private var binding: FragChartBarBinding? = null
+    private val viewModel: VMGlycemie by viewModels({ requireParentFragment() })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,7 +22,7 @@ class DiabeteChartBar : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // View binding
-        val fragBinding =  FragChartBarBinding.inflate(inflater, container, false)
+        val fragBinding = FragChartBarBinding.inflate(inflater, container, false)
         binding = fragBinding
 
         // Inflate the layout for this fragment
@@ -40,13 +40,13 @@ class DiabeteChartBar : Fragment() {
         val tabNote = ArrayList<Int>()
 
         //creation de message pout l'utilisateur si qqc est arrivé
-        viewModel.message.observe(viewLifecycleOwner){ it ->
+        viewModel.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
 
-        viewModel.getAllValeurGlycemie().observe(viewLifecycleOwner){ it ->
+        viewModel.getAllValeurGlycemie().observe(viewLifecycleOwner) { it ->
             tabNote.clear()
             tabNote.addAll(it)
             recupDataBarChart()            //recupDataBarChart()
@@ -54,23 +54,23 @@ class DiabeteChartBar : Fragment() {
         }
     }
 
-    fun recupDataBarChart(): ArrayList<BarEntry>{
+    fun recupDataBarChart(): ArrayList<BarEntry> {
         val valu = ArrayList<BarEntry>()
         val tabValeur = ArrayList<Int>()
         val barChart = binding!!.chart0
         val stringValue = ArrayList<String>()
 
-        viewModel.getAllValeurGlycemie().observe(viewLifecycleOwner){
+        viewModel.getAllValeurGlycemie().observe(viewLifecycleOwner) {
             tabValeur.clear()
             tabValeur.addAll(it)
 
             val r = tabValeur.size - 1
 
-            for (i in 0..r){
+            for (i in 0..r) {
                 stringValue.add("")
                 valu.add(BarEntry(i.toFloat(), tabValeur[i].toFloat()))
             }
-            createBarChart(barChart,valu,stringValue ,"Notes de 0 à 10"  )
+            createBarChart(barChart, valu, stringValue, "Notes de 0 à 10")
         }
 
         return valu

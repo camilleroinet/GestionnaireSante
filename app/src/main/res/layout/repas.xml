@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.repas.RepasFragment">
 
     <data>
-        <variable name="viewModel" type="com.example.gestionnairesante.database.viewmodels.plat.VMPLat" />
-        <variable name="viewModelMenu" type="com.example.gestionnairesante.database.viewmodels.menu.VMMenu" />
-        <variable name="fragRepas" type="com.example.gestionnairesante.ui.repas.RepasFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.example.gestionnairesante.database.viewmodels.plat.VMPLat" />
+
+        <variable
+            name="viewModelMenu"
+            type="com.example.gestionnairesante.database.viewmodels.menu.VMMenu" />
+
+        <variable
+            name="fragRepas"
+            type="com.example.gestionnairesante.ui.repas.RepasFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,12 +28,11 @@
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewpagercharts"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="250dp"
-            tools:ignore="MissingConstraints">
-        </androidx.viewpager.widget.ViewPager>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints"></androidx.viewpager.widget.ViewPager>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
@@ -38,38 +46,37 @@
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewpagertabhost"
-            app:layout_constraintTop_toBottomOf="@id/tab_layout"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="380dp"
-            tools:ignore="MissingConstraints">
-        </androidx.viewpager.widget.ViewPager>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tab_layout"
+            tools:ignore="MissingConstraints"></androidx.viewpager.widget.ViewPager>
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_insert"
-            android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/fab_margin"
+            android:layout_marginBottom="32dp"
             android:backgroundTint="@color/SecondaryColor"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:maxImageSize="48dp"
-            android:layout_marginEnd="@dimen/fab_margin"
-            android:layout_marginBottom="32dp"
-            app:srcCompat="@android:drawable/ic_input_add"/>
+            app:srcCompat="@android:drawable/ic_input_add" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_insertRepas"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/fab_margin"
+            android:layout_marginBottom="32dp"
             android:backgroundTint="@color/Error"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:maxImageSize="48dp"
-            android:layout_marginEnd="@dimen/fab_margin"
-            android:layout_marginBottom="32dp"
-            app:srcCompat="@android:drawable/ic_input_add"/>
+            app:srcCompat="@android:drawable/ic_input_add" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

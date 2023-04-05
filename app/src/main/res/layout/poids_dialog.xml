@@ -3,19 +3,23 @@
     tools:context=".ui.poids.PoidsDialog">
 
     <data>
-        <variable name="dialogPoids" type="com.example.gestionnairesante.ui.poids.PoidsDialog" />
+
+        <variable
+            name="dialogPoids"
+            type="com.example.gestionnairesante.ui.poids.PoidsDialog" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <LinearLayout
             android:id="@+id/ll_titredate"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="15dp"
             android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="15dp"
             android:background="@drawable/shape_bouton"
             android:backgroundTint="@color/SecondaryColor"
@@ -24,72 +28,72 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
                 android:layout_gravity="center"
+                android:layout_weight="2"
                 android:gravity="center"
-                android:textSize="16sp"
+                android:text="@string/entrer_votre_poids_actuel"
                 android:textColor="@color/white"
-                android:text="@string/entrer_votre_poids_actuel"/>
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <DatePicker
                 android:id="@+id/date_picker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:calendarViewShown="false"
+                android:layout_gravity="center"
                 android:calendarTextColor="@color/black"
-                android:layout_gravity="center" />
+                android:calendarViewShown="false" />
 
         </LinearLayout>
 
         <Spinner
             android:id="@+id/spinner_periode"
             android:layout_width="match_parent"
-            android:layout_height="50dp"/>
+            android:layout_height="50dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:orientation="horizontal"
             android:paddingStart="60dp"
-            android:paddingEnd="60dp"
-            android:orientation="horizontal" >
+            android:paddingEnd="60dp">
 
             <NumberPicker
                 android:id="@+id/picker1"
                 android:layout_width="50dp"
-                android:layout_weight="1"
                 android:layout_height="125dp"
-                android:layout_marginStart="10dp"
-                android:gravity="center"
                 android:layout_gravity="center"
-                android:layout_marginEnd="10dp"/>
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:gravity="center" />
 
             <NumberPicker
                 android:id="@+id/picker2"
                 android:layout_width="50dp"
+                android:layout_height="125dp"
                 android:layout_gravity="center"
-                android:layout_weight="1"
                 android:layout_marginStart="10dp"
-                android:gravity="center"
                 android:layout_marginEnd="10dp"
-                android:layout_height="125dp"/>
+                android:layout_weight="1"
+                android:gravity="center" />
 
             <NumberPicker
                 android:id="@+id/picker3"
                 android:layout_width="50dp"
+                android:layout_height="125dp"
                 android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_weight="1"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:layout_height="125dp"/>
+                android:layout_weight="1"
+                android:gravity="center" />
 
         </LinearLayout>
 
@@ -102,7 +106,6 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_insertPoids"
-                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
@@ -110,11 +113,11 @@
                 android:background="@drawable/shape_bouton"
                 android:backgroundTint="@color/SecondaryColor"
                 android:text="@string/enregistrer"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:visibility="visible" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_updatePoids"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
@@ -122,7 +125,8 @@
                 android:background="@drawable/shape_bouton"
                 android:backgroundTint="@color/SecondaryColor"
                 android:text="@string/modifier"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:visibility="gone" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_cancel"
@@ -131,9 +135,9 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/shape_bouton"
-                android:textSize="16sp"
+                android:text="@string/annuler"
                 android:textColor="#442C2E"
-                android:text="@string/annuler" />
+                android:textSize="16sp" />
 
         </LinearLayout>
     </LinearLayout>

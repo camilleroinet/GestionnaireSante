@@ -12,7 +12,6 @@ import com.example.gestionnairesante.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -27,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_accueil, R.id.navigation_diabete, R.id.navigation_poids,
-                R.id.navigation_repas,   R.id.navigation_sport
+                R.id.navigation_repas, R.id.navigation_sport
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

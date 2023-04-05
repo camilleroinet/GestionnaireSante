@@ -6,7 +6,7 @@ import com.example.gestionnairesante.database.dao.menu.MenuData
 import com.example.gestionnairesante.database.dao.menu.MenuRepo
 import kotlinx.coroutines.launch
 
-class VMMenu (private val repo: MenuRepo) : ViewModel() {
+class VMMenu(private val repo: MenuRepo) : ViewModel() {
     private var isUpdateOrDelete = false
     private lateinit var dataToUpdateOrDelete: MenuData
 
@@ -18,21 +18,22 @@ class VMMenu (private val repo: MenuRepo) : ViewModel() {
 
     val message: LiveData<Event<String>>
         get() = statusMessage
-    init{
+
+    init {
         saveOrUpdateButtonText.value = "rechercher"
         clearAllOrDeleteButtonText.value = "clear All"
     }
 
     fun insertMenu(data: MenuData) = viewModelScope.launch {
         val newRowId = repo.insertMenu(data)
-        if (newRowId > -1){
+        if (newRowId > -1) {
             statusMessage.value = Event("insertion ok $newRowId")
         } else {
             statusMessage.value = Event("Tache non effectuee")
         }
     }
 
-    fun initUpdateAndDelete(data: MenuData){
+    fun initUpdateAndDelete(data: MenuData) {
         isUpdateOrDelete = true
         dataToUpdateOrDelete = data
         saveOrUpdateButtonText.value = "Update"
@@ -52,13 +53,15 @@ class VMMenu (private val repo: MenuRepo) : ViewModel() {
             statusMessage.value = Event("Problemes")
         }*/
     }
+
     fun getAllMenu() = liveData {
-        repo.allMenu.collect{
+        repo.allMenu.collect {
             emit(it)
 
         }
     }
-    fun clearallOrdelete(){
+
+    fun clearallOrdelete() {
 /*        if (isUpdateOrDelete){
             deleteGlycemie(dataToUpdateOrDelete)
         }else{

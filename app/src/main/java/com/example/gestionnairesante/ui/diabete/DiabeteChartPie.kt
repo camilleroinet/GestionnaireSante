@@ -16,11 +16,11 @@ import com.example.gestionnairesante.utils.createColorTab
 import com.example.gestionnairesante.utils.creationPieChart
 
 class DiabeteChartPie : Fragment() {
-/*
-    private var binding: FragChartPieBinding?= null
-    private val viewModel: VMGlycemie by viewModels ({ requireParentFragment() })
-*/
-    private lateinit var binding : FragChartPieBinding
+    /*
+        private var binding: FragChartPieBinding?= null
+        private val viewModel: VMGlycemie by viewModels ({ requireParentFragment() })
+    */
+    private lateinit var binding: FragChartPieBinding
     private lateinit var viewModel: VMGlycemie
 
     override fun onCreateView(
@@ -29,7 +29,7 @@ class DiabeteChartPie : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // View binding
-        val fragBinding =  FragChartPieBinding.inflate(inflater, container, false)
+        val fragBinding = FragChartPieBinding.inflate(inflater, container, false)
         binding = fragBinding
 
         // Data binding
@@ -50,13 +50,13 @@ class DiabeteChartPie : Fragment() {
         val tabNote = ArrayList<Int>()
 
         //creation de message pout l'utilisateur si qqc est arrivé
-        viewModel.message.observe(viewLifecycleOwner){ it ->
+        viewModel.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
 
-        viewModel.getAllValeurGlycemie().observe(viewLifecycleOwner){ it ->
+        viewModel.getAllValeurGlycemie().observe(viewLifecycleOwner) { it ->
             tabNote.clear()
             tabNote.addAll(it)
 
@@ -64,11 +64,11 @@ class DiabeteChartPie : Fragment() {
         createDataPieChart()
     }
 
-    fun createDataPieChart(){
+    fun createDataPieChart() {
         val arrayData = ArrayList<Float>()
         val tabValeur = ArrayList<Int>()
 
-        viewModel.getAllValeurGlycemie().observe(viewLifecycleOwner){ it ->
+        viewModel.getAllValeurGlycemie().observe(viewLifecycleOwner) { it ->
             var hypo = 0
             var cible = 0
             var fort = 0
@@ -77,12 +77,12 @@ class DiabeteChartPie : Fragment() {
             tabValeur.clear()
             tabValeur.addAll(it)
 
-            for(i in 0 until it.size){
-                when(tabValeur.get(i)){
+            for (i in 0 until it.size) {
+                when (tabValeur.get(i)) {
                     in 0..79 -> hypo += 1
                     in 80..179 -> cible += 1
                     in 180..249 -> fort += 1
-                    else  -> hyper += 1
+                    else -> hyper += 1
                 }
             }
 

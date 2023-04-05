@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface MenuDao {
 
     @Insert
-    suspend fun insertMenu(user: MenuData) : Long
+    suspend fun insertMenu(user: MenuData): Long
 
     @Query("SELECT * FROM menu")
     fun getAllMenu(): Flow<List<MenuData>>

@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 
-class AdapterViewPager  (
+class AdapterViewPager(
     var arrayFrag: ArrayList<Fragment>,
     var arrayTab: ArrayList<Int>,
     fm: FragmentManager,
@@ -25,7 +25,7 @@ class AdapterViewPager  (
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return when (position){
+        return when (position) {
             position -> context.getString(arrayTab[position])
             else -> context.getString(arrayTab[0])
         }

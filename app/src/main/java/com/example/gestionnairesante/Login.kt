@@ -28,13 +28,17 @@ class Login : AppCompatActivity() {
         val password: EditText = findViewById(R.id.password)
         val register: Button = findViewById(R.id.button_register)
 
-        register.setOnClickListener(){
-            if(username.text.toString() == "camille@gmail.com" && password.text.toString() == "camille"){
+        register.setOnClickListener() {
+            if (username.text.toString() == "camille@gmail.com" && password.text.toString() == "camille") {
                 val intent = Intent(applicationContext, MainActivity::class.java)
                 //Toast.makeText(applicationContext, "Authentification réussie", Toast.LENGTH_LONG).show()
                 startActivity(intent)
-            }else{
-                Toast.makeText(applicationContext, "Mauvais login et password !!", Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(
+                    applicationContext,
+                    "Mauvais login et password !!",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
 
@@ -46,10 +50,17 @@ class Login : AppCompatActivity() {
             object : BiometricPrompt.AuthenticationCallback() {
                 override fun onAuthenticationError(
                     errorCode: Int,
-                    errString: CharSequence) {
-                    super.onAuthenticationError(errorCode,
-                        errString)
-                    Toast.makeText(applicationContext, "Erreur d'authentification $errString", Toast.LENGTH_LONG).show()
+                    errString: CharSequence
+                ) {
+                    super.onAuthenticationError(
+                        errorCode,
+                        errString
+                    )
+                    Toast.makeText(
+                        applicationContext,
+                        "Erreur d'authentification $errString",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
 
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
@@ -61,8 +72,11 @@ class Login : AppCompatActivity() {
 
                 override fun onAuthenticationFailed() {
                     super.onAuthenticationFailed()
-                    Toast.makeText(applicationContext,
-                        "Authentification échouée, veuillez entrer votre login/password", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        applicationContext,
+                        "Authentification échouée, veuillez entrer votre login/password",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             })
 

@@ -16,10 +16,10 @@ import com.example.gestionnairesante.database.dao.plats.PlatData
 import com.example.gestionnairesante.database.viewmodels.plat.VMPLat
 import com.example.gestionnairesante.databinding.RepasTab2Binding
 
-class RepasTab2 : Fragment(){
+class RepasTab2 : Fragment() {
     private var binding: RepasTab2Binding? = null
     private lateinit var adapter: AdapterRecyclerPlat
-    private val viewModel: VMPLat by viewModels ({ requireParentFragment() })
+    private val viewModel: VMPLat by viewModels({ requireParentFragment() })
     private var ind = 0
 
     override fun onCreateView(
@@ -28,12 +28,13 @@ class RepasTab2 : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         // View binding
-        val tab2Binding =  RepasTab2Binding.inflate(inflater, container, false)
+        val tab2Binding = RepasTab2Binding.inflate(inflater, container, false)
         binding = tab2Binding
 
         // Inflate the layout for this fragment
         return tab2Binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -45,13 +46,13 @@ class RepasTab2 : Fragment(){
         val tabPlat = ArrayList<PlatData>()
 
         //creation de message pout l'utilisateur si qqc est arrivé
-        viewModel.message.observe(viewLifecycleOwner){ it ->
+        viewModel.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
 
-        viewModel.getallPlat().observe(viewLifecycleOwner){ it ->
+        viewModel.getallPlat().observe(viewLifecycleOwner) { it ->
             tabPlat.clear()
             tabPlat.addAll(it)
 
@@ -65,22 +66,22 @@ class RepasTab2 : Fragment(){
         touchRecycler()
     }
 
-    fun initRecycler(){
+    fun initRecycler() {
         // Configuration du layout
         binding?.recyclerPlat?.layoutManager = LinearLayoutManager(context)
 
         // Configuration de l'adapter
-        adapter = AdapterRecyclerPlat { daouser: PlatData -> listItemClicked(viewModel, daouser)}
+        adapter = AdapterRecyclerPlat { daouser: PlatData -> listItemClicked(viewModel, daouser) }
         binding?.recyclerPlat?.adapter = adapter
 
     }
 
-    fun listItemClicked(viewModel: VMPLat, daouser: PlatData){
+    fun listItemClicked(viewModel: VMPLat, daouser: PlatData) {
         viewModel.initUpdateAndDelete(daouser)
         viewModel.clearallOrdelete()
     }
 
-    fun displayUser(){
+    fun displayUser() {
         viewModel.getallPlat().observe(viewLifecycleOwner, Observer {
             //Toast.makeText(requireContext(), "size ==>> ${it.size}", Toast.LENGTH_LONG).show()
             adapter.setList(it)
@@ -111,14 +112,20 @@ class RepasTab2 : Fragment(){
                     viewModel.deleteGlycemie(obj)
                 }
 
-                override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+                override fun onSelectedChanged(
+                    viewHolder: RecyclerView.ViewHolder?,
+                    actionState: Int
+                ) {
                     super.onSelectedChanged(viewHolder, actionState)
-                    if (actionState == ItemTouchHelper.RIGHT){
+                    if (actionState == ItemTouchHelper.RIGHT) {
                         viewHolder?.itemView?.alpha = 0.5F
                     }
                 }
 
-                override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+                override fun clearView(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder
+                ) {
                     super.clearView(recyclerView, viewHolder)
                     viewHolder.itemView.alpha = 1.0F
                 }

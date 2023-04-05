@@ -14,7 +14,7 @@ import com.example.gestionnairesante.databinding.PoidsDialogBinding
 
 class PoidsDialog : DialogFragment() {
     private var binding: PoidsDialogBinding? = null
-    private val viewModel: VMPoids by viewModels ({ requireParentFragment() })
+    private val viewModel: VMPoids by viewModels({ requireParentFragment() })
 
 
     // Configuration de dialogfrag
@@ -27,12 +27,18 @@ class PoidsDialog : DialogFragment() {
         private var poidstxt = "poids"
 
         var oldid: Int = 0
-        var oldpoids : Float = 0F
+        var oldpoids: Float = 0F
         var indice = 0
         val frag = PoidsDialog()
         var argFrag = frag.arguments
 
-        fun newInstance(title: String, subTitle: String, indicefrag: Int, id: Int, poids : Float): PoidsDialog {
+        fun newInstance(
+            title: String,
+            subTitle: String,
+            indicefrag: Int,
+            id: Int,
+            poids: Float
+        ): PoidsDialog {
             //permet le transfert de variables entre le parent et le fragment
             //seuls les 2 premiers putstring sont importants
             val args = Bundle()
@@ -51,8 +57,8 @@ class PoidsDialog : DialogFragment() {
         }
     }
 
-   // Creation de la vue
-   override fun onCreateView(
+    // Creation de la vue
+    override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -76,39 +82,39 @@ class PoidsDialog : DialogFragment() {
          */
         // TODO a decocher quand implementation du code
 
-        val tabPeriode=resources.getStringArray(R.array.periodes)
+        val tabPeriode = resources.getStringArray(R.array.periodes)
 
         configSpinner(tabPeriode)
         setupNumberPicker()
 
-        if(oldid == 0 && oldpoids == 0F){
+        if (oldid == 0 && oldpoids == 0F) {
             binding!!.btnInsertPoids.visibility = View.VISIBLE
             binding!!.btnUpdatePoids.visibility = View.GONE
-        }else{
+        } else {
             binding!!.btnInsertPoids.visibility = View.GONE
             binding!!.btnUpdatePoids.visibility = View.VISIBLE
         }
 
         // TODO a supprimer/cocher a la phase final
         //creation de message pout l'utilisateur si qqc est arrivé
-        viewModel.message.observe(viewLifecycleOwner){ it ->
+        viewModel.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
-        binding!!.btnInsertPoids.setOnClickListener{
+        binding!!.btnInsertPoids.setOnClickListener {
             // TODO a decocher quand implementation du code
             // Sauvegrade des données et fermeture de la dialog
             save()
             dismiss()
         }
-        binding!!.btnUpdatePoids.setOnClickListener{
+        binding!!.btnUpdatePoids.setOnClickListener {
             // TODO a decocher quand implementation du code
             // Sauvegrade des données et fermeture de la dialog
             update()
             dismiss()
         }
-        binding!!.btnCancel.setOnClickListener{
+        binding!!.btnCancel.setOnClickListener {
             // Fermeture de la dialog sans tansfert de données
             dismiss()
         }
@@ -122,25 +128,27 @@ class PoidsDialog : DialogFragment() {
         )
     }
 
-    fun save(){
+    fun save() {
         val val1 = binding!!.picker1.value
         val val2 = binding!!.picker2.value
         val val3 = binding!!.picker3.value
-        val temp : String = val1.toString() + val2.toString() + val3.toString()
+        val temp: String = val1.toString() + val2.toString() + val3.toString()
         val newInsert = PoidsData(0, temp.toFloat())
         viewModel.insertPoids(newInsert)
     }
-    fun update(){
+
+    fun update() {
         val val1 = binding!!.picker1.value
         val val2 = binding!!.picker2.value
         val val3 = binding!!.picker3.value
-        val temp : String = val1.toString() + val2.toString() + val3.toString()
+        val temp: String = val1.toString() + val2.toString() + val3.toString()
         viewModel.updatePoids(oldid, temp.toFloat())
     }
+
     /**
      * Fonction de gestion du spinner
      */
-    fun configSpinner(arrayCat: Array<String>){
+    fun configSpinner(arrayCat: Array<String>) {
         /* en simple java
         mInterpolatorSpinner = (Spinner) view.findViewById(R.id.interpolatorSpinner);
         ArrayAdapter<String> spinnerAdapter =
@@ -151,10 +159,10 @@ class PoidsDialog : DialogFragment() {
         //val arrayCat = resources.getStringArray(R.array.categoriesfs)
         val adapt = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, arrayCat)
         binding?.let {
-            with(it.spinnerPeriode){
+            with(it.spinnerPeriode) {
                 adapter = adapt
                 setSelection(0, false)
-                prompt= "Selection catagorie"
+                prompt = "Selection catagorie"
                 gravity = Gravity.CENTER
                 //posAdapter = 0
                 //nomCategorie = arrayCat[0]
@@ -174,10 +182,12 @@ class PoidsDialog : DialogFragment() {
                 //  gestionRecycler(position, nomCategorie)
                 //  Toast.makeText(requireContext(), "spinner selection ======> $position", Toast.LENGTH_SHORT).show()
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
-    private fun setupNumberPicker(){
+
+    private fun setupNumberPicker() {
         val numberPicker1 = binding!!.picker1
         val numberPicker2 = binding!!.picker2
         val numberPicker3 = binding!!.picker3

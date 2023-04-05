@@ -1,6 +1,7 @@
 package com.example.gestionnairesante.database.dao.insuline
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
@@ -9,11 +10,13 @@ import kotlinx.coroutines.flow.Flow
 interface InsulineDao {
 
     @Insert
-    suspend fun insertInsuline(user: InsulineData) : Long
+    suspend fun insertInsuline(user: InsulineData): Long
+
+    @Delete
+    suspend fun deleteInsuline(data: InsulineData): Int
 
     @Query("SELECT * FROM insuline")
     fun getAllInsuline(): Flow<List<InsulineData>>
-
 
     @Query("SELECT insuline_rapide FROM insuline")
     fun getAllRapide(): Flow<List<Int>>

@@ -16,11 +16,12 @@ fun Fragment.configViewPager(
     arrayFrag: ArrayList<Fragment>,
     arrayTab: ArrayList<Int>,
     tablayout: TabLayout
-){
+) {
     viewPager.apply {
         viewPager.adapter = AdapterViewPager(
             arrayFrag, arrayTab,
-            childFragmentManager, tablayout.tabCount, context)
+            childFragmentManager, tablayout.tabCount, context
+        )
     }
     tablayout.setupWithViewPager(viewPager, true)
     viewPager.setPageTransformer(true, ZoomOutPageTransformer())

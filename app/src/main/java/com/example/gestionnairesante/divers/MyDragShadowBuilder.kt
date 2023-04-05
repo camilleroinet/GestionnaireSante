@@ -11,7 +11,6 @@ class MyDragShadowBuilder(view: View) : View.DragShadowBuilder(view) {
     private val wth = 180
     private val hgt = 180
 
-
     override fun onProvideShadowMetrics(size: Point, touch: Point) {
         val width: Int = wth
         val height: Int = hgt

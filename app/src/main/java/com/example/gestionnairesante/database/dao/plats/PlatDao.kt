@@ -10,16 +10,16 @@ interface PlatDao {
      * GLYCEMIE
      */
     @Insert
-    suspend fun insertPlat(user: PlatData) : Long
+    suspend fun insertPlat(user: PlatData): Long
 
     @Update
-    suspend fun updatePlat(user: PlatData) : Int
+    suspend fun updatePlat(user: PlatData): Int
 
     @Delete
-    suspend fun deletePlat(user: PlatData) : Int
+    suspend fun deletePlat(user: PlatData): Int
 
     @Query("DELETE FROM plat")
-    suspend fun deleteAllPlat() : Int
+    suspend fun deleteAllPlat(): Int
 
     @Query("SELECT * FROM plat")
     fun getAllPlat(): Flow<List<PlatData>>

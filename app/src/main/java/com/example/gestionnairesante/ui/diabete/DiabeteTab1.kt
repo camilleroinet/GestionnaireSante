@@ -76,8 +76,8 @@ class DiabeteTab1 : Fragment(){
     }
 
     fun listItemClicked(viewModel: VMGlycemie, daouser: GlycemieData){
-        viewModel.initUpdateAndDelete(daouser)
-        viewModel.clearallOrdelete()
+//        viewModel.initUpdateAndDelete(daouser)
+//        viewModel.clearallOrdelete()
     }
 
     fun displayUser(){

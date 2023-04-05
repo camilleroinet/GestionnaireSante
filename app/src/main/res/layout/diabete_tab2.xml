@@ -4,8 +4,14 @@
     tools:context=".ui.diabete.DiabetFrag2">
 
     <data>
-        <variable name="viewModelinsuline" type="com.example.gestionnairesante.database.viewmodels.insuline.VMInsuline" />
-        <variable name="recyclerinsuline" type="com.example.gestionnairesante.ui.diabete.DiabeteTab2" />
+
+        <variable
+            name="viewModelinsuline"
+            type="com.example.gestionnairesante.database.viewmodels.insuline.VMInsuline" />
+
+        <variable
+            name="recyclerinsuline"
+            type="com.example.gestionnairesante.ui.diabete.DiabeteTab2" />
     </data>
 
     <LinearLayout
@@ -13,9 +19,9 @@
         android:layout_height="420dp">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerInsuline"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/recyclerInsuline"/>
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 </layout>

@@ -37,7 +37,8 @@ class DiabeteFragment : Fragment() {
     private var arrayTab = arrayListOf<Int>(R.string.txt_fragtab1, R.string.txt_fragtab2)
     private var arrayFragTab = arrayListOf<Fragment>(DiabeteTab1(), DiabeteTab2())
 
-    private var arrayTabCharts = arrayListOf<Int>(R.string.txt_chart1, R.string.txt_chart2, R.string.txt_chart3)
+    private var arrayTabCharts =
+        arrayListOf<Int>(R.string.txt_chart1, R.string.txt_chart2, R.string.txt_chart3)
     private var arrayFragChart = arrayListOf<Fragment>(DiabeteChartLine(), DiabeteChartPie())
 
 
@@ -55,7 +56,7 @@ class DiabeteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
-           lifecycleOwner = viewLifecycleOwner
+            lifecycleOwner = viewLifecycleOwner
             viewModel = viewModel
             viewModelinsuline = viewModelinsuline
             binding?.fragDiabete = this@DiabeteFragment
@@ -111,12 +112,14 @@ class DiabeteFragment : Fragment() {
         }
 
 
-        binding!!.btnInsert.setOnClickListener{
-            DiabeteDialogGlycemie.newInstance("titre", "subtitre", ind).show(childFragmentManager, DiabeteDialogGlycemie.TAG)
+        binding!!.btnInsert.setOnClickListener {
+            DiabeteDialogGlycemie.newInstance("titre", "subtitre", ind)
+                .show(childFragmentManager, DiabeteDialogGlycemie.TAG)
             //Toast.makeText(requireContext(), "youhou", Toast.LENGTH_LONG).show()
         }
-        binding!!.btnInsertInsuline.setOnClickListener{
-            DiabeteDialogInsuline.newInstance("titre", "subtitre", ind).show(childFragmentManager, DiabeteDialogInsuline.TAG)
+        binding!!.btnInsertInsuline.setOnClickListener {
+            DiabeteDialogInsuline.newInstance("titre", "subtitre", ind, 0, 0, 0)
+                .show(childFragmentManager, DiabeteDialogInsuline.TAG)
             //Toast.makeText(requireContext(), "youhou", Toast.LENGTH_LONG).show()
         }
         viewPagerCharts = binding?.viewpagercharts!!
@@ -131,23 +134,23 @@ class DiabeteFragment : Fragment() {
     }
 
 
-    fun configTablelayout(array: ArrayList<Int>){
-        tablayoutTabs.apply{
-            for(i in array.indices){
+    fun configTablelayout(array: ArrayList<Int>) {
+        tablayoutTabs.apply {
+            for (i in array.indices) {
                 tablayoutTabs.addTab(tablayoutTabs.newTab().setText(array[i]))
             }
 
-            tablayoutTabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+            tablayoutTabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
                     tab?.position?.let {
                         viewPagerTabs.currentItem = it
 
-                        when(tab?.position){
+                        when (tab?.position) {
                             0 -> {
                                 binding!!.btnInsert.visibility = View.VISIBLE
                                 binding!!.btnInsertInsuline.visibility = View.INVISIBLE
                             }
-                            1 ->{
+                            1 -> {
                                 binding!!.btnInsert.visibility = View.INVISIBLE
                                 binding!!.btnInsertInsuline.visibility = View.VISIBLE
                             }
@@ -177,26 +180,32 @@ class DiabeteFragment : Fragment() {
         viewPager: ViewPager,
         arrayFrag: ArrayList<Fragment>,
         arrayTab: ArrayList<Int>,
-        tablayout: TabLayout){
+        tablayout: TabLayout
+    ) {
         viewPager.apply {
             viewPager.adapter = AdapterViewPager(
                 arrayFrag, arrayTab,
-                childFragmentManager, tablayout.tabCount, context)
+                childFragmentManager, tablayout.tabCount, context
+            )
         }
         tablayout.setupWithViewPager(viewPager, true)
         viewPager.setPageTransformer(true, ZoomOutPageTransformer())
     }
+
     fun configViewPagerChart(
         viewPager: ViewPager,
         arrayFrag: ArrayList<Fragment>,
-        arrayTab: ArrayList<Int>){
+        arrayTab: ArrayList<Int>
+    ) {
         viewPager.apply {
             viewPager.adapter = AdapterViewPagerCharts(
                 arrayFrag, arrayTab,
-                childFragmentManager, context)
+                childFragmentManager, context
+            )
         }
         viewPager.setPageTransformer(true, ZoomOutPageTransformer())
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
     }
