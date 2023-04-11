@@ -9,7 +9,6 @@ import kotlinx.coroutines.launch
 class VMPLat(private val repo: PlatRepo) : ViewModel() {
 
     private var isUpdateOrDelete = false
-    private lateinit var dataToUpdateOrDelete: PlatData
 
     val inputNameData = MutableLiveData<Int?>()
 
@@ -34,34 +33,27 @@ class VMPLat(private val repo: PlatRepo) : ViewModel() {
         }
     }
 
-    fun getPlatToUpdate(data: PlatData) : PlatData {
+    fun getPlatToUpdate(data: PlatData): PlatData {
         return repo.getPlatToUpdate(data.id_plat)
     }
 
-    fun updatePlat(id: Int, nomPlat: String, glucidePlat: Int, caloriePlat: Int) = viewModelScope.launch {
-        val noOfRow = repo.updatePlat(id, nomPlat, glucidePlat, caloriePlat)
-        if (noOfRow > 0) {
-            inputNameData.value = 0
-            isUpdateOrDelete = false
-            saveOrUpdateButtonText.value = "save"
-            clearAllOrDeleteButtonText.value = "clear all"
-            statusMessage.value = Event("$noOfRow update ok")
-        } else {
-            statusMessage.value = Event("Problemes")
+    fun updatePlat(id: Int, nomPlat: String, glucidePlat: Int, caloriePlat: Int) =
+        viewModelScope.launch {
+            val noOfRow = repo.updatePlat(id, nomPlat, glucidePlat, caloriePlat)
+            if (noOfRow > 0) {
+                inputNameData.value = 0
+                isUpdateOrDelete = false
+                saveOrUpdateButtonText.value = "save"
+                clearAllOrDeleteButtonText.value = "clear all"
+                statusMessage.value = Event("$noOfRow update ok")
+            } else {
+                statusMessage.value = Event("Problemes")
+            }
         }
-    }
 
     fun getallPlat() = liveData {
         repo.allPlat.collect {
             emit(it)
-        }
-    }
-
-    fun clearallOrdelete() {
-        if (isUpdateOrDelete) {
-            deleteGlycemie(dataToUpdateOrDelete)
-        } else {
-            clearAll()
         }
     }
 
@@ -77,15 +69,5 @@ class VMPLat(private val repo: PlatRepo) : ViewModel() {
             statusMessage.value = Event("Probleme")
         }
     }
-
-    private fun clearAll() = viewModelScope.launch {
-        val noOfRowDeleted = repo.deleteAllPlat()
-        if (noOfRowDeleted > 0) {
-            statusMessage.value = Event("$noOfRowDeleted user supprimee")
-        } else {
-            statusMessage.value = Event("Probleme")
-        }
-    }
-
 
 }

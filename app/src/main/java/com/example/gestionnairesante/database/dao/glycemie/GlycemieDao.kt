@@ -5,10 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface GlycemieDao {
-
-    /**
-     * GLYCEMIE
-     */
     @Insert
     suspend fun insertGlycemie(user: GlycemieData) : Long
 
@@ -18,9 +14,6 @@ interface GlycemieDao {
     @Delete
     suspend fun deleteGlycemie(user: GlycemieData) : Int
 
-    @Query("DELETE FROM glycemie")
-    suspend fun deleteAllGlycemie() : Int
-
     @Query("SELECT * FROM glycemie")
     fun getAllGlycemie(): Flow<List<GlycemieData>>
 
@@ -29,5 +22,10 @@ interface GlycemieDao {
 
     @Query("SELECT * FROM glycemie WHERE id_glycemie = :glycemie")
     fun getGlycemieToUpdate(glycemie: Int) : GlycemieData
+
+    // Retourne le dernier id de la glycemie
+    @Query("SELECT id_glycemie FROM glycemie WHERE id_glycemie=(SELECT MAX(id_glycemie) FROM glycemie)")
+    fun getLastGlycemie() : Int
+
 
 }

@@ -13,6 +13,4 @@ data class GlycemieData(
 
     @ColumnInfo(name = "valeur_glycemie")
     var valeur_glycemie: Int?,
-
-
-    )
+)

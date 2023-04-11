@@ -9,7 +9,6 @@ import kotlinx.coroutines.launch
 class VMInsuline(private val repo: InsulineRepo) : ViewModel() {
 
     private var isUpdateOrDelete = false
-    private lateinit var dataToUpdateOrDelete: InsulineData
 
     val inputNameData = MutableLiveData<Int?>()
 
@@ -34,19 +33,19 @@ class VMInsuline(private val repo: InsulineRepo) : ViewModel() {
         }
     }
 
-    fun getInsulineToUpdate(data: InsulineData): InsulineData{
+    fun getInsulineToUpdate(data: InsulineData): InsulineData {
         return repo.getInsulineToUpadte(data.id_insuline)
     }
 
     fun updateInsuline(id: Int, rapide: Int, lente: Int) = viewModelScope.launch {
         val noOfRow = repo.insulineUpdate(id, rapide, lente)
-        if (noOfRow > 0){
+        if (noOfRow > 0) {
             inputNameData.value = 0
             isUpdateOrDelete = false
             saveOrUpdateButtonText.value = "save"
             clearAllOrDeleteButtonText.value = "clear all"
             statusMessage.value = Event("$noOfRow update ok")
-        }else {
+        } else {
             statusMessage.value = Event("Problemes")
         }
     }

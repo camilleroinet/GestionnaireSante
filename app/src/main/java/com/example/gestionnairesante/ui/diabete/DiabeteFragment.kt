@@ -13,6 +13,7 @@ import com.example.gestionnairesante.adapter.AdapterViewPager
 import com.example.gestionnairesante.adapter.AdapterViewPagerCharts
 import com.example.gestionnairesante.adapter.ZoomOutPageTransformer
 import com.example.gestionnairesante.database.DB_sante
+import com.example.gestionnairesante.database.dao.InnerDiabete.InnerDiabeteRepo
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieRepo
 import com.example.gestionnairesante.database.dao.insuline.InsulineRepo
 import com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie
@@ -20,6 +21,8 @@ import com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemieFact
 import com.example.gestionnairesante.database.viewmodels.insuline.VMInsuline
 import com.example.gestionnairesante.database.viewmodels.insuline.VMInsulineFactory
 import com.example.gestionnairesante.databinding.DiabeteBinding
+import com.example.gestionnairesante.ui.diabete.vm.VMDiabete
+import com.example.gestionnairesante.ui.diabete.vm.VMDiabeteFactory
 import com.google.android.material.tabs.TabLayout
 
 class DiabeteFragment : Fragment() {
@@ -62,6 +65,15 @@ class DiabeteFragment : Fragment() {
         val dao = DB_sante.getInstance(requireContext()).tabGlycemie
         val dao2 = DB_sante.getInstance(requireContext()).tabInsuline
 
+        val daoGlycemie = DB_sante.getInstance(requireContext()).tabGlycemie
+        val daoPeriode = DB_sante.getInstance(requireContext()).tabPeriode
+        val daoDiabete = DB_sante.getInstance(requireContext()).tabRelationnelDiabete
+        val repoDiabete = InnerDiabeteRepo(daoGlycemie, daoPeriode, daoDiabete)
+        val factoryDiabete = VMDiabeteFactory(repoDiabete)
+
+        val vmdiabete = ViewModelProvider(this, factoryDiabete).get(VMDiabete::class.java)
+        binding?.viewModel = vmdiabete
+
         val repository = GlycemieRepo(dao)
         val repositoryInsuline = InsulineRepo(dao2)
 
@@ -103,8 +115,10 @@ class DiabeteFragment : Fragment() {
 
 
         binding!!.btnInsert.setOnClickListener {
-            DiabeteDialogGlycemie.newInstance("titre", "subtitre", ind, 0, 0)
-                .show(childFragmentManager, DiabeteDialogGlycemie.TAG)
+            vmdiabete.insertDiabete()
+
+//            DiabeteDialogGlycemie.newInstance("titre", "subtitre", ind, 0, 0)
+//                .show(childFragmentManager, DiabeteDialogGlycemie.TAG)
             //Toast.makeText(requireContext(), "youhou", Toast.LENGTH_LONG).show()
         }
         binding!!.btnInsertInsuline.setOnClickListener {

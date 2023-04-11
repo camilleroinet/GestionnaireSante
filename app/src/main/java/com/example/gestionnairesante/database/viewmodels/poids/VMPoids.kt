@@ -8,9 +8,6 @@ import kotlinx.coroutines.launch
 
 class VMPoids(private val repo: PoidsRepo) : ViewModel() {
     private var isUpdateOrDelete = false
-    private lateinit var dataToUpdateOrDelete: PoidsData
-
-    var inputLastPoid = MutableLiveData<String?>()
 
     val saveOrUpdateButtonText = MutableLiveData<String>()
     private val clearAllOrDeleteButtonText = MutableLiveData<String>()
@@ -22,7 +19,6 @@ class VMPoids(private val repo: PoidsRepo) : ViewModel() {
     init {
         saveOrUpdateButtonText.value = "rechercher"
         clearAllOrDeleteButtonText.value = "clear All"
-        inputLastPoid.value = "couchhhhhou"
     }
 
     fun insertPoids(data: PoidsData) = viewModelScope.launch {
@@ -34,7 +30,7 @@ class VMPoids(private val repo: PoidsRepo) : ViewModel() {
         }
     }
 
-    fun getPoidsToUpdate(data : PoidsData): PoidsData {
+    fun getPoidsToUpdate(data: PoidsData): PoidsData {
         return repo.getPoidsToUpdate(data.id_poids)
     }
 

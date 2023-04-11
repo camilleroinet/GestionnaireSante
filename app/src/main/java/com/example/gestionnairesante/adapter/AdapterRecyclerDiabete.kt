@@ -34,10 +34,6 @@ class AdapterRecyclerDiabete(private val clickListener: (GlycemieData) -> Unit) 
         dataList.clear()
         dataList.addAll(daousers)
     }
-/*    fun setListNotes(dataNotes: List<DataNote>){
-        listeNote.clear()
-        listeNote.addAll(dataNotes)
-    }*/
 
     class MyViewHolder(val binding: DiabeteCardviewBinding) :
         RecyclerView.ViewHolder(binding.root) {

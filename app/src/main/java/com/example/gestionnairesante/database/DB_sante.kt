@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.gestionnairesante.database.dao.InnerDiabete.InnerDiabeteDao
+import com.example.gestionnairesante.database.dao.InnerDiabete.InnerDiabeteData
 import com.example.gestionnairesante.database.dao.menu.MenuDao
 import com.example.gestionnairesante.database.dao.menu.MenuData
 import com.example.gestionnairesante.database.dao.plats.PlatDao
@@ -14,9 +16,11 @@ import com.example.gestionnairesante.database.dao.glycemie.GlycemieDao
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
 import com.example.gestionnairesante.database.dao.insuline.InsulineDao
 import com.example.gestionnairesante.database.dao.insuline.InsulineData
+import com.example.gestionnairesante.database.dao.periode.PeriodeDao
+import com.example.gestionnairesante.database.dao.periode.PeriodeData
 
 @Database(
-    entities = [MenuData::class, PlatData::class, GlycemieData::class, InsulineData::class, PoidsData::class],
+    entities = [InnerDiabeteData::class, PeriodeData::class, MenuData::class, PlatData::class, GlycemieData::class, InsulineData::class, PoidsData::class],
     version = 1,
     exportSchema = false
 )
@@ -28,6 +32,10 @@ abstract class DB_sante : RoomDatabase() {
     abstract val tabPoids: PoidsDao
     abstract val tabPlat: PlatDao
     abstract val tabMenu: MenuDao
+    abstract val tabPeriode: PeriodeDao
+
+    abstract val tabRelationnelDiabete: InnerDiabeteDao
+
 
     companion object {
         @Volatile

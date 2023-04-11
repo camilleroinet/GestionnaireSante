@@ -32,6 +32,7 @@ class VMGlycemie(private val repo: GlycemieRepo) : ViewModel() {
             statusMessage.value = Event("Tache non effectuee")
         }
     }
+
     fun updateGlycemie(id: Int, glycemie: Int) = viewModelScope.launch {
         val noOfRow = repo.updateGlycemie(id, glycemie)
         if (noOfRow > 0) {
@@ -44,15 +45,15 @@ class VMGlycemie(private val repo: GlycemieRepo) : ViewModel() {
         }
     }
 
-    fun getGlycemieToUpdate(data: GlycemieData): GlycemieData{
+    fun getGlycemieToUpdate(data: GlycemieData): GlycemieData {
         return repo.getGlycemieToUpdate(data.id_glycemie)
     }
+
     fun getallGlycemie() = liveData {
         repo.allglycemie.collect {
             emit(it)
         }
     }
-
 
     fun deleteGlycemie(data: GlycemieData) = viewModelScope.launch {
         val noOfRowDeleted = repo.deleteGlycemie(data)

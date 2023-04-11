@@ -32,10 +32,6 @@ class AdapterRecyclerPlat(private val clickListener: (PlatData) -> Unit) :
         platList.clear()
         platList.addAll(daousers)
     }
-/*    fun setListNotes(dataNotes: List<DataNote>){
-        listeNote.clear()
-        listeNote.addAll(dataNotes)
-    }*/
 
     class MyViewHolder(val binding: RepasCardviewPlatBinding) :
         RecyclerView.ViewHolder(binding.root) {
