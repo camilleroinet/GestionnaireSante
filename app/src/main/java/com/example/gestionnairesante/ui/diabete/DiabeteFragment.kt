@@ -115,10 +115,10 @@ class DiabeteFragment : Fragment() {
 
 
         binding!!.btnInsert.setOnClickListener {
-            vmdiabete.insertDiabete()
+//            vmdiabete.insertDiabete()
 
-//            DiabeteDialogGlycemie.newInstance("titre", "subtitre", ind, 0, 0)
-//                .show(childFragmentManager, DiabeteDialogGlycemie.TAG)
+            DiabeteDialogGlycemie.newInstance("titre", "subtitre", ind, 0, 0)
+                .show(childFragmentManager, DiabeteDialogGlycemie.TAG)
             //Toast.makeText(requireContext(), "youhou", Toast.LENGTH_LONG).show()
         }
         binding!!.btnInsertInsuline.setOnClickListener {

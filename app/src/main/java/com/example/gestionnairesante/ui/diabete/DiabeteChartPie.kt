@@ -59,10 +59,8 @@ class DiabeteChartPie : Fragment() {
         viewModel.getAllValeurGlycemie().observe(viewLifecycleOwner) { it ->
             tabData.clear()
             tabData.addAll(it)
-
+            createDataPieChart()
         }
-        createDataPieChart()
-
     }
 
     fun createDataPieChart() {

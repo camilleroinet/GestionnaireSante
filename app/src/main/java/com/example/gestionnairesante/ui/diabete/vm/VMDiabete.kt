@@ -28,14 +28,13 @@ class VMDiabete( private val repo: InnerDiabeteRepo): ViewModel() {
         valeurHeure.value = "12:00"
     }
 
-    fun insertDiabete() = viewModelScope.launch {
-        val newPeriode = PeriodeData(0, "petit-dej","06/04/2022","11:11","Apres-midi")
+    fun insertDiabete(periode: String, date: String, heure: String, per: String, glycemie: Int) = viewModelScope.launch {
+        val newPeriode = PeriodeData(0, periode,date,heure,per)
         repo.insertPeriode(newPeriode)//insertion de la periode
         val lastPeriode = repo.getLastPeriode()
-
         val newGlycemie = GlycemieData(
             0,
-            144
+            glycemie
         )
         repo.insertGlycemie(newGlycemie)
         val lastGlycemie = repo.getLastGlycemie()//insertion de la glycemie
@@ -43,7 +42,7 @@ class VMDiabete( private val repo: InnerDiabeteRepo): ViewModel() {
         repo.insertGlycemieInner(inner)//insertion de la glycemie Inner Join
     }
 
-    fun getPeriod() = liveData {
+    fun getAllGlycemie() = liveData {
         repo.allPeriode.collect{
             emit(it)
         }
@@ -60,6 +59,11 @@ class VMDiabete( private val repo: InnerDiabeteRepo): ViewModel() {
         }
     }
 
+    fun getGlycemiePeriode() = liveData {
+        repo.innerPeriodeGlycemie.collect{
+            emit(it)
+        }
+    }
 /*    fun updateGlycemie(id: Int, glycemie: Int) = viewModelScope.launch {
         val noOfRow = repo.updateGlycemie(id, glycemie)
         if (noOfRow > 0) {

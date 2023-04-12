@@ -28,13 +28,14 @@ interface InnerDiabeteDao {
             "INNER JOIN glycemie ON  glycemie.id_glycemie = innerDiabete.idgly")
     fun getAllInner(): Flow<List<InnerDiabeteData>>
 
-
-    @Query("SELECT periode.libelle_periode AS periode, " +
+    @Query("SELECT " +
+            "periode.date_periode AS date, " +
+            "periode.heure_periode AS heure, " +
+            "periode.libelle_periode AS periode, " +
             "glycemie.valeur_glycemie AS glycemie " +
             "FROM innerDiabete " +
             "INNER JOIN periode ON  periode.id_periode = innerDiabete.idper " +
             "INNER JOIN glycemie ON  glycemie.id_glycemie = innerDiabete.idgly")
     fun getAllValeurs(): Flow<List<DataInner>>
 
-    data class DataInner(val periode: String?, val glycemie: Int?)
 }

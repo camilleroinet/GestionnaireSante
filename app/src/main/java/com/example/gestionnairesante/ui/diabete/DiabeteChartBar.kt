@@ -54,6 +54,7 @@ class DiabeteChartBar : Fragment() {
             //recupDataBarChart()
             //binding.chart0.invalidate()
         }
+        recupDataBarChart()
     }
 
     fun recupDataBarChart(): ArrayList<BarEntry> {
@@ -72,7 +73,7 @@ class DiabeteChartBar : Fragment() {
                 stringValue.add("")
                 valeur.add(BarEntry(i.toFloat(), tabValeur[i].toFloat()))
             }
-            createBarChart(barChart, valeur, stringValue, "Notes de 0 à 10")
+            createBarChart(barChart, valeur, stringValue, "Glycemies")
         }
         return valeur
     }

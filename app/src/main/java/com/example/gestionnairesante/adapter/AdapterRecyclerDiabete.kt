@@ -6,14 +6,15 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gestionnairesante.R
+import com.example.gestionnairesante.database.dao.InnerDiabete.DataInner
+import com.example.gestionnairesante.database.dao.InnerDiabete.InnerDiabeteData
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
 
 import com.example.gestionnairesante.databinding.DiabeteCardviewBinding
 
-class AdapterRecyclerDiabete(private val clickListener: (GlycemieData) -> Unit) :
+class AdapterRecyclerDiabete(private val clickListener: (DataInner) -> Unit) :
     RecyclerView.Adapter<AdapterRecyclerDiabete.MyViewHolder>() {
-
-    private val dataList = ArrayList<GlycemieData>()
+    private val dataList = ArrayList<DataInner>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -22,7 +23,7 @@ class AdapterRecyclerDiabete(private val clickListener: (GlycemieData) -> Unit) 
         return MyViewHolder(binding)
     }
 
-    fun getDbObjet(position: Int): GlycemieData {
+    fun getDbObjet(position: Int): DataInner {
         return dataList.get(position)
     }
 
@@ -30,16 +31,23 @@ class AdapterRecyclerDiabete(private val clickListener: (GlycemieData) -> Unit) 
         holder.bind(dataList[position], clickListener)
     }
 
-    fun setList(daousers: List<GlycemieData>) {
+    fun setList(daousers: List<DataInner>) {
+        dataList.clear()
+        dataList.addAll(daousers)
+    }
+
+    fun setListPeriode(daousers: List<DataInner>) {
         dataList.clear()
         dataList.addAll(daousers)
     }
 
     class MyViewHolder(val binding: DiabeteCardviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: GlycemieData, clickListener2: (GlycemieData) -> Unit) {
+        fun bind(data: DataInner, clickListener2: (DataInner) -> Unit) {
 
-            val valeur = data.valeur_glycemie
+
+
+            val valeur = data.glycemie
             if (valeur in 0..79) {
                 binding.couleurAlerte.setBackgroundColor(Color.CYAN)
             }
@@ -49,11 +57,14 @@ class AdapterRecyclerDiabete(private val clickListener: (GlycemieData) -> Unit) 
             if (valeur in 180..249) {
                 binding.couleurAlerte.setBackgroundColor(Color.YELLOW)
             }
-            if (valeur in 249..999) {
+            if (valeur in 250..999) {
                 binding.couleurAlerte.setBackgroundColor(Color.RED)
             }
+            binding.gly.text = data.glycemie.toString()
+            binding.periode.text = data.periode.toString()
+            binding.heure.text = data.heure.toString()
+            binding.dateGlycemie.text = data.date.toString()
 
-            binding.gly.text = data.valeur_glycemie.toString()
 
             binding.itemLayout2.setOnClickListener {
                 clickListener2(data)

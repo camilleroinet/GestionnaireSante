@@ -1,9 +1,11 @@
 package com.example.gestionnairesante.ui.diabete
 
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.DatePicker
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -11,11 +13,17 @@ import com.example.gestionnairesante.R
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
 import com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie
 import com.example.gestionnairesante.databinding.DiabeteDialogBinding
+import com.example.gestionnairesante.ui.diabete.vm.VMDiabete
 import com.example.gestionnairesante.ui.poids.PoidsDialog
+import java.sql.Time
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class DiabeteDialogGlycemie : DialogFragment() {
     private var binding: DiabeteDialogBinding? = null
-    private val viewModel: VMGlycemie by viewModels({ requireParentFragment() })
+    private val viewModel: VMDiabete by viewModels({ requireParentFragment() })
 
 
     companion object {
@@ -127,8 +135,21 @@ class DiabeteDialogGlycemie : DialogFragment() {
         val val2 = binding!!.picker2.value
         val val3 = binding!!.picker3.value
         val temp: String = val1.toString() + val2.toString() + val3.toString()
-        val newInsert = GlycemieData(0, temp.toInt())
-        viewModel.insertGlycemie(newInsert)
+        val val4 = binding!!.datepicker.dayOfMonth
+        val val5 = binding!!.datepicker.month + 1
+        val val6 = binding!!.datepicker.year
+        val date = "$val4/$val5/$val6"
+
+        val periode = binding!!.spinnerPeriode.selectedItem.toString()
+
+        val current = LocalDateTime.now()
+        val heure = DateTimeFormatter.ofPattern("HH:mm")
+        val dateDuJour = Calendar.getInstance()
+        dateDuJour.timeInMillis = System.currentTimeMillis()
+        val heureDuJour = current.format(heure)
+
+        viewModel.insertDiabete(periode, date, heureDuJour.toString(),"dd", temp.toInt() )
+
     }
 
     fun update() {
@@ -136,7 +157,7 @@ class DiabeteDialogGlycemie : DialogFragment() {
         val val2 = binding!!.picker2.value
         val val3 = binding!!.picker3.value
         val temp: String = val1.toString() + val2.toString() + val3.toString()
-        viewModel.updateGlycemie(oldid, temp.toInt())
+        //viewModel.updateGlycemie(oldid, temp.toInt())
     }
 
     /**
@@ -208,4 +229,61 @@ class DiabeteDialogGlycemie : DialogFragment() {
         numberPicker3.setOnValueChangedListener { picker, oldVal, newVal ->
         }
     }
+
+    fun gestionCalendar(){
+        val dateDuJour= Calendar.getInstance()
+        dateDuJour.timeInMillis = System.currentTimeMillis()
+
+        val jourDuJour = dateDuJour.get(Calendar.DAY_OF_MONTH)
+        val moisDuJour = dateDuJour.get(Calendar.MONTH)
+        val yearDuJour = dateDuJour.get(Calendar.YEAR)
+        Toast.makeText(context,
+            "la date daujourdhui est $jourDuJour / $moisDuJour / $yearDuJour",
+            Toast.LENGTH_LONG).show()
+
+
+        binding?.datepicker?.init(yearDuJour, moisDuJour, jourDuJour, DatePicker.OnDateChangedListener() { view, year, monthOfYear, dayOfMonth ->
+            val monthreel = monthOfYear + 1
+            recupDate(
+                year,
+                monthreel,
+                dayOfMonth)
+        })
+    }
+
+    fun recupDate(year: Int, month: Int, day: Int) : String{
+        /*autre façon de recuperer le detail de la date
+        * a utiliser directement dans le fragment par exemple
+        val jour = binding.datepicker.dayOfMonth
+        val mois = binding.datepicker.month
+        val moisreel = mois + 1
+        val annee = binding.datepicker.year
+        */
+
+        //Un petit exemple tout simple de
+        // gestion des jours et mois inferieur à 10
+        //seulement utile si on veut l'afficher dans un textview
+        var jourString: String = day.toString()
+        var monthString: String = month.toString()
+        //var yearString: String = year.toString()
+
+        if (month<10){
+            monthString = "0$month"
+        }
+        if (day<10){
+            jourString = "0$day"
+        }
+        Toast.makeText(context,
+            "la date séléctionnée est " +
+                    "$jourString / " +
+                    "$monthString / " +
+                    "$year",
+            Toast.LENGTH_LONG).show()
+
+        //un petit lien avec le databinding
+        val dateenstring = "$jourString/$monthString/$year"
+        return dateenstring
+    }
+
+
 }
