@@ -55,7 +55,7 @@ class VMGlycemie(private val repo: GlycemieRepo) : ViewModel() {
         }
     }
 
-    fun deleteGlycemie(data: GlycemieData) = viewModelScope.launch {
+    fun deleteGlycemie(data: Int) = viewModelScope.launch {
         val noOfRowDeleted = repo.deleteGlycemie(data)
         if (noOfRowDeleted > 0) {
             inputNameData.value = 0

@@ -11,8 +11,8 @@ interface GlycemieDao {
     @Query("UPDATE glycemie SET valeur_glycemie = :glycemie WHERE id_glycemie = :id")
     suspend fun updateGlycemie(id: Int, glycemie: Int) : Int
 
-    @Delete
-    suspend fun deleteGlycemie(user: GlycemieData) : Int
+    @Query("DELETE FROM glycemie WHERE id_glycemie = :id")
+    suspend fun deleteGlycemie(id: Int): Int
 
     @Query("SELECT * FROM glycemie")
     fun getAllGlycemie(): Flow<List<GlycemieData>>

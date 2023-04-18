@@ -1,9 +1,11 @@
-package com.example.gestionnairesante.database.dao.InnerDiabete
+package com.example.gestionnairesante.database.dao.innerDiabete
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
+import com.example.gestionnairesante.database.dao.insuline.InsulineDao
+import com.example.gestionnairesante.database.dao.insuline.InsulineData
 import com.example.gestionnairesante.database.dao.periode.PeriodeData
 
 
@@ -16,19 +18,25 @@ import com.example.gestionnairesante.database.dao.periode.PeriodeData
  */
 
 @Entity(tableName = "innerDiabete",
-    primaryKeys = ["idgly", "idper"],
+    primaryKeys = ["idgly", "idper", "idIns"],
     foreignKeys = [
         ForeignKey(
             entity = GlycemieData::class,
             parentColumns = arrayOf("id_glycemie"),
             childColumns = arrayOf("idgly"),
-            onDelete = ForeignKey.NO_ACTION
+            onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
             entity = PeriodeData::class,
             parentColumns = arrayOf("id_periode"),
             childColumns = arrayOf("idper"),
-            onDelete = ForeignKey.NO_ACTION
+            onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = InsulineData::class,
+            parentColumns = arrayOf("id_insuline"),
+            childColumns = arrayOf("idIns"),
+            onDelete = ForeignKey.CASCADE
         )
     ])
 
@@ -37,5 +45,8 @@ data class InnerDiabeteData (
     val idGly: Int,
 
     @ColumnInfo(name = "idper")
-    var idPer: Int
+    var idPer: Int,
+
+    @ColumnInfo(name = "idIns")
+    var idIns: Int
 )

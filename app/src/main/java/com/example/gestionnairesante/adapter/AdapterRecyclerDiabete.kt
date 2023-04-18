@@ -6,9 +6,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gestionnairesante.R
-import com.example.gestionnairesante.database.dao.InnerDiabete.DataInner
-import com.example.gestionnairesante.database.dao.InnerDiabete.InnerDiabeteData
-import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
+import com.example.gestionnairesante.database.dao.innerDiabete.DataInner
 
 import com.example.gestionnairesante.databinding.DiabeteCardviewBinding
 
@@ -36,17 +34,9 @@ class AdapterRecyclerDiabete(private val clickListener: (DataInner) -> Unit) :
         dataList.addAll(daousers)
     }
 
-    fun setListPeriode(daousers: List<DataInner>) {
-        dataList.clear()
-        dataList.addAll(daousers)
-    }
-
     class MyViewHolder(val binding: DiabeteCardviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: DataInner, clickListener2: (DataInner) -> Unit) {
-
-
-
             val valeur = data.glycemie
             if (valeur in 0..79) {
                 binding.couleurAlerte.setBackgroundColor(Color.CYAN)
@@ -64,7 +54,8 @@ class AdapterRecyclerDiabete(private val clickListener: (DataInner) -> Unit) :
             binding.periode.text = data.periode.toString()
             binding.heure.text = data.heure.toString()
             binding.dateGlycemie.text = data.date.toString()
-
+            binding.rapide.text = data.rapide.toString()
+            binding.lente.text = data.lente.toString()
 
             binding.itemLayout2.setOnClickListener {
                 clickListener2(data)

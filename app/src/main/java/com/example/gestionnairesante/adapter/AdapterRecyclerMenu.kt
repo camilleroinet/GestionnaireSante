@@ -11,7 +11,6 @@ import com.example.gestionnairesante.databinding.RepasCardviewMenuBinding
 
 class AdapterRecyclerMenu(private val clickListener: (MenuData) -> Unit) :
     RecyclerView.Adapter<AdapterRecyclerMenu.MyViewHolder>() {
-
     private val menuList = ArrayList<MenuData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

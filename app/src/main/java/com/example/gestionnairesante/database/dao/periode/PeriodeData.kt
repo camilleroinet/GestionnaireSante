@@ -19,6 +19,4 @@ data class PeriodeData(
     @ColumnInfo(name = "heure_periode")
     var heure_periode: String?,
 
-    @ColumnInfo(name = "tranche_periode")
-    var tranche_periode: String?,
 )

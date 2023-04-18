@@ -8,7 +8,7 @@ class GlycemieRepo (private val dao: GlycemieDao) {
         return dao.insertGlycemie(data)
     }
 
-    suspend fun deleteGlycemie(data: GlycemieData): Int{
+    suspend fun deleteGlycemie(data: Int): Int{
         return dao.deleteGlycemie(data)
     }
 

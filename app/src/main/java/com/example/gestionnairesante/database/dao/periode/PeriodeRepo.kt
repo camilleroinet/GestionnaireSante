@@ -10,7 +10,7 @@ class PeriodeRepo (private val dao: PeriodeDao) {
         return dao.insertPeriode(data)
     }
 
-    suspend fun deletePeriode(data: PeriodeData): Int{
+    suspend fun deletePeriode(data: Int): Int{
         return dao.deletePeriode(data)
     }
 

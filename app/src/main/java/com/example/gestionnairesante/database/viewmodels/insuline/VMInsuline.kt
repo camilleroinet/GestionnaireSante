@@ -69,7 +69,7 @@ class VMInsuline(private val repo: InsulineRepo) : ViewModel() {
     }
 
 
-    fun deleteInsuline(data: InsulineData) = viewModelScope.launch {
+    fun deleteInsuline(data: Int) = viewModelScope.launch {
         val noOfRowDeleted = repo.deleteInsuline(data)
         if (noOfRowDeleted > 0) {
             inputNameData.value = 0

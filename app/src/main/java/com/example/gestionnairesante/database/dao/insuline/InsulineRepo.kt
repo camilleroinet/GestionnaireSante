@@ -16,7 +16,7 @@ class InsulineRepo(private val dao: InsulineDao) {
         return dao.insulineUpdate(id, rapide, lente)
     }
 
-    suspend fun deleteInsuline(data: InsulineData): Int {
+    suspend fun deleteInsuline(data: Int): Int {
         return dao.deleteInsuline(data)
     }
 

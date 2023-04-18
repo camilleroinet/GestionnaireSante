@@ -10,12 +10,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie
 import com.example.gestionnairesante.databinding.FragChartLineBinding
+import com.example.gestionnairesante.ui.diabete.vm.VMDiabete
 import com.example.gestionnairesante.utils.createLineChart
 import com.example.gestionnairesante.utils.recupDataChart
 
 class DiabeteChartLine : Fragment() {
     private var binding: FragChartLineBinding? = null
-    private val viewModel: VMGlycemie by viewModels({ requireParentFragment() })
+    private val viewModel: VMDiabete by viewModels({ requireParentFragment() })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,7 +49,8 @@ class DiabeteChartLine : Fragment() {
             }
         }
 
-        viewModel.getAllValeurGlycemie().observe(viewLifecycleOwner) { it ->
+        viewModel.getAllGlycemie().observe(viewLifecycleOwner) { it ->
+            binding?.chart0?.invalidate()
             tabData.clear()
             tabData.addAll(it)
             recupDataLineChart()
@@ -58,7 +60,8 @@ class DiabeteChartLine : Fragment() {
     fun recupDataLineChart() {
         val valuesBdd = ArrayList<Int>()
 
-        viewModel.getAllValeurGlycemie().observe(viewLifecycleOwner, Observer {
+        viewModel.getAllGlycemie().observe(viewLifecycleOwner, Observer {
+            binding?.chart0?.invalidate()
             valuesBdd.clear()
             valuesBdd.addAll(it)
             createLineChart(requireContext(), binding!!.chart0, recupDataChart(valuesBdd))

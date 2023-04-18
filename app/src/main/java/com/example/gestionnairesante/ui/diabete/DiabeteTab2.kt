@@ -124,7 +124,7 @@ class DiabeteTab2 : Fragment() {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val sp = viewHolder.adapterPosition
                     val obj = adapter.getDbObjet(sp)
-                    viewModelinsuline.deleteInsuline(obj)
+                    //viewModelinsuline.deleteInsuline(obj)
                 }
 
                 override fun onSelectedChanged(

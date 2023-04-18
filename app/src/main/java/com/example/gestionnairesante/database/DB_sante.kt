@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.gestionnairesante.database.dao.InnerDiabete.InnerDiabeteDao
-import com.example.gestionnairesante.database.dao.InnerDiabete.InnerDiabeteData
+import com.example.gestionnairesante.database.dao.innerDiabete.InnerDiabeteDao
+import com.example.gestionnairesante.database.dao.innerDiabete.InnerDiabeteData
 import com.example.gestionnairesante.database.dao.menu.MenuDao
 import com.example.gestionnairesante.database.dao.menu.MenuData
 import com.example.gestionnairesante.database.dao.plats.PlatDao

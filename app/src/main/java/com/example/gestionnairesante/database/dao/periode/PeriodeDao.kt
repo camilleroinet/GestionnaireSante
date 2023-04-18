@@ -17,8 +17,8 @@ interface PeriodeDao {
     @Query("UPDATE periode SET date_periode = :date, heure_periode = :heure WHERE id_periode = :id")
     suspend fun updatePeriode(id: Int, date: String, heure: String) : Int
 
-    @Delete
-    suspend fun deletePeriode(user: PeriodeData) : Int
+    @Query("DELETE FROM periode WHERE id_periode = :id")
+    suspend fun deletePeriode(id: Int): Int
 
     @Query("SELECT * FROM periode")
     fun getAllPeriode(): Flow<List<PeriodeData>>

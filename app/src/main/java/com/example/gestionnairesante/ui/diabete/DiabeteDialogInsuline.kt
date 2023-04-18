@@ -156,6 +156,7 @@ class DiabeteDialogInsuline : DialogFragment() {
         val tempRapide: String = val1.toString() + val2.toString()
         val tempLente: String = val3.toString() + val4.toString()
         viewModelinsuline.updateInsuline(idInsuline, tempRapide.toInt(), tempLente.toInt())
+
     }
 
 
@@ -238,6 +239,3 @@ class DiabeteDialogInsuline : DialogFragment() {
     }
 
 }
-
-
-

@@ -13,7 +13,7 @@ import com.example.gestionnairesante.adapter.AdapterViewPager
 import com.example.gestionnairesante.adapter.AdapterViewPagerCharts
 import com.example.gestionnairesante.adapter.ZoomOutPageTransformer
 import com.example.gestionnairesante.database.DB_sante
-import com.example.gestionnairesante.database.dao.InnerDiabete.InnerDiabeteRepo
+import com.example.gestionnairesante.database.dao.innerDiabete.InnerDiabeteRepo
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieRepo
 import com.example.gestionnairesante.database.dao.insuline.InsulineRepo
 import com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie
@@ -68,7 +68,8 @@ class DiabeteFragment : Fragment() {
         val daoGlycemie = DB_sante.getInstance(requireContext()).tabGlycemie
         val daoPeriode = DB_sante.getInstance(requireContext()).tabPeriode
         val daoDiabete = DB_sante.getInstance(requireContext()).tabRelationnelDiabete
-        val repoDiabete = InnerDiabeteRepo(daoGlycemie, daoPeriode, daoDiabete)
+        val daoInsuline = DB_sante.getInstance(requireContext()).tabInsuline
+        val repoDiabete = InnerDiabeteRepo(daoGlycemie, daoPeriode, daoInsuline, daoDiabete)
         val factoryDiabete = VMDiabeteFactory(repoDiabete)
 
         val vmdiabete = ViewModelProvider(this, factoryDiabete).get(VMDiabete::class.java)
