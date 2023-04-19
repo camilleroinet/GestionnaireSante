@@ -9,19 +9,16 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface InsulineDao {
     @Insert
-    suspend fun insertInsuline(user: InsulineData): Long
+    suspend fun insertInsuline(user: InsulineData)
 
     @Query("DELETE FROM insuline WHERE id_insuline = :id")
-    suspend fun deleteInsuline(id: Int): Int
+    suspend fun deleteInsuline(id: Int)
 
     @Query("SELECT * FROM insuline")
     fun getAllInsuline(): Flow<List<InsulineData>>
 
     @Query("UPDATE insuline SET insuline_rapide = :rapide, insuline_lente = :lente WHERE id_insuline = :id")
-    fun insulineUpdate(id: Int, rapide: Int, lente: Int) : Int
-
-    @Query("SELECT * from insuline WHERE id_insuline = :id")
-    fun getInsulineToUdpate(id: Int): InsulineData
+    fun insulineUpdate(id: Int, rapide: Int, lente: Int)
 
     @Query("SELECT insuline_rapide FROM insuline")
     fun getAllRapide(): Flow<List<Int>>

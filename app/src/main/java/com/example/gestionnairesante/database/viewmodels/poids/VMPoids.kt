@@ -8,11 +8,10 @@ import kotlinx.coroutines.launch
 
 class VMPoids(private val repo: PoidsRepo) : ViewModel() {
     private var isUpdateOrDelete = false
-
     val saveOrUpdateButtonText = MutableLiveData<String>()
     private val clearAllOrDeleteButtonText = MutableLiveData<String>()
-    private val statusMessage = MutableLiveData<Event<String>>()
 
+    private val statusMessage = MutableLiveData<Event<String>>()
     val message: LiveData<Event<String>>
         get() = statusMessage
 
@@ -22,12 +21,8 @@ class VMPoids(private val repo: PoidsRepo) : ViewModel() {
     }
 
     fun insertPoids(data: PoidsData) = viewModelScope.launch {
-        val newRowId = repo.insertPoids(data)
-        if (newRowId > -1) {
-            statusMessage.value = Event("insertion ok $newRowId")
-        } else {
-            statusMessage.value = Event("Tache non effectuee")
-        }
+        repo.insertPoids(data)
+        statusMessage.value = Event("Enregistrement ")
     }
 
     fun getPoidsToUpdate(data: PoidsData): PoidsData {
@@ -35,15 +30,8 @@ class VMPoids(private val repo: PoidsRepo) : ViewModel() {
     }
 
     fun updatePoids(id: Int, poids: Float) = viewModelScope.launch {
-        val noOfRow = repo.updatePoids(id, poids)
-        if (noOfRow > 0) {
-            isUpdateOrDelete = false
-            saveOrUpdateButtonText.value = "save"
-            clearAllOrDeleteButtonText.value = "clear all"
-            statusMessage.value = Event("$noOfRow update ok")
-        } else {
-            statusMessage.value = Event("Problemes")
-        }
+        repo.updatePoids(id, poids)
+        statusMessage.value = Event("Mise à jour reussie")
     }
 
     fun getAllPoids() = liveData {
@@ -59,15 +47,8 @@ class VMPoids(private val repo: PoidsRepo) : ViewModel() {
     }
 
     fun deletePoids(data: PoidsData) = viewModelScope.launch {
-        val noOfRowDeleted = repo.deletePoids(data)
-        if (noOfRowDeleted > 0) {
-            isUpdateOrDelete = false
-            saveOrUpdateButtonText.value = "save"
-            clearAllOrDeleteButtonText.value = "clear all"
-            statusMessage.value = Event("$noOfRowDeleted Row supprimee")
-        } else {
-            statusMessage.value = Event("Probleme")
-        }
+        repo.deletePoids(data)
+        statusMessage.value = Event("Suppression réussie")
     }
 
 }

@@ -5,20 +5,12 @@ class InsulineRepo(private val dao: InsulineDao) {
     val allRapide = dao.getAllRapide()
     val allLente = dao.getAllLente()
 
-    suspend fun insertInsuline(userdao: InsulineData): Long {
+    suspend fun insertInsuline(userdao: InsulineData) {
         return dao.insertInsuline(userdao)
     }
 
-    fun getInsulineToUpadte(id: Int) : InsulineData {
-        return dao.getInsulineToUdpate(id)
-    }
-    fun insulineUpdate(id: Int, rapide: Int, lente: Int) : Int {
+    fun insulineUpdate(id: Int, rapide: Int, lente: Int) {
         return dao.insulineUpdate(id, rapide, lente)
     }
-
-    suspend fun deleteInsuline(data: Int): Int {
-        return dao.deleteInsuline(data)
-    }
-
 
 }

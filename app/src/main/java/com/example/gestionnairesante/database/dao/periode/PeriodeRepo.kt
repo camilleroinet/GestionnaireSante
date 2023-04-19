@@ -1,16 +1,13 @@
 package com.example.gestionnairesante.database.dao.periode
 
-import com.example.gestionnairesante.database.dao.glycemie.GlycemieDao
-import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
-
 class PeriodeRepo (private val dao: PeriodeDao) {
     val allPeriode = dao.getAllPeriode()
 
-    suspend fun insertPeriode(data: PeriodeData): Long{
+    suspend fun insertPeriode(data: PeriodeData){
         return dao.insertPeriode(data)
     }
 
-    suspend fun deletePeriode(data: Int): Int{
+    suspend fun deletePeriode(data: Int){
         return dao.deletePeriode(data)
     }
 
@@ -19,11 +16,12 @@ class PeriodeRepo (private val dao: PeriodeDao) {
         return dao.getPeriodeToUpdate(id)
     }
 
-    suspend fun updatePeriode(id: Int, date: String, heure: String): Int {
+    suspend fun updatePeriode(id: Int, date: String, heure: String){
         return dao.updatePeriode(id, date, heure)
     }
 
     fun getLastPeiode(): Int {
         return dao.getLastPeriode()
     }
+
 }

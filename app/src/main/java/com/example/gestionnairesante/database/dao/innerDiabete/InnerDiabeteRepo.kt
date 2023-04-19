@@ -12,30 +12,25 @@ class InnerDiabeteRepo(
     private var periodeDao: PeriodeDao,
     private var insulineDao: InsulineDao,
     private var innerDiabeteDao: InnerDiabeteDao
+
 ) {
 
     val allGlycemie = glycemieDao.getAllValeurGlycemie()
-    val allPeriode = periodeDao.getAllPeriode()
-//    val allInsuline = insulineDao.getAllInsuline()
-
-
-    val innerGlycemie = innerDiabeteDao.getAllInner()
     val innerPeriodeGlycemie = innerDiabeteDao.getAllValeurs()
 
-
-    suspend fun insertGlycemie(gly: GlycemieData) : Long{
+    suspend fun insertGlycemie(gly: GlycemieData) {
         return glycemieDao.insertGlycemie(gly)
     }
 
-    suspend fun insertPeriode(per: PeriodeData) : Long{
+    suspend fun insertPeriode(per: PeriodeData) {
         return periodeDao.insertPeriode(per)
     }
 
-    suspend fun insertInsuline(insuline: InsulineData) : Long{
+    suspend fun insertInsuline(insuline: InsulineData) {
         return insulineDao.insertInsuline(insuline)
     }
 
-    suspend fun insertGlycemieInner(glycemie: InnerDiabeteData) : Long {
+    suspend fun insertGlycemieInner(glycemie: InnerDiabeteData) {
         return innerDiabeteDao.insertInnerDiabete(glycemie)
     }
 
@@ -51,15 +46,28 @@ class InnerDiabeteRepo(
         return insulineDao.getLastInsuline()
     }
 
-    suspend fun deleteGlycemie(glycemie: Int) : Int {
+    suspend fun deleteGlycemie(glycemie: Int) {
         return glycemieDao.deleteGlycemie(glycemie)
     }
-    suspend fun deletePeriode(periode: Int) : Int {
+    suspend fun deletePeriode(periode: Int) {
         return periodeDao.deletePeriode(periode)
     }
 
-    suspend fun deleteInsuline(insuline: Int) : Int {
+    suspend fun deleteInsuline(insuline: Int) {
         return insulineDao.deleteInsuline(insuline)
     }
+
+    suspend fun updateGlycemie(glycemie: Int, valeur: Int){
+        return glycemieDao.updateGlycemie(glycemie, valeur)
+    }
+
+    suspend fun updateInsuline(insuline: Int, rapide: Int, lente: Int){
+        return insulineDao.insulineUpdate(insuline, rapide, lente)
+    }
+
+    suspend fun updatePeriode(id:Int, date: String, heure: String){
+        return periodeDao.updatePeriode(id, date, heure)
+    }
+
 
 }

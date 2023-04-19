@@ -18,6 +18,7 @@ import com.example.gestionnairesante.databinding.DiabeteTab2Binding
 import com.example.gestionnairesante.ui.poids.PoidsDialog
 
 class DiabeteTab2 : Fragment() {
+/*
     private var binding: DiabeteTab2Binding? = null
     private lateinit var adapter: AdapterRecyclerInsuline
     private val viewModelinsuline: VMInsuline by viewModels({ requireParentFragment() })
@@ -149,6 +150,7 @@ class DiabeteTab2 : Fragment() {
         }
         itemTouchHelper.attachToRecyclerView(binding?.recyclerInsuline)
     }
+*/
 
 }
 

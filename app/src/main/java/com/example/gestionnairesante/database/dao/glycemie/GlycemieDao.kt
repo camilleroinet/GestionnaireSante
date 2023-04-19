@@ -6,13 +6,13 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface GlycemieDao {
     @Insert
-    suspend fun insertGlycemie(user: GlycemieData) : Long
+    suspend fun insertGlycemie(user: GlycemieData)
 
     @Query("UPDATE glycemie SET valeur_glycemie = :glycemie WHERE id_glycemie = :id")
-    suspend fun updateGlycemie(id: Int, glycemie: Int) : Int
+    suspend fun updateGlycemie(id: Int, glycemie: Int)
 
     @Query("DELETE FROM glycemie WHERE id_glycemie = :id")
-    suspend fun deleteGlycemie(id: Int): Int
+    suspend fun deleteGlycemie(id: Int)
 
     @Query("SELECT * FROM glycemie")
     fun getAllGlycemie(): Flow<List<GlycemieData>>
@@ -20,12 +20,8 @@ interface GlycemieDao {
     @Query("SELECT valeur_glycemie FROM glycemie")
     fun getAllValeurGlycemie(): Flow<List<Int>>
 
-    @Query("SELECT * FROM glycemie WHERE id_glycemie = :glycemie")
-    fun getGlycemieToUpdate(glycemie: Int) : GlycemieData
-
     // Retourne le dernier id de la glycemie
     @Query("SELECT id_glycemie FROM glycemie WHERE id_glycemie=(SELECT MAX(id_glycemie) FROM glycemie)")
     fun getLastGlycemie() : Int
-
 
 }

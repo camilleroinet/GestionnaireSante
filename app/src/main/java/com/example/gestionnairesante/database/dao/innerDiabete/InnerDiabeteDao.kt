@@ -14,8 +14,7 @@ import java.nio.channels.DatagramChannel
 @Dao
 interface InnerDiabeteDao {
     @Insert
-    suspend fun insertInnerDiabete(user: InnerDiabeteData): Long
-
+    suspend fun insertInnerDiabete(user: InnerDiabeteData)
 
     @Query(
         "SELECT * FROM glycemie INNER JOIN innerDiabete " +

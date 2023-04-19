@@ -29,10 +29,11 @@ class AdapterRecyclerDiabete(private val clickListener: (DataInner) -> Unit) :
         holder.bind(dataList[position], clickListener)
     }
 
-    fun setList(daousers: List<DataInner>) {
+    fun setList(data: List<DataInner>) {
         dataList.clear()
-        dataList.addAll(daousers)
+        dataList.addAll(data)
     }
+
 
     class MyViewHolder(val binding: DiabeteCardviewBinding) :
         RecyclerView.ViewHolder(binding.root) {

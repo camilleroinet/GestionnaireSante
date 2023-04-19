@@ -12,5 +12,5 @@ data class GlycemieData(
     val id_glycemie: Int,
 
     @ColumnInfo(name = "valeur_glycemie")
-    var valeur_glycemie: Int?,
+    var valeur_glycemie: Int,
 )

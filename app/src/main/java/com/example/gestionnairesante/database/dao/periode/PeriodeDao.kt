@@ -9,16 +9,16 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface PeriodeDao {
     @Insert
-    suspend fun insertPeriode(user: PeriodeData) : Long
+    suspend fun insertPeriode(user: PeriodeData)
 
     @Query("SELECT * FROM periode WHERE id_periode = :id")
     fun getPeriodeToUpdate(id: Int) : PeriodeData
 
     @Query("UPDATE periode SET date_periode = :date, heure_periode = :heure WHERE id_periode = :id")
-    suspend fun updatePeriode(id: Int, date: String, heure: String) : Int
+    suspend fun updatePeriode(id: Int, date: String, heure: String)
 
     @Query("DELETE FROM periode WHERE id_periode = :id")
-    suspend fun deletePeriode(id: Int): Int
+    suspend fun deletePeriode(id: Int)
 
     @Query("SELECT * FROM periode")
     fun getAllPeriode(): Flow<List<PeriodeData>>

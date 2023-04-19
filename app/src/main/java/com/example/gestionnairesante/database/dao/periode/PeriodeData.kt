@@ -11,12 +11,12 @@ data class PeriodeData(
     val id_periode: Int,
 
     @ColumnInfo(name = "libelle_periode")
-    var libelle_periode: String?,
+    var libelle_periode: String,
 
     @ColumnInfo(name = "date_periode")
-    var date_periode: String?,
+    var date_periode: String,
 
     @ColumnInfo(name = "heure_periode")
-    var heure_periode: String?,
+    var heure_periode: String,
 
 )

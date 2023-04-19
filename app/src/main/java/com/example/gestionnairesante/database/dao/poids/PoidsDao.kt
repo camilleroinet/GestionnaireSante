@@ -8,16 +8,16 @@ import kotlinx.coroutines.flow.Flow
 interface PoidsDao {
 
     @Insert
-    suspend fun insertPoids(user: PoidsData) : Long
+    suspend fun insertPoids(user: PoidsData)
 
     @Query("UPDATE poids SET valeur_poids = :poids WHERE id_poids = :id" )
-    suspend fun updatePoids(id: Int, poids:Float) : Int
+    suspend fun updatePoids(id: Int, poids:Float)
 
     @Delete
-    suspend fun deletePoids(user: PoidsData) : Int
+    suspend fun deletePoids(user: PoidsData)
 
     @Query("DELETE FROM poids WHERE id_poids = :id")
-    suspend fun deleteAllPoids(id: Int): Int
+    suspend fun deleteAllPoids(id: Int)
 
     @Query("SELECT * FROM poids")
     fun getAllPoids(): Flow<List<PoidsData>>

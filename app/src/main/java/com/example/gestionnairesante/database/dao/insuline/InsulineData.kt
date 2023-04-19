@@ -11,10 +11,10 @@ data class InsulineData(
     val id_insuline: Int,
 
     @ColumnInfo(name = "insuline_rapide")
-    var insuline_rapide: Int?,
+    var insuline_rapide: Int,
 
     @ColumnInfo(name = "insuline_lente")
-    var insuline_lente: Int?,
+    var insuline_lente: Int,
 
 
     )

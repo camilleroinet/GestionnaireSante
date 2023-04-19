@@ -25,61 +25,14 @@ class VMInsuline(private val repo: InsulineRepo) : ViewModel() {
     }
 
     fun insertInsuline(data: InsulineData) = viewModelScope.launch {
-        val newRowId = repo.insertInsuline(data)
-        if (newRowId > -1) {
-            statusMessage.value = Event("insertion ok $newRowId")
-        } else {
-            statusMessage.value = Event("Tache non effectuee")
-        }
+        repo.insertInsuline(data)
+        statusMessage.value = Event("Enregistrement effectué")
     }
 
-    fun getInsulineToUpdate(data: InsulineData): InsulineData {
-        return repo.getInsulineToUpadte(data.id_insuline)
-    }
 
     fun updateInsuline(id: Int, rapide: Int, lente: Int) = viewModelScope.launch {
-        val noOfRow = repo.insulineUpdate(id, rapide, lente)
-        if (noOfRow > 0) {
-            inputNameData.value = 0
-            isUpdateOrDelete = false
-            saveOrUpdateButtonText.value = "save"
-            clearAllOrDeleteButtonText.value = "clear all"
-            statusMessage.value = Event("$noOfRow update ok")
-        } else {
-            statusMessage.value = Event("Problemes")
-        }
-    }
-
-    fun getallInsuline() = liveData {
-        repo.allInsuline.collect {
-            emit(it)
-        }
-    }
-
-    fun getallRapide() = liveData {
-        repo.allRapide.collect {
-            emit(it)
-        }
-    }
-
-    fun getallLente() = liveData {
-        repo.allLente.collect {
-            emit(it)
-        }
-    }
-
-
-    fun deleteInsuline(data: Int) = viewModelScope.launch {
-        val noOfRowDeleted = repo.deleteInsuline(data)
-        if (noOfRowDeleted > 0) {
-            inputNameData.value = 0
-            isUpdateOrDelete = false
-            saveOrUpdateButtonText.value = "save"
-            clearAllOrDeleteButtonText.value = "clear all"
-            statusMessage.value = Event("$noOfRowDeleted Row supprimee")
-        } else {
-            statusMessage.value = Event("Probleme")
-        }
+        repo.insulineUpdate(id, rapide, lente)
+        statusMessage.value = Event("Mise à jour des données effectuée")
     }
 
 

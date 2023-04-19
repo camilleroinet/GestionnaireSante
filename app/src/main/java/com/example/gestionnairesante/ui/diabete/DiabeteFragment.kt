@@ -15,11 +15,8 @@ import com.example.gestionnairesante.adapter.ZoomOutPageTransformer
 import com.example.gestionnairesante.database.DB_sante
 import com.example.gestionnairesante.database.dao.innerDiabete.InnerDiabeteRepo
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieRepo
+import com.example.gestionnairesante.database.dao.innerDiabete.DataInner
 import com.example.gestionnairesante.database.dao.insuline.InsulineRepo
-import com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie
-import com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemieFactory
-import com.example.gestionnairesante.database.viewmodels.insuline.VMInsuline
-import com.example.gestionnairesante.database.viewmodels.insuline.VMInsulineFactory
 import com.example.gestionnairesante.databinding.DiabeteBinding
 import com.example.gestionnairesante.ui.diabete.vm.VMDiabete
 import com.example.gestionnairesante.ui.diabete.vm.VMDiabeteFactory
@@ -27,8 +24,7 @@ import com.google.android.material.tabs.TabLayout
 
 class DiabeteFragment : Fragment() {
     private var binding: DiabeteBinding? = null
-    private lateinit var viewModel: VMGlycemie
-    private lateinit var viewModelinsuline: VMInsuline
+    private lateinit var viewModelInner: VMDiabete
     private lateinit var tablayoutTabs: TabLayout
     private lateinit var viewPagerTabs: ViewPager
     private lateinit var viewPagerCharts: ViewPager
@@ -62,63 +58,34 @@ class DiabeteFragment : Fragment() {
         }
 
         // databinding
-        val dao = DB_sante.getInstance(requireContext()).tabGlycemie
-        val dao2 = DB_sante.getInstance(requireContext()).tabInsuline
-
         val daoGlycemie = DB_sante.getInstance(requireContext()).tabGlycemie
         val daoPeriode = DB_sante.getInstance(requireContext()).tabPeriode
-        val daoDiabete = DB_sante.getInstance(requireContext()).tabRelationnelDiabete
         val daoInsuline = DB_sante.getInstance(requireContext()).tabInsuline
+        val daoDiabete = DB_sante.getInstance(requireContext()).tabRelationnelDiabete
         val repoDiabete = InnerDiabeteRepo(daoGlycemie, daoPeriode, daoInsuline, daoDiabete)
         val factoryDiabete = VMDiabeteFactory(repoDiabete)
-
         val vmdiabete = ViewModelProvider(this, factoryDiabete).get(VMDiabete::class.java)
         binding?.viewModel = vmdiabete
 
-        val repository = GlycemieRepo(dao)
-        val repositoryInsuline = InsulineRepo(dao2)
+        viewModelInner = ViewModelProvider(this, factoryDiabete).get(VMDiabete::class.java)
 
-        val factory = VMGlycemieFactory(repository)
-        val factoryInsuline = VMInsulineFactory(repositoryInsuline)
+        val tabInner = ArrayList<DataInner>()
 
-        viewModel = ViewModelProvider(this, factory).get(VMGlycemie::class.java)
-        viewModelinsuline = ViewModelProvider(this, factoryInsuline).get(VMInsuline::class.java)
-
-        val tabGlycemie = ArrayList<Int>()
-        val tabInsulineRapide = ArrayList<Int>()
-        val tabInsulineLente = ArrayList<Int>()
-
-        viewModel.message.observe(viewLifecycleOwner) { it ->
-            it.getContentIfNotHandle()?.let {
-                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-            }
-        }
-        viewModelinsuline.message.observe(viewLifecycleOwner) { it ->
+        viewModelInner.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
 
-        viewModelinsuline.getallRapide().observe(viewLifecycleOwner) { it ->
-            tabInsulineRapide.clear()
-            tabInsulineRapide.addAll(it)
+        viewModelInner.getGlycemiePeriode().observe(viewLifecycleOwner) { it ->
+            tabInner.clear()
+            tabInner.addAll(it)
         }
-
-        viewModelinsuline.getallLente().observe(viewLifecycleOwner) { it ->
-            tabInsulineLente.clear()
-            tabInsulineLente.addAll(it)
-        }
-
-        viewModel.getAllValeurGlycemie().observe(viewLifecycleOwner) { it ->
-            tabGlycemie.clear()
-            tabGlycemie.addAll(it)
-        }
-
 
         binding!!.btnInsert.setOnClickListener {
 //            vmdiabete.insertDiabete()
 
-            DiabeteDialogGlycemie.newInstance("titre", "subtitre", ind, 0, 0)
+            DiabeteDialogGlycemie.newInstance("titre", "subtitre", ind, 0, 0, 0, 0, 0, 0, "", "", "")
                 .show(childFragmentManager, DiabeteDialogGlycemie.TAG)
             //Toast.makeText(requireContext(), "youhou", Toast.LENGTH_LONG).show()
         }

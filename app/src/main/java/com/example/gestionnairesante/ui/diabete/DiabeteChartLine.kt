@@ -50,7 +50,6 @@ class DiabeteChartLine : Fragment() {
         }
 
         viewModel.getAllGlycemie().observe(viewLifecycleOwner) { it ->
-            binding?.chart0?.invalidate()
             tabData.clear()
             tabData.addAll(it)
             recupDataLineChart()
@@ -65,6 +64,7 @@ class DiabeteChartLine : Fragment() {
             valuesBdd.clear()
             valuesBdd.addAll(it)
             createLineChart(requireContext(), binding!!.chart0, recupDataChart(valuesBdd))
+            binding!!.chart0.invalidate()
         })
     }
 

@@ -25,28 +25,13 @@ class VMGlycemie(private val repo: GlycemieRepo) : ViewModel() {
     }
 
     fun insertGlycemie(data: GlycemieData) = viewModelScope.launch {
-        val newRowId = repo.insertGlycemie(data)
-        if (newRowId > -1) {
-            statusMessage.value = Event("insertion ok $newRowId")
-        } else {
-            statusMessage.value = Event("Tache non effectuee")
-        }
+        repo.insertGlycemie(data)
+        statusMessage.value = Event("Enregistrement effectué")
     }
 
     fun updateGlycemie(id: Int, glycemie: Int) = viewModelScope.launch {
-        val noOfRow = repo.updateGlycemie(id, glycemie)
-        if (noOfRow > 0) {
-            isUpdateOrDelete = false
-            saveOrUpdateButtonText.value = "save"
-            clearAllOrDeleteButtonText.value = "clear all"
-            statusMessage.value = Event("$noOfRow update ok")
-        } else {
-            statusMessage.value = Event("Problemes")
-        }
-    }
-
-    fun getGlycemieToUpdate(data: GlycemieData): GlycemieData {
-        return repo.getGlycemieToUpdate(data.id_glycemie)
+        repo.updateGlycemie(id, glycemie)
+        statusMessage.value = Event("Mise à jour des données effectuée")
     }
 
     fun getallGlycemie() = liveData {
@@ -56,16 +41,8 @@ class VMGlycemie(private val repo: GlycemieRepo) : ViewModel() {
     }
 
     fun deleteGlycemie(data: Int) = viewModelScope.launch {
-        val noOfRowDeleted = repo.deleteGlycemie(data)
-        if (noOfRowDeleted > 0) {
-            inputNameData.value = 0
-            isUpdateOrDelete = false
-            saveOrUpdateButtonText.value = "save"
-            clearAllOrDeleteButtonText.value = "clear all"
-            statusMessage.value = Event("$noOfRowDeleted Row supprimee")
-        } else {
-            statusMessage.value = Event("Probleme")
-        }
+        repo.deleteGlycemie(data)
+        statusMessage.value = Event("Suppression reussie")
     }
 
     fun getAllValeurGlycemie() = liveData {

@@ -24,11 +24,28 @@ class DiabeteDialogGlycemie : DialogFragment() {
         private const val KEY_SUBTITLE = "KEY_SUBTITLE"
         private var keyg = "indice"
 
-        private var idtxt = "id"
+        private var idtxtgly = "id_glycemie"
+        private var idtxtper = "id_periode"
+        private var idtxtins = "id_insuline"
+
         private var glytxt = "glycemie"
 
-        var oldid: Int = 0
+        private var rapidetxt = "rapide"
+        private var lentetxt = "lente"
+
+        private var datetxt = "date"
+        private var heuretxt = "heure"
+        private var periodetxt = "periode"
+
+        var oldidgly: Int = 0
+        var oldidper: Int = 0
+        var oldidins: Int = 0
         var oldglycemie = 0
+        var oldrapide = 0
+        var oldlente = 0
+        var olddate = ""
+        var oldheure = ""
+        var oldperiode = ""
 
         var indice = 0
 
@@ -39,8 +56,11 @@ class DiabeteDialogGlycemie : DialogFragment() {
             title: String,
             subTitle: String,
             indicefrag: Int,
-            id: Int,
-            glycemie: Int
+            idgly: Int, idins: Int, idper: Int,
+            glycemie: Int,
+            rapide: Int, lente: Int,
+            date: String, heure: String, periode: String
+
         ): DiabeteDialogGlycemie {
             //permet le transfert de variables entre le parent et le fragment
             //seul les 2 premiers putstring sont importants
@@ -49,11 +69,27 @@ class DiabeteDialogGlycemie : DialogFragment() {
             args.putString(KEY_SUBTITLE, subTitle)
             args.putInt(keyg, indicefrag)
 
-            args.putInt(idtxt, id)
-            args.putInt(glytxt, glycemie)
+            args.putInt(idtxtgly, idgly)
+            args.putInt(idtxtins, idins)
+            args.putInt(idtxtper, idper)
 
-            oldid = id
+            args.putInt(glytxt, glycemie)
+            args.putInt(rapidetxt, rapide)
+            args.putInt(lentetxt, lente)
+
+            args.putString(datetxt, date)
+            args.putString(heuretxt, heure)
+            args.putString(periodetxt, periode)
+
+            oldidgly = idgly
+            oldidper = idper
+            oldidins = idins
             oldglycemie = glycemie
+            oldrapide = rapide
+            oldlente = lente
+            olddate = date
+            oldheure = heure
+            oldperiode = periode
 
             argFrag = args
             indice = indicefrag
@@ -86,7 +122,7 @@ class DiabeteDialogGlycemie : DialogFragment() {
         configSpinner(tabPeriode)
         setupNumberPicker()
 
-        if (oldid == 0) {
+        if (oldidgly == 0) {
             binding!!.btnSaveGlycemie.visibility = View.VISIBLE
             binding!!.btnUpdateGlycemie.visibility = View.GONE
         } else {
@@ -166,6 +202,33 @@ class DiabeteDialogGlycemie : DialogFragment() {
         val val2 = binding!!.picker2.value
         val val3 = binding!!.picker3.value
         val temp: String = val1.toString() + val2.toString() + val3.toString()
+
+        val val4 = binding!!.datepicker.dayOfMonth
+        val val5 = binding!!.datepicker.month + 1
+        val val6 = binding!!.datepicker.year
+        val date = "$val4/$val5/$val6"
+
+        val val7 = binding!!.pickerRapide1.value
+        val val8 = binding!!.pickerRapide2.value
+        val val9 = binding!!.pickerLente1.value
+        val val10 = binding!!.pickerLente2.value
+        val tempRapide: String = val7.toString() + val8.toString()
+        val tempLente: String = val9.toString() + val10.toString()
+
+        val periode = binding!!.spinnerPeriode.selectedItem.toString()
+
+        val current = LocalDateTime.now()
+        val heure = DateTimeFormatter.ofPattern("HH:mm")
+        val dateDuJour = Calendar.getInstance()
+        dateDuJour.timeInMillis = System.currentTimeMillis()
+        val heureDuJour = current.format(heure)
+
+        viewModel.updateDiabete(
+            oldidgly, oldidins, oldidper,
+            temp.toInt(),tempRapide.toInt(), tempLente.toInt(),
+            date, heureDuJour.toString(),periode
+
+        )
         //viewModel.updateGlycemie(oldid, temp.toInt())
     }
 

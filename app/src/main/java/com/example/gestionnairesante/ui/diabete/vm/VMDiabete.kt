@@ -15,15 +15,22 @@ class VMDiabete( private val repo: InnerDiabeteRepo): ViewModel() {
     val valeurDate = MutableLiveData<String>()
     val valeurHeure = MutableLiveData<String>()
 
+    private var isUpdateOrDelete = false
+    val saveOrUpdateButtonText = MutableLiveData<String>()
+    private val clearAllOrDeleteButtonText = MutableLiveData<String>()
+
     private val statusMessage = MutableLiveData<Event<String>>()
     val message: LiveData<Event<String>>
         get() = statusMessage
+
 
     init {
         valeurGlycemie.value = ""
         valeurPeriode.value = "1"
         valeurDate.value = "01/01/01"
         valeurHeure.value = "12:00"
+        saveOrUpdateButtonText.value = "rechercher"
+        clearAllOrDeleteButtonText.value = "clear All"
     }
 
     fun insertDiabete(periode: String, date: String, heure: String, glycemie: Int, rapide: Int, lente: Int) = viewModelScope.launch {
@@ -38,8 +45,7 @@ class VMDiabete( private val repo: InnerDiabeteRepo): ViewModel() {
         // Insertiob de la glycemie
         //
         val newGlycemie = GlycemieData(
-            0,
-            glycemie
+            0, glycemie
         )
         repo.insertGlycemie(newGlycemie)
         val lastGlycemie = repo.getLastGlycemie()//insertion de la glycemie
@@ -56,6 +62,7 @@ class VMDiabete( private val repo: InnerDiabeteRepo): ViewModel() {
         //
         val inner = InnerDiabeteData(lastGlycemie, lastPeriode, lastInsuline)
         repo.insertGlycemieInner(inner)//insertion de la glycemie Inner Join
+        statusMessage.value = Event("L'enregistrement s'est bien déroulé.")
     }
 
     fun getAllGlycemie() = liveData {
@@ -70,38 +77,18 @@ class VMDiabete( private val repo: InnerDiabeteRepo): ViewModel() {
         }
     }
 
-    fun updateGlycemie(id: Int, glycemie: Int) = viewModelScope.launch {
-        /*val noOfRow = repo.updateGlycemie(id, glycemie)
-        if (noOfRow > 0) {
-            isUpdateOrDelete = false
-            saveOrUpdateButtonText.value = "save"
-            clearAllOrDeleteButtonText.value = "clear all"
-            statusMessage.value = Event("$noOfRow update ok")
-        } else {
-            statusMessage.value = Event("Problemes")
-        }*/
+    fun updateDiabete(idgly: Int, idper: Int, idins : Int, glycemie: Int, rapide: Int, lente: Int, date: String, heure: String, periode: String) = viewModelScope.launch {
+        repo.updateGlycemie(idgly, glycemie)            // update de la glycemie
+        repo.updatePeriode(idper, date, heure)          // update de la periode
+        repo.updateInsuline(idins, rapide, lente)       // update de l'insuline
+        statusMessage.value = Event("Mise à jour réussie.")
     }
-
-/*    fun getGlycemieToUpdate(data: GlycemieData): GlycemieData {
-        return repo.getGlycemieToUpdate(data.id_glycemie)
-    }*/
-
-/*    fun getallGlycemie() = liveData {
-        repo.allglycemie.collect {
-            emit(it)
-        }
-    }*/
 
     fun deleteDiabete(per: Int, gly: Int, ins: Int) = viewModelScope.launch {
         repo.deleteGlycemie(gly)
         repo.deleteInsuline(ins)
         repo.deletePeriode(per)
+        statusMessage.value = Event("L'enregistrement a bien été supprimé.")
     }
-
-/*    fun getAllValeurGlycemie() = liveData {
-        repo.allValeurGlycemie.collect {
-            emit(it)
-        }
-    }*/
 
 }
