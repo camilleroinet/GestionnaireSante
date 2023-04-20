@@ -1,5 +1,6 @@
 package com.example.gestionnairesante.ui.poids
 
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.*
 import android.widget.AdapterView
@@ -8,13 +9,14 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.example.gestionnairesante.R
-import com.example.gestionnairesante.database.dao.poids.PoidsData
-import com.example.gestionnairesante.database.viewmodels.poids.VMPoids
 import com.example.gestionnairesante.databinding.PoidsDialogBinding
+import com.example.gestionnairesante.ui.poids.vm.VmPoids
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class PoidsDialog : DialogFragment() {
     private var binding: PoidsDialogBinding? = null
-    private val viewModel: VMPoids by viewModels({ requireParentFragment() })
+    private val viewModel: VmPoids by viewModels({ requireParentFragment() })
 
     // Configuration de dialogfrag
     companion object {
@@ -23,11 +25,20 @@ class PoidsDialog : DialogFragment() {
         private const val KEY_SUBTITLE = "KEY_SUBTITLE"
         private var keyg = "indice"
 
-        private var idtxt = "id"
-        private var poidstxt = "poids"
+        private var idpoitxt = "idgly"
+        private var idpertxt = "idper"
 
-        var oldid: Int = 0
+        private var poidstxt = "poids"
+        private var datetxt = "date"
+        private var heuretxt = "heure"
+        private var periodetxt = "periode"
+
+        var oldidper: Int = 0
+        var oldidpoi: Int = 0
         var oldpoids = 0F
+        var olddate = ""
+        var oldheure = ""
+        var oldperiode = ""
 
         var indice = 0
         val frag = PoidsDialog()
@@ -37,8 +48,12 @@ class PoidsDialog : DialogFragment() {
             title: String,
             subTitle: String,
             indicefrag: Int,
-            id: Int,
-            poids: Float
+            idpoi: Int,
+            idper: Int,
+            poids: Float,
+            date: String,
+            heure: String,
+            periode: String
         ): PoidsDialog {
             //permet le transfert de variables entre le parent et le fragment
             //seuls les 2 premiers putstring sont importants
@@ -46,11 +61,19 @@ class PoidsDialog : DialogFragment() {
             args.putString(KEY_TITLE, title)
             args.putString(KEY_SUBTITLE, subTitle)
             args.putInt(keyg, indicefrag)
-            args.putInt(idtxt, id)
-            args.putFloat(poidstxt, poids)
+            args.putString(idpoitxt, idpoitxt)
+            args.putString(idpertxt, idpertxt)
+            args.putString(poidstxt, poidstxt)
+            args.putString(datetxt, datetxt)
+            args.putString(heuretxt, heuretxt)
+            args.putString(periodetxt, periodetxt)
 
-            oldid = id
+            oldidpoi = idpoi
+            oldidper = idper
             oldpoids = poids
+            olddate = date
+            oldheure = heure
+            oldperiode = periode
 
             argFrag = args
             indice = indicefrag
@@ -83,7 +106,7 @@ class PoidsDialog : DialogFragment() {
         configSpinner(tabPeriode)
         setupNumberPicker()
 
-        if (oldid == 0 && oldpoids == 0F) {
+        if (oldidpoi == 0 && oldidper == 0) {
             binding!!.btnInsertPoids.visibility = View.VISIBLE
             binding!!.btnUpdatePoids.visibility = View.GONE
         } else {
@@ -125,20 +148,72 @@ class PoidsDialog : DialogFragment() {
     }
 
     fun save() {
+        //
+        // Poids
+        //
         val val1 = binding!!.picker1.value
         val val2 = binding!!.picker2.value
         val val3 = binding!!.picker3.value
-        val temp: String = val1.toString() + val2.toString() + val3.toString()
-        val newInsert = PoidsData(0, temp.toFloat())
-        viewModel.insertPoids(newInsert)
+        val poids: String = val1.toString() + val2.toString() + val3.toString()
+
+        //
+        // Date
+        //
+        val val4 = binding!!.datepicker.dayOfMonth
+        val val5 = binding!!.datepicker.month + 1
+        val val6 = binding!!.datepicker.year
+        val date = "$val4/$val5/$val6"
+
+        //
+        // Periode
+        //
+        val periode = binding!!.spinnerPeriode.selectedItem.toString()
+
+        //
+        // Heure
+        //
+        val current = LocalDateTime.now()
+        val heure = DateTimeFormatter.ofPattern("HH:mm")
+        val dateDuJour = Calendar.getInstance()
+        dateDuJour.timeInMillis = System.currentTimeMillis()
+        val heureDuJour = current.format(heure)
+
+        viewModel.insertPoids(poids.toFloat(), date, heureDuJour.toString(), periode)
+
     }
 
     fun update() {
+        //
+        // Poids
+        //
         val val1 = binding!!.picker1.value
         val val2 = binding!!.picker2.value
         val val3 = binding!!.picker3.value
-        val temp: String = val1.toString() + val2.toString() + val3.toString()
-        viewModel.updatePoids(oldid, temp.toFloat())
+        val poids: String = val1.toString() + val2.toString() + val3.toString()
+
+        //
+        // Date
+        //
+        val val4 = binding!!.datepicker.dayOfMonth
+        val val5 = binding!!.datepicker.month + 1
+        val val6 = binding!!.datepicker.year
+        val date = "$val4/$val5/$val6"
+
+        //
+        // Periode
+        //
+        val periode = binding!!.spinnerPeriode.selectedItem.toString()
+
+        //
+        // Heure
+        //
+        val current = LocalDateTime.now()
+        val heure = DateTimeFormatter.ofPattern("HH:mm")
+        val dateDuJour = Calendar.getInstance()
+        dateDuJour.timeInMillis = System.currentTimeMillis()
+        val heureDuJour = current.format(heure)
+
+        viewModel.updatePoids(oldidpoi, oldidper, poids.toFloat(), date, heureDuJour.toString(), periode)
     }
 
     /**

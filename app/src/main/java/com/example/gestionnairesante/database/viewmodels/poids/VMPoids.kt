@@ -46,8 +46,8 @@ class VMPoids(private val repo: PoidsRepo) : ViewModel() {
         }
     }
 
-    fun deletePoids(data: PoidsData) = viewModelScope.launch {
-        repo.deletePoids(data)
+    fun deletePoids(id: Int) = viewModelScope.launch {
+        repo.deletePoids(id)
         statusMessage.value = Event("Suppression réussie")
     }
 

@@ -14,4 +14,4 @@ data class DataInner(
     val glycemie: Int,
     val rapide: Int,
     val lente: Int
-    )
+)

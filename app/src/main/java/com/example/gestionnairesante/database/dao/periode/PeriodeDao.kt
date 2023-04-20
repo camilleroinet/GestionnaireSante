@@ -12,10 +12,10 @@ interface PeriodeDao {
     suspend fun insertPeriode(user: PeriodeData)
 
     @Query("SELECT * FROM periode WHERE id_periode = :id")
-    fun getPeriodeToUpdate(id: Int) : PeriodeData
+    fun getPeriodeToUpdate(id: Int): PeriodeData
 
-    @Query("UPDATE periode SET date_periode = :date, heure_periode = :heure WHERE id_periode = :id")
-    suspend fun updatePeriode(id: Int, date: String, heure: String)
+    @Query("UPDATE periode SET date_periode = :date, heure_periode = :heure, libelle_periode = :periode WHERE id_periode = :id")
+    suspend fun updatePeriode(id: Int, date: String, heure: String, periode: String)
 
     @Query("DELETE FROM periode WHERE id_periode = :id")
     suspend fun deletePeriode(id: Int)
@@ -24,6 +24,6 @@ interface PeriodeDao {
     fun getAllPeriode(): Flow<List<PeriodeData>>
 
     @Query("SELECT id_periode FROM periode WHERE id_periode = (SELECT MAX(id_periode) FROM periode)")
-    fun getLastPeriode() : Int
+    fun getLastPeriode(): Int
 
 }

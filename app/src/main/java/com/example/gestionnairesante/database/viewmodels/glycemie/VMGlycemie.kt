@@ -8,20 +8,13 @@ import kotlinx.coroutines.launch
 
 class VMGlycemie(private val repo: GlycemieRepo) : ViewModel() {
 
-    private var isUpdateOrDelete = false
-
-    val inputNameData = MutableLiveData<Int?>()
-
-    val saveOrUpdateButtonText = MutableLiveData<String>()
-    private val clearAllOrDeleteButtonText = MutableLiveData<String>()
     private val statusMessage = MutableLiveData<Event<String>>()
 
     val message: LiveData<Event<String>>
         get() = statusMessage
 
     init {
-        saveOrUpdateButtonText.value = "rechercher"
-        clearAllOrDeleteButtonText.value = "clear All"
+
     }
 
     fun insertGlycemie(data: GlycemieData) = viewModelScope.launch {

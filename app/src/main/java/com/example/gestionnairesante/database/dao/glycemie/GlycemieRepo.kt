@@ -1,6 +1,6 @@
 package com.example.gestionnairesante.database.dao.glycemie
 
-class GlycemieRepo (private val dao: GlycemieDao) {
+class GlycemieRepo(private val dao: GlycemieDao) {
     val allglycemie = dao.getAllGlycemie()
     val allValeurGlycemie = dao.getAllValeurGlycemie()
 

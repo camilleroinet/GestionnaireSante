@@ -12,7 +12,6 @@ import com.example.gestionnairesante.adapter.AdapterViewPager
 import com.example.gestionnairesante.adapter.AdapterViewPagerCharts
 import com.example.gestionnairesante.adapter.ZoomOutPageTransformer
 import com.example.gestionnairesante.database.DB_sante
-import com.example.gestionnairesante.database.dao.menu.MenuData
 import com.example.gestionnairesante.database.dao.menu.MenuRepo
 import com.example.gestionnairesante.database.dao.plats.PlatData
 import com.example.gestionnairesante.database.dao.plats.PlatRepo
@@ -91,11 +90,9 @@ class RepasFragment : Fragment() {
             tabPlat.addAll(it)
         }
 
-
-        binding!!.btnInsertRepas.setOnClickListener {
-            RepasDialogPlat.newInstance("titre", "subtitre", ind, 0, "", 0, 0)
-                .show(childFragmentManager, RepasDialogPlat.TAG)
-            //Toast.makeText(requireContext(), "youhou", Toast.LENGTH_LONG).show()
+        binding!!.btnMenu.setOnClickListener {
+            binding!!.vueChart.visibility = View.GONE
+            binding!!.vueMenu.visibility = View.VISIBLE
         }
 
         binding!!.btnInsertPlat.setOnClickListener {
@@ -103,6 +100,8 @@ class RepasFragment : Fragment() {
                 .show(childFragmentManager, RepasDialogPlat.TAG)
             //Toast.makeText(requireContext(), "youhou", Toast.LENGTH_LONG).show()
         }
+
+
 
 
 
@@ -117,7 +116,6 @@ class RepasFragment : Fragment() {
 
     }
 
-
     fun configTablelayout(array: ArrayList<Int>) {
         tablayoutTabs.apply {
             for (i in array.indices) {
@@ -131,17 +129,14 @@ class RepasFragment : Fragment() {
 
                         when (tab?.position) {
                             0 -> {
-                                binding!!.btnInsertRepas.visibility = View.VISIBLE
                                 binding!!.btnInsertPlat.visibility = View.INVISIBLE
+                                binding!!.btnMenu.visibility = View.VISIBLE
                             }
                             1 -> {
-                                binding!!.btnInsertRepas.visibility = View.INVISIBLE
                                 binding!!.btnInsertPlat.visibility = View.VISIBLE
+                                binding!!.btnMenu.visibility = View.INVISIBLE
                             }
-                            else -> {
-                                binding!!.btnInsertRepas.visibility = View.VISIBLE
-                                binding!!.btnInsertPlat.visibility = View.INVISIBLE
-                            }
+
                         }
 
                     }

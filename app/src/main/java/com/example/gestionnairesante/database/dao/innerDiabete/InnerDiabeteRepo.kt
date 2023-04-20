@@ -34,21 +34,22 @@ class InnerDiabeteRepo(
         return innerDiabeteDao.insertInnerDiabete(glycemie)
     }
 
-    fun getLastGlycemie() : Int {
+    fun getLastGlycemie(): Int {
         return glycemieDao.getLastGlycemie()
     }
 
-    fun getLastPeriode() : Int {
+    fun getLastPeriode(): Int {
         return periodeDao.getLastPeriode()
     }
 
-    fun getLastInsuline() : Int {
+    fun getLastInsuline(): Int {
         return insulineDao.getLastInsuline()
     }
 
     suspend fun deleteGlycemie(glycemie: Int) {
         return glycemieDao.deleteGlycemie(glycemie)
     }
+
     suspend fun deletePeriode(periode: Int) {
         return periodeDao.deletePeriode(periode)
     }
@@ -57,16 +58,16 @@ class InnerDiabeteRepo(
         return insulineDao.deleteInsuline(insuline)
     }
 
-    suspend fun updateGlycemie(glycemie: Int, valeur: Int){
+    suspend fun updateGlycemie(glycemie: Int, valeur: Int) {
         return glycemieDao.updateGlycemie(glycemie, valeur)
     }
 
-    suspend fun updateInsuline(insuline: Int, rapide: Int, lente: Int){
+    suspend fun updateInsuline(insuline: Int, rapide: Int, lente: Int) {
         return insulineDao.insulineUpdate(insuline, rapide, lente)
     }
 
-    suspend fun updatePeriode(id:Int, date: String, heure: String){
-        return periodeDao.updatePeriode(id, date, heure)
+    suspend fun updatePeriode(id: Int, date: String, heure: String, periode: String) {
+        return periodeDao.updatePeriode(id, date, heure, periode)
     }
 
 

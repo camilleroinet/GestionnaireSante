@@ -15,10 +15,6 @@ class VMDiabete( private val repo: InnerDiabeteRepo): ViewModel() {
     val valeurDate = MutableLiveData<String>()
     val valeurHeure = MutableLiveData<String>()
 
-    private var isUpdateOrDelete = false
-    val saveOrUpdateButtonText = MutableLiveData<String>()
-    private val clearAllOrDeleteButtonText = MutableLiveData<String>()
-
     private val statusMessage = MutableLiveData<Event<String>>()
     val message: LiveData<Event<String>>
         get() = statusMessage
@@ -29,8 +25,7 @@ class VMDiabete( private val repo: InnerDiabeteRepo): ViewModel() {
         valeurPeriode.value = "1"
         valeurDate.value = "01/01/01"
         valeurHeure.value = "12:00"
-        saveOrUpdateButtonText.value = "rechercher"
-        clearAllOrDeleteButtonText.value = "clear All"
+
     }
 
     fun insertDiabete(periode: String, date: String, heure: String, glycemie: Int, rapide: Int, lente: Int) = viewModelScope.launch {
@@ -79,7 +74,7 @@ class VMDiabete( private val repo: InnerDiabeteRepo): ViewModel() {
 
     fun updateDiabete(idgly: Int, idper: Int, idins : Int, glycemie: Int, rapide: Int, lente: Int, date: String, heure: String, periode: String) = viewModelScope.launch {
         repo.updateGlycemie(idgly, glycemie)            // update de la glycemie
-        repo.updatePeriode(idper, date, heure)          // update de la periode
+        repo.updatePeriode(idper, date, heure, periode)          // update de la periode
         repo.updateInsuline(idins, rapide, lente)       // update de l'insuline
         statusMessage.value = Event("Mise à jour réussie.")
     }

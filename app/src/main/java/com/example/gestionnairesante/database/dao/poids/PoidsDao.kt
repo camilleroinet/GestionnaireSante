@@ -10,14 +10,11 @@ interface PoidsDao {
     @Insert
     suspend fun insertPoids(user: PoidsData)
 
-    @Query("UPDATE poids SET valeur_poids = :poids WHERE id_poids = :id" )
-    suspend fun updatePoids(id: Int, poids:Float)
-
-    @Delete
-    suspend fun deletePoids(user: PoidsData)
+    @Query("UPDATE poids SET valeur_poids = :poids WHERE id_poids = :id")
+    suspend fun updatePoids(id: Int, poids: Float)
 
     @Query("DELETE FROM poids WHERE id_poids = :id")
-    suspend fun deleteAllPoids(id: Int)
+    suspend fun deletePoids(id: Int)
 
     @Query("SELECT * FROM poids")
     fun getAllPoids(): Flow<List<PoidsData>>
@@ -28,8 +25,8 @@ interface PoidsDao {
     @Query("SELECT valeur_poids FROM poids ORDER BY id_poids DESC")
     fun getAllValeurPoidsDesc(): Flow<List<Float>>
 
-    @Query("SELECT valeur_poids FROM poids WHERE id_poids = ( SELECT MAX( id_poids )  FROM poids )")
-    fun getLastPoids(): Float
+    @Query("SELECT id_poids FROM poids WHERE id_poids = ( SELECT MAX( id_poids )  FROM poids )")
+    fun getLastPoids(): Int
 
     @Query("SELECT * FROM poids WHERE id_poids = :id")
     fun getPoidsToUpdate(id: Int): PoidsData

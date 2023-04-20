@@ -65,11 +65,13 @@ class DiabeteTab1 : Fragment() {
         viewModel.getGlycemiePeriode().observe(viewLifecycleOwner) { it ->
             tabInner.clear()
             tabInner.addAll(it)
+            displayUser()
         }
 
         initRecycler()
-        displayUser()
+
         touchRecycler()
+        displayUser()
     }
 
     fun initRecycler() {
@@ -100,15 +102,6 @@ class DiabeteTab1 : Fragment() {
             date, heure, periode
         ).show(childFragmentManager, DiabeteDialogGlycemie.TAG)
     }
-
-
-    fun displayUser() {
-        viewModel.getGlycemiePeriode().observe(viewLifecycleOwner, Observer {
-            adapter.setList(it)
-            adapter.notifyDataSetChanged()
-        })
-    }
-
     fun touchRecycler() {
         val itemTouchHelper by lazy {
             val simplecall = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
@@ -129,7 +122,7 @@ class DiabeteTab1 : Fragment() {
                     val sp = viewHolder.adapterPosition
                     val obj = adapter.getDbObjet(sp)
                     viewModel.deleteDiabete(obj.idper, obj.idgly, obj.idins)
-                    adapter.notifyItemRemoved(sp)
+
                     adapter.notifyDataSetChanged()
 
                 }
@@ -157,5 +150,14 @@ class DiabeteTab1 : Fragment() {
         itemTouchHelper.attachToRecyclerView(binding?.rvDiabete)
 
     }
+
+    fun displayUser() {
+        viewModel.getGlycemiePeriode().observe(viewLifecycleOwner, Observer {
+            adapter.setList(it)
+            adapter.notifyDataSetChanged()
+        })
+    }
+
+
 
 }

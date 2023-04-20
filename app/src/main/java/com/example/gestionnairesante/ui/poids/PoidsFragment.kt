@@ -26,22 +26,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gestionnairesante.R
 import com.example.gestionnairesante.adapter.AdapterRecyclerPoids
 import com.example.gestionnairesante.database.DB_sante
-import com.example.gestionnairesante.database.dao.poids.PoidsData
-import com.example.gestionnairesante.database.dao.poids.PoidsRepo
-import com.example.gestionnairesante.database.viewmodels.poids.VMPoids
-import com.example.gestionnairesante.database.viewmodels.poids.VMPoidsFactory
+import com.example.gestionnairesante.database.dao.innerPoids.InnerPoidsRepo
+import com.example.gestionnairesante.database.dao.innerPoids.PoidsInner
 import com.example.gestionnairesante.databinding.PoidBinding
 import com.example.gestionnairesante.divers.MyDragShadowBuilder
+import com.example.gestionnairesante.ui.poids.vm.VmPoids
+import com.example.gestionnairesante.ui.poids.vm.VmPoidsFactory
 import com.example.gestionnairesante.utils.createBarChart
 import com.github.mikephil.charting.data.BarEntry
 import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 
-
 class PoidsFragment : Fragment() {
 
     private var binding: PoidBinding? = null
-    private lateinit var viewModel: VMPoids
+    private lateinit var viewModel: VmPoids
     private lateinit var adapter: AdapterRecyclerPoids
     private var ind = 0
     private var lastPoua = 0f
@@ -130,10 +129,13 @@ class PoidsFragment : Fragment() {
         //
         // databinding
         //
-        val dao = DB_sante.getInstance(requireContext()).tabPoids
-        val repository = PoidsRepo(dao)
-        val factory = VMPoidsFactory(repository)
-        viewModel = ViewModelProvider(this, factory).get(VMPoids::class.java)
+        val daoPoids = DB_sante.getInstance(requireContext()).tabPoids
+        val daoPeriode = DB_sante.getInstance(requireContext()).tabPeriode
+        val daoPoidsInner = DB_sante.getInstance(requireContext()).tabRelationnelPoids
+
+        val repository = InnerPoidsRepo(daoPoids, daoPeriode, daoPoidsInner)
+        val factory = VmPoidsFactory(repository)
+        viewModel = ViewModelProvider(this, factory).get(VmPoids::class.java)
 
 
         //on declare que le linearlayout est droppable
@@ -186,7 +188,7 @@ class PoidsFragment : Fragment() {
             }
         }
 
-        viewModel.getValeurPoids().observe(viewLifecycleOwner) { it ->
+        viewModel.getAllValeurPoids().observe(viewLifecycleOwner) { it ->
             tabPoids.clear()
             tabPoids.addAll(it)
             recupDataBarChart()
@@ -202,33 +204,39 @@ class PoidsFragment : Fragment() {
         }
 
         binding!!.btnInsert.setOnClickListener {
-            PoidsDialog.newInstance("titre", "subtitre", ind, 0, 0F)
+            PoidsDialog.newInstance("titre", "subtitre", ind, 0, 0, 0F, "", "", "")
                 .show(childFragmentManager, PoidsDialog.TAG)
         }
 
         initRecycler()
-        displayUser()
         touchRecycler()
+        displayUser()
 
     }
 
-    fun listItemClicked(viewModel: VMPoids, data: PoidsData) {
-        val id = viewModel.getPoidsToUpdate(data).id_poids
-        val poids =  viewModel.getPoidsToUpdate(data).valeur_poids
-
-        if (poids != null) {
-            PoidsDialog.newInstance(
-                "titre",
-                "subtitre",
-                ind,
-                id, poids
-            ).show(childFragmentManager, PoidsDialog.TAG)
-        }
-    }
-/*    fun undoSwipe(adapt: AdapterSportD, pos: Int){
+    fun doDelete(adapt: AdapterRecyclerPoids, pos: Int) {
         adapt.notifyItemRemoved(pos)
-        adapt.notifyItemInserted(pos)
-    }*/
+    }
+
+    fun listItemClicked(viewModel: VmPoids, data: PoidsInner) {
+        val idpoi = data.idpoi
+        val idper = data.idper
+        val poids = data.poids
+        val date = data.date
+        val heure = data.heure
+        val periode = data.periode
+
+        PoidsDialog.newInstance(
+            "titre",
+            "subtitre",
+            ind,
+            idpoi, idper,
+            poids,
+            date, heure, periode
+        ).show(childFragmentManager, PoidsDialog.TAG)
+
+    }
+
     // TODO Apres implementation du profil modifier la valeur
     //  par defaut de la taille
     // Calcule de l'imc
@@ -274,15 +282,16 @@ class PoidsFragment : Fragment() {
         binding?.recyclerPoids?.layoutManager = LinearLayoutManager(context)
         // Configuration de l'adapter
         // adapter = AdapterSportD { h: View -> longclickListener(h) }
-        adapter = AdapterRecyclerPoids { daouser: PoidsData -> listItemClicked(viewModel, daouser) }
+        adapter =
+            AdapterRecyclerPoids { daouser: PoidsInner -> listItemClicked(viewModel, daouser) }
         binding?.recyclerPoids?.adapter = adapter
 
     }
 
     // Afficher les données dans le recycler
-    @SuppressLint("NotifyDataSetChanged")
+
     fun displayUser() {
-        viewModel.getAllPoids().observe(viewLifecycleOwner, Observer {
+        viewModel.getPoidsPeriode().observe(viewLifecycleOwner, Observer {
             adapter.setList(it)
             adapter.notifyDataSetChanged()
         })
@@ -313,7 +322,10 @@ class PoidsFragment : Fragment() {
                             it
                         ).show(childFragmentManager, PoidsDialog.TAG)
                     }*/
-                    viewModel.deletePoids(obj)
+                    viewModel.deletePoids(obj.idpoi)
+                    adapter.notifyDataSetChanged()
+                    doDelete(adapter, sp)
+
                 }
 
                 override fun onSelectedChanged(
@@ -346,7 +358,7 @@ class PoidsFragment : Fragment() {
         val barChart = binding!!.chart0
         val stringValue = ArrayList<String>()
 
-        viewModel.getValeurPoids().observe(viewLifecycleOwner) {
+        viewModel.getAllValeurPoids().observe(viewLifecycleOwner) {
             tabValeur.clear()
             tabValeur.addAll(it)
 

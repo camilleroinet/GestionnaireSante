@@ -5,13 +5,15 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gestionnairesante.R
+import com.example.gestionnairesante.database.dao.innerPoids.InnerPoidsData
+import com.example.gestionnairesante.database.dao.innerPoids.PoidsInner
 import com.example.gestionnairesante.database.dao.poids.PoidsData
 import com.example.gestionnairesante.databinding.PoidsCardviewBinding
 
-class AdapterRecyclerPoids(private val clickListener: (PoidsData) -> Unit) :
+class AdapterRecyclerPoids(private val clickListener: (PoidsInner) -> Unit) :
     RecyclerView.Adapter<AdapterRecyclerPoids.MyViewHolder>() {
 
-    private val poidsList = ArrayList<PoidsData>()
+    private val poidsList = ArrayList<PoidsInner>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -20,7 +22,7 @@ class AdapterRecyclerPoids(private val clickListener: (PoidsData) -> Unit) :
         return MyViewHolder(binding)
     }
 
-    fun getDbObjet(position: Int): PoidsData {
+    fun getDbObjet(position: Int): PoidsInner {
         return poidsList[position]
     }
 
@@ -29,9 +31,10 @@ class AdapterRecyclerPoids(private val clickListener: (PoidsData) -> Unit) :
     }
 
     class MyViewHolder(val binding: PoidsCardviewBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: PoidsData, clickListener: (PoidsData) -> Unit) {
-            val id = data.id_poids
-            binding.poids.text = data.valeur_poids.toString()
+        fun bind(data: PoidsInner, clickListener: (PoidsInner) -> Unit) {
+            val id = data.idpoi
+
+            binding.poids.text = data.poids.toString()
 
             binding.itemLayout2.setOnClickListener {
                 clickListener(data)
@@ -39,7 +42,7 @@ class AdapterRecyclerPoids(private val clickListener: (PoidsData) -> Unit) :
         }
     }
 
-    fun setList(daousers: List<PoidsData>) {
+    fun setList(daousers: List<PoidsInner>) {
         poidsList.clear()
         poidsList.addAll(daousers)
     }

@@ -17,7 +17,8 @@ import com.example.gestionnairesante.database.dao.periode.PeriodeData
  * la table periode
  */
 
-@Entity(tableName = "innerDiabete",
+@Entity(
+    tableName = "innerDiabete",
     primaryKeys = ["idgly", "idper", "idIns"],
     foreignKeys = [
         ForeignKey(
@@ -42,7 +43,7 @@ import com.example.gestionnairesante.database.dao.periode.PeriodeData
 
 data class InnerDiabeteData (
     @ColumnInfo(name = "idgly")
-    val idGly: Int,
+    var idGly: Int,
 
     @ColumnInfo(name = "idper")
     var idPer: Int,

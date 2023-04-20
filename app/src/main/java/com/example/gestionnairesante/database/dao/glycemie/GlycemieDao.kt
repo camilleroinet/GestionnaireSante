@@ -22,6 +22,6 @@ interface GlycemieDao {
 
     // Retourne le dernier id de la glycemie
     @Query("SELECT id_glycemie FROM glycemie WHERE id_glycemie=(SELECT MAX(id_glycemie) FROM glycemie)")
-    fun getLastGlycemie() : Int
+    fun getLastGlycemie(): Int
 
 }

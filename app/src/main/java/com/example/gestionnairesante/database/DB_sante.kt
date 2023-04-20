@@ -14,13 +14,23 @@ import com.example.gestionnairesante.database.dao.poids.PoidsDao
 import com.example.gestionnairesante.database.dao.poids.PoidsData
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieDao
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
+import com.example.gestionnairesante.database.dao.innerPoids.InnerPoidsDao
+import com.example.gestionnairesante.database.dao.innerPoids.InnerPoidsData
 import com.example.gestionnairesante.database.dao.insuline.InsulineDao
 import com.example.gestionnairesante.database.dao.insuline.InsulineData
 import com.example.gestionnairesante.database.dao.periode.PeriodeDao
 import com.example.gestionnairesante.database.dao.periode.PeriodeData
 
 @Database(
-    entities = [InnerDiabeteData::class, PeriodeData::class, MenuData::class, PlatData::class, GlycemieData::class, InsulineData::class, PoidsData::class],
+    entities = [
+        InnerPoidsData::class,
+        InnerDiabeteData::class,
+        PeriodeData::class,
+        MenuData::class,
+        PlatData::class,
+        GlycemieData::class,
+        InsulineData::class,
+        PoidsData::class],
     version = 1,
     exportSchema = false
 )
@@ -35,7 +45,7 @@ abstract class DB_sante : RoomDatabase() {
     abstract val tabPeriode: PeriodeDao
 
     abstract val tabRelationnelDiabete: InnerDiabeteDao
-
+    abstract val tabRelationnelPoids: InnerPoidsDao
 
     companion object {
         @Volatile

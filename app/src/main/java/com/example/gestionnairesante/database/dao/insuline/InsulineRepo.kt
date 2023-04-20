@@ -9,7 +9,7 @@ class InsulineRepo(private val dao: InsulineDao) {
         return dao.insertInsuline(userdao)
     }
 
-    fun insulineUpdate(id: Int, rapide: Int, lente: Int) {
+    suspend fun insulineUpdate(id: Int, rapide: Int, lente: Int) {
         return dao.insulineUpdate(id, rapide, lente)
     }
 

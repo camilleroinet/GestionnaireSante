@@ -60,8 +60,8 @@ class RepasTab2 : Fragment() {
         }
 
         initRecycler()
-        displayUser()
         touchRecycler()
+        displayUser()
     }
 
     fun initRecycler() {
