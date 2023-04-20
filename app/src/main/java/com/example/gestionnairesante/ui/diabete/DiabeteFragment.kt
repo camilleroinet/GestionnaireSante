@@ -62,22 +62,24 @@ class DiabeteFragment : Fragment() {
         val daoPeriode = DB_sante.getInstance(requireContext()).tabPeriode
         val daoInsuline = DB_sante.getInstance(requireContext()).tabInsuline
         val daoDiabete = DB_sante.getInstance(requireContext()).tabRelationnelDiabete
+
         val repoDiabete = InnerDiabeteRepo(daoGlycemie, daoPeriode, daoInsuline, daoDiabete)
         val factoryDiabete = VMDiabeteFactory(repoDiabete)
         val vmdiabete = ViewModelProvider(this, factoryDiabete).get(VMDiabete::class.java)
+
         binding?.viewModel = vmdiabete
 
         viewModelInner = ViewModelProvider(this, factoryDiabete).get(VMDiabete::class.java)
 
         val tabInner = ArrayList<DataInner>()
 
-        viewModelInner.message.observe(viewLifecycleOwner) { it ->
+        vmdiabete.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
 
-        viewModelInner.getGlycemiePeriode().observe(viewLifecycleOwner) { it ->
+        vmdiabete.getGlycemiePeriode().observe(viewLifecycleOwner) { it ->
             tabInner.clear()
             tabInner.addAll(it)
         }

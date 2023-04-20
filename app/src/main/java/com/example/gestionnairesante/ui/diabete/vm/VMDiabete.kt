@@ -10,21 +10,12 @@ import com.example.gestionnairesante.database.dao.periode.PeriodeData
 import kotlinx.coroutines.launch
 
 class VMDiabete( private val repo: InnerDiabeteRepo): ViewModel() {
-    val valeurGlycemie = MutableLiveData<String>()
-    val valeurPeriode = MutableLiveData<String>()
-    val valeurDate = MutableLiveData<String>()
-    val valeurHeure = MutableLiveData<String>()
 
     private val statusMessage = MutableLiveData<Event<String>>()
     val message: LiveData<Event<String>>
         get() = statusMessage
 
-
     init {
-        valeurGlycemie.value = ""
-        valeurPeriode.value = "1"
-        valeurDate.value = "01/01/01"
-        valeurHeure.value = "12:00"
 
     }
 

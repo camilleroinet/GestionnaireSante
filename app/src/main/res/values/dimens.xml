@@ -15,4 +15,10 @@
 
     <dimen name="btn_corner_radius_resultat">0dp</dimen>
     <dimen name="fab_margin">10dp</dimen>
+
+
+    <!--    Partie REPAS    -->
+    <dimen name="taille_recyclers">250dp</dimen>
+
+
 </resources>

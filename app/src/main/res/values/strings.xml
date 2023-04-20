@@ -33,6 +33,12 @@
     <string name="calories">Calories :</string>
     <string name="glucides">Glucides :</string>
     <string name="nom_du_plat">Nom du plat</string>
+    <string name="txt_glucide_total">Glucides totaux :</string>
+    <string name="glucide_total">0000</string>
+    <string name="calories_totales">0000</string>
+    <string name="txt_calorie_total">Calories totales :</string>
+    <string name="nbPlats">4</string>
+    <string name="nb_plat_menu">Nombre de plats :</string>
 
     <string-array name="periodes">
         <item>Petit-déjeuner</item>

@@ -7,12 +7,8 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="com.example.gestionnairesante.database.viewmodels.plat.VMPLat" />
-
-        <variable
-            name="viewModelMenu"
-            type="com.example.gestionnairesante.database.viewmodels.menu.VMMenu" />
+            name="viewmodelrepas"
+            type="com.example.gestionnairesante.ui.repas.vm.VmRepas" />
 
         <variable
             name="fragRepas"
@@ -30,8 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:visibility="visible">
-
+            android:visibility="gone">
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewpagercharts"
@@ -85,16 +80,170 @@
             app:maxImageSize="48dp"
             app:srcCompat="@android:drawable/ic_input_add" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/vue_menu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:background="@color/purple_200"
-            android:visibility="gone">
+            android:visibility="visible">
 
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/llresume"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@color/teal_200">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/txt_glucide_total"/>
+                    <TextView
+                        android:id="@+id/totalglucide"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="@string/glucide_total"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/txt_calorie_total"/>
+                    <TextView
+                        android:id="@+id/totalcalorie"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="@string/calories_totales"/>
+                </LinearLayout>
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/nb_plat_menu"/>
+                    <TextView
+                        android:id="@+id/nbplats"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="@string/nbPlats"/>
+                </LinearLayout>
+
+            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/liste_menu"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/taille_recyclers"
+                app:layout_constraintTop_toBottomOf="@+id/llresume"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/liste_repas"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/taille_recyclers"
+                app:layout_constraintBottom_toTopOf="@+id/ll_boutons"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/targetMotion"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/taille_recyclers"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/llresume"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/image_de_silhouette"
+                    android:src="@drawable/assiette" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/erasetext"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.motion.widget.MotionLayout
+                android:id="@+id/motionLayout"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:visibility="gone"
+                app:layoutDescription="@xml/transitionfade"
+                tools:context=".ui.pratiques.Pratiques"
+                tools:ignore="MissingConstraints"></androidx.constraintlayout.motion.widget.MotionLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_boutons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/valider_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_bouton"
+                    android:backgroundTint="@color/SecondaryColor"
+                    android:text="@string/enregistrer"
+                    android:textColor="@color/white" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/annuler_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_bouton"
+                    android:text="@string/annuler"
+                    android:textColor="#442C2E"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </layout>

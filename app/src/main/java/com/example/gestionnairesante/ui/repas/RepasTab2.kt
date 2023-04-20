@@ -19,6 +19,7 @@ import com.example.gestionnairesante.ui.diabete.DiabeteDialogInsuline
 import com.example.gestionnairesante.ui.poids.PoidsDialog
 
 class RepasTab2 : Fragment() {
+/*
     private var binding: RepasTab2Binding? = null
     private lateinit var adapter: AdapterRecyclerPlat
     private val viewModel: VMPLat by viewModels({ requireParentFragment() })
@@ -74,19 +75,10 @@ class RepasTab2 : Fragment() {
 
     }
 
+
+
     fun listItemClicked(viewModel: VMPLat, data: PlatData) {
-        val idPlat = viewModel.getPlatToUpdate(data).id_plat
-        val nomPlat = viewModel.getPlatToUpdate(data).nom_plat
-        val glucide = viewModel.getPlatToUpdate(data).glucide_plat
-        val calorie = viewModel.getPlatToUpdate(data).calorie_plat
-        if (nomPlat != null && glucide != null && calorie != null) {
-            RepasDialogPlat.newInstance(
-                "titre",
-                "subtitre",
-                ind,
-                idPlat, nomPlat, glucide, calorie
-            ).show(childFragmentManager, PoidsDialog.TAG)
-        }
+
     }
 
     fun displayUser() {
@@ -142,6 +134,7 @@ class RepasTab2 : Fragment() {
         }
         itemTouchHelper.attachToRecyclerView(binding?.recyclerPlat)
     }
+*/
 
 }
 

@@ -317,14 +317,9 @@ class PoidsFragment : Fragment() {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val sp = viewHolder.adapterPosition
                     val obj = adapter.getDbObjet(sp)
-/*                    obj.valeur_poids?.let {
-                        PoidsDialog.newInstance("titre", "subtitre", ind, obj.id_poids,
-                            it
-                        ).show(childFragmentManager, PoidsDialog.TAG)
-                    }*/
-                    viewModel.deletePoids(obj.idpoi)
-                    adapter.notifyDataSetChanged()
-                    doDelete(adapter, sp)
+                    viewModel.deletePoidPeriode(obj.idpoi, obj.idper)
+                    displayUser()
+
 
                 }
 

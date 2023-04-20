@@ -12,14 +12,16 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gestionnairesante.adapter.AdapterRecyclerMenu
+import com.example.gestionnairesante.adapter.AdapterRecyclerPlat
 import com.example.gestionnairesante.database.dao.menu.MenuData
+import com.example.gestionnairesante.database.dao.plats.PlatData
 import com.example.gestionnairesante.database.viewmodels.menu.VMMenu
 import com.example.gestionnairesante.databinding.RepasTab1Binding
 
 class RepasTab1 : Fragment() {
-    private var binding: RepasTab1Binding? = null
+ /*   private var binding: RepasTab1Binding? = null
     private lateinit var adapter: AdapterRecyclerMenu
-    private val viewModel: VMMenu by viewModels({ requireParentFragment() })
+   // private val viewModel: VMMenu by viewModels({ requireParentFragment() })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,16 +49,16 @@ class RepasTab1 : Fragment() {
         val tabMenu = ArrayList<MenuData>()
 
         //creation de message pout l'utilisateur si qqc est arrivé
-        viewModel.message.observe(viewLifecycleOwner) { it ->
+*//*        viewModel.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
-        }
+        }*//*
 
-        viewModel.getAllMenu().observe(viewLifecycleOwner) { it ->
+*//*        viewModel.getAllMenu().observe(viewLifecycleOwner) { it ->
             tabMenu.clear()
             tabMenu.addAll(it)
-        }
+        }*//*
 
         initRecycler()
         displayUser()
@@ -65,11 +67,11 @@ class RepasTab1 : Fragment() {
 
     fun initRecycler() {
         // Configuration du layout
-        binding?.recyclerMenud?.layoutManager = LinearLayoutManager(context)
+        //binding?.recyclerMenud?.layoutManager = LinearLayoutManager(context)
 
         // Configuration de l'adapter
-        adapter = AdapterRecyclerMenu { daouser: MenuData -> listItemClicked(viewModel, daouser) }
-        binding?.recyclerMenud?.adapter = adapter
+       // adapter = AdapterRecyclerMenu { daouser: MenuData -> listItemClicked(viewModel, daouser) }
+        //binding?.recyclerMenud?.adapter = adapter
 
     }
 
@@ -79,11 +81,11 @@ class RepasTab1 : Fragment() {
     }
 
     fun displayUser() {
-        viewModel.getAllMenu().observe(viewLifecycleOwner, Observer {
+*//*        viewModel.getAllMenu().observe(viewLifecycleOwner, Observer {
             //Toast.makeText(requireContext(), "size ==>> ${it.size}", Toast.LENGTH_LONG).show()
             adapter.setList(it)
             adapter.notifyDataSetChanged()
-        })
+        })*//*
     }
 
     fun touchRecycler() {
@@ -106,7 +108,7 @@ class RepasTab1 : Fragment() {
                     val sp = viewHolder.adapterPosition
                     val obj = adapter.getDbObjet(sp)
                     //DialogFragHomeSuppr.newInstance("titre", "subtitre", ind).show(childFragmentManager, DialogFragHomeSuppr.TAG)
-                    viewModel.deleteGlycemie(obj)
+                   // viewModel.deleteGlycemie(obj)
                 }
 
                 override fun onSelectedChanged(
@@ -131,6 +133,6 @@ class RepasTab1 : Fragment() {
         }
         itemTouchHelper.attachToRecyclerView(binding?.recyclerMenud)
     }
-
+*/
 }
 

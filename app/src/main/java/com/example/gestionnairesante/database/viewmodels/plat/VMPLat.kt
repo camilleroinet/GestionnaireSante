@@ -25,30 +25,16 @@ class VMPLat(private val repo: PlatRepo) : ViewModel() {
     }
 
     fun insertPlat(data: PlatData) = viewModelScope.launch {
-        val newRowId = repo.insertPlat(data)
-        if (newRowId > -1) {
-            statusMessage.value = Event("insertion ok $newRowId")
-        } else {
-            statusMessage.value = Event("Tache non effectuee")
-        }
+
     }
 
-    fun getPlatToUpdate(data: PlatData): PlatData {
-        return repo.getPlatToUpdate(data.id_plat)
-    }
+/*    fun getPlatToUpdate(data: PlatData): PlatData {
+
+    }*/
 
     fun updatePlat(id: Int, nomPlat: String, glucidePlat: Int, caloriePlat: Int) =
         viewModelScope.launch {
-            val noOfRow = repo.updatePlat(id, nomPlat, glucidePlat, caloriePlat)
-            if (noOfRow > 0) {
-                inputNameData.value = 0
-                isUpdateOrDelete = false
-                saveOrUpdateButtonText.value = "save"
-                clearAllOrDeleteButtonText.value = "clear all"
-                statusMessage.value = Event("$noOfRow update ok")
-            } else {
-                statusMessage.value = Event("Problemes")
-            }
+
         }
 
     fun getallPlat() = liveData {
@@ -58,16 +44,7 @@ class VMPLat(private val repo: PlatRepo) : ViewModel() {
     }
 
     fun deleteGlycemie(data: PlatData) = viewModelScope.launch {
-        val noOfRowDeleted = repo.deletePlat(data)
-        if (noOfRowDeleted > 0) {
-            inputNameData.value = 0
-            isUpdateOrDelete = false
-            saveOrUpdateButtonText.value = "save"
-            clearAllOrDeleteButtonText.value = "clear all"
-            statusMessage.value = Event("$noOfRowDeleted Row supprimee")
-        } else {
-            statusMessage.value = Event("Probleme")
-        }
+
     }
 
 }

@@ -9,21 +9,14 @@ import com.example.gestionnairesante.database.dao.poids.PoidsData
 import kotlinx.coroutines.launch
 
 class VmPoids(private val repo: InnerPoidsRepo) : ViewModel() {
-    val valeurPoids = MutableLiveData<String>()
-    val valeurDate = MutableLiveData<String>()
-    val valeurHeure = MutableLiveData<String>()
-    val valeurPeriode = MutableLiveData<String>()
 
     private val statusMessage = MutableLiveData<Event<String>>()
     val message: LiveData<Event<String>>
         get() = statusMessage
 
-    init {
-        valeurPoids.value = ""
-        valeurPeriode.value = "1"
-        valeurDate.value = "01/01/01"
-        valeurHeure.value = "12:00"
-    }
+    // init {
+
+    // }
 
     fun insertPoids(poids: Float, date: String, heure: String, periode: String) =
         viewModelScope.launch {
@@ -37,7 +30,7 @@ class VmPoids(private val repo: InnerPoidsRepo) : ViewModel() {
             //
             // Insert de la periode
             //
-            val newPeriode = PeriodeData(0,periode, date, heure )
+            val newPeriode = PeriodeData(0, periode, date, heure)
             repo.insertPeriode(newPeriode)
             val lastPeriode = repo.getLastPeriode()
             //
@@ -68,20 +61,15 @@ class VmPoids(private val repo: InnerPoidsRepo) : ViewModel() {
         statusMessage.value = Event("Mise à jour réussie.")
     }
 
-    fun getAllPoids() = liveData {
-        repo.allPoids.collect {
-            emit(it)
-        }
-    }
-
     fun getAllValeurPoids() = liveData {
         repo.allValeurPoids.collect {
             emit(it)
         }
     }
 
-    fun deletePoids(id: Int) = viewModelScope.launch {
-        repo.deletePoids(id)
+    fun deletePoidPeriode(idPoids: Int, idPeriode: Int) = viewModelScope.launch {
+        repo.deletePoids(idPoids)
+        repo.deletePeriode(idPeriode)
         statusMessage.value = Event("Suppression réussie")
     }
 

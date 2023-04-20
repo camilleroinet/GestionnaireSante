@@ -10,22 +10,24 @@ interface PlatDao {
      * GLYCEMIE
      */
     @Insert
-    suspend fun insertPlat(user: PlatData): Long
+    suspend fun insertPlat(user: PlatData)
 
     @Query("UPDATE plat SET nom_plat = :nomPlat, glucide_plat = :glucide, calorie_plat = :calorie WHERE id_plat = :id")
-    suspend fun updatePlat(id:Int, nomPlat: String, glucide: Int, calorie: Int): Int
+    suspend fun updatePlat(id:Int, nomPlat: String, glucide: Int, calorie: Int)
 
-    @Query("SELECT * FROM plat WHERE id_plat = :id")
-    fun getPlatToUpdate(id: Int) : PlatData
-
-    @Delete
-    suspend fun deletePlat(user: PlatData): Int
-
-    @Query("DELETE FROM plat")
-    suspend fun deleteAllPlat(): Int
+    @Query("DELETE FROM plat WHERE id_plat = :id")
+    suspend fun deletePlat(id: Int)
 
     @Query("SELECT * FROM plat")
     fun getAllPlat(): Flow<List<PlatData>>
 
+    @Query("SELECT calorie_plat FROM plat")
+    fun getAllCaloriePlat(): Flow<List<Int>>
+
+    @Query("SELECT glucide_plat FROM plat")
+    fun getAllglucidePlat(): Flow<List<Int>>
+
+    @Query("SELECT id_plat FROM plat WHERE id_plat = (SELECT MAX(id_plat) FROM plat)")
+    fun getLastPlat(): Int
 
 }

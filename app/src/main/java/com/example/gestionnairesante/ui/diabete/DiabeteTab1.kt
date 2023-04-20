@@ -121,9 +121,14 @@ class DiabeteTab1 : Fragment() {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val sp = viewHolder.adapterPosition
                     val obj = adapter.getDbObjet(sp)
-                    viewModel.deleteDiabete(obj.idper, obj.idgly, obj.idins)
+                    viewModel.getGlycemiePeriode().observe(viewLifecycleOwner) { it ->
+                        viewModel.deleteDiabete(obj.idper, obj.idgly, obj.idins)
+                        adapter.setList(it)
+                        adapter.notifyDataSetChanged()
+                    }
 
-                    adapter.notifyDataSetChanged()
+
+
 
                 }
 
