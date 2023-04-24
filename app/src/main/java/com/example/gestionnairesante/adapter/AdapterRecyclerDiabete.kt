@@ -7,12 +7,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gestionnairesante.R
 import com.example.gestionnairesante.database.dao.innerDiabete.DataInner
+import com.example.gestionnairesante.database.dao.innerDiabete.InnerDiabeteData
 
 import com.example.gestionnairesante.databinding.DiabeteCardviewBinding
 
 class AdapterRecyclerDiabete(private val clickListener: (DataInner) -> Unit) :
     RecyclerView.Adapter<AdapterRecyclerDiabete.MyViewHolder>() {
     private val dataList = ArrayList<DataInner>()
+    private val dataList2 = ArrayList<InnerDiabeteData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -21,19 +23,9 @@ class AdapterRecyclerDiabete(private val clickListener: (DataInner) -> Unit) :
         return MyViewHolder(binding)
     }
 
-    fun getDbObjet(position: Int): DataInner {
-        return dataList.get(position)
-    }
-
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bind(dataList[position], clickListener)
     }
-
-    fun setList(data: List<DataInner>) {
-        dataList.clear()
-        dataList.addAll(data)
-    }
-
 
     class MyViewHolder(val binding: DiabeteCardviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -52,9 +44,9 @@ class AdapterRecyclerDiabete(private val clickListener: (DataInner) -> Unit) :
                 binding.couleurAlerte.setBackgroundColor(Color.RED)
             }
             binding.gly.text = data.glycemie.toString()
-            binding.periode.text = data.periode.toString()
-            binding.heure.text = data.heure.toString()
-            binding.dateGlycemie.text = data.date.toString()
+            binding.periode.text = data.periode
+            binding.heure.text = data.heure
+            binding.dateGlycemie.text = data.date
             binding.rapide.text = data.rapide.toString()
             binding.lente.text = data.lente.toString()
 
@@ -66,5 +58,18 @@ class AdapterRecyclerDiabete(private val clickListener: (DataInner) -> Unit) :
 
     override fun getItemCount(): Int {
         return dataList.size
+    }
+
+    fun getDbObjet(position: Int): DataInner {
+        return dataList.get(position)
+    }
+
+    fun setList(data: List<DataInner>) {
+        dataList.clear()
+        dataList.addAll(data)
+    }
+    fun setList2(data: List<InnerDiabeteData>) {
+        dataList2.clear()
+        dataList2.addAll(data)
     }
 }

@@ -31,6 +31,25 @@ interface InnerPlatMenuDao {
     )
     fun getInnerMenu(id_plat: Int): Flow<List<MenuData>>
 
+    @Query(
+        "SELECT " +
+                "plat.id_plat AS idpla, " +
+                "plat.nom_plat AS nomPlat, " +
+                "plat.glucide_plat AS gluPlat, " +
+                "plat.calorie_plat AS calPlat, " +
+                "menu.id_menu AS idmen, " +
+                "menu.nom_menu AS nomMenu " +
+                "FROM innerPlat " +
+                "INNER JOIN plat " +
+                "ON plat.id_plat = innerPlat.idpla " +
+                "INNER JOIN menu " +
+                "ON menu.id_menu = innerPlat.idmen " +
+                "WHERE innerPlat.idmen = :id"
+    )
+    fun getPlatInMenu(id : Int) : Flow<List<PlatInner>>
+
+    @Query("SELECT idmen FROM innerPlat WHERE idmen = (SELECT MAX(idmen) FROM innerPlat)")
+    fun getLastMenuInCurrent(): Int
 
     @Query(
         "SELECT * " +

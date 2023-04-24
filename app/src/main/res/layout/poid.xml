@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.gestionnairesante.database.viewmodels.poids.VMPoids" />
+            type="com.example.gestionnairesante.ui.poids.vm.VmPoids" />
 
         <variable
             name="fragPoids"

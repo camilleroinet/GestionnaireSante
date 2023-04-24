@@ -13,6 +13,10 @@ interface InnerDiabeteDao {
     @Insert
     suspend fun insertInnerDiabete(data: InnerDiabeteData)
 
+    @Query("SELECT valeur_glycemie FROM glycemie")
+    fun getAllValeurGlycemie(): Flow<List<Int>>
+
+
     @Query(
         "SELECT * " +
         "FROM glycemie " +

@@ -1,6 +1,5 @@
 package com.example.gestionnairesante.ui.diabete
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +22,9 @@ import com.example.gestionnairesante.ui.diabete.vm.VMDiabete
 class DiabeteTab1 : Fragment() {
     private var binding: DiabeteTab1Binding? = null
     private lateinit var adapter: AdapterRecyclerDiabete
-    private val viewModel: VMDiabete by viewModels({ requireParentFragment() })
+    private val vmdiabete: VMDiabete by viewModels({ requireParentFragment() })
+
+    val tabInner = ArrayList<DataInner>()
 
     private var ind = 0
 
@@ -35,7 +36,7 @@ class DiabeteTab1 : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         // View binding
         val tab1Binding = DiabeteTab1Binding.inflate(inflater, container, false)
         binding = tab1Binding
@@ -49,27 +50,23 @@ class DiabeteTab1 : Fragment() {
 
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = viewModel
             binding?.recyclerDiabete = this@DiabeteTab1
         }
 
-        val tabInner = ArrayList<DataInner>()
 
         //creation de message pout l'utilisateur si qqc est arrivé
-        viewModel.message.observe(viewLifecycleOwner) { it ->
+        vmdiabete.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
 
-        viewModel.getGlycemiePeriode().observe(viewLifecycleOwner) { it ->
+        vmdiabete.getGlycemiePeriode().observe(viewLifecycleOwner) { it ->
             tabInner.clear()
             tabInner.addAll(it)
-            displayUser()
         }
 
         initRecycler()
-
         touchRecycler()
         displayUser()
     }
@@ -79,8 +76,10 @@ class DiabeteTab1 : Fragment() {
         binding?.rvDiabete?.layoutManager = LinearLayoutManager(context)
 
         // Configuration de l'adapter
-        adapter = AdapterRecyclerDiabete { daouser: DataInner -> listItemClicked(viewModel, daouser) }
+        adapter = AdapterRecyclerDiabete { daouser: DataInner -> listItemClicked(vmdiabete, daouser) }
         binding?.rvDiabete?.adapter = adapter
+
+        adapter.setList(tabInner)
     }
 
     fun listItemClicked(viewModel: VMDiabete, data: DataInner) {
@@ -102,6 +101,7 @@ class DiabeteTab1 : Fragment() {
             date, heure, periode
         ).show(childFragmentManager, DiabeteDialogGlycemie.TAG)
     }
+
     fun touchRecycler() {
         val itemTouchHelper by lazy {
             val simplecall = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
@@ -111,25 +111,15 @@ class DiabeteTab1 : Fragment() {
                     viewHolder: RecyclerView.ViewHolder,
                     target: RecyclerView.ViewHolder
                 ): Boolean {
-                    val adapter = binding?.rvDiabete?.adapter as AdapterRecyclerDiabete
-                    val from = viewHolder.adapterPosition
-                    val to = target.adapterPosition
-                    adapter.notifyItemMoved(from, to)
                     return true
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val sp = viewHolder.adapterPosition
                     val obj = adapter.getDbObjet(sp)
-                    viewModel.getGlycemiePeriode().observe(viewLifecycleOwner) { it ->
-                        viewModel.deleteDiabete(obj.idper, obj.idgly, obj.idins)
-                        adapter.setList(it)
-                        adapter.notifyDataSetChanged()
-                    }
-
-
-
-
+                    vmdiabete.deleteDiabete(obj.idper, obj.idgly, obj.idins)
+                    tabInner.removeAt(sp)
+                    adapter.notifyDataSetChanged()
                 }
 
                 override fun onSelectedChanged(
@@ -157,12 +147,19 @@ class DiabeteTab1 : Fragment() {
     }
 
     fun displayUser() {
-        viewModel.getGlycemiePeriode().observe(viewLifecycleOwner, Observer {
-            adapter.setList(it)
+
+        vmdiabete.getGlycemiePeriode().observe(viewLifecycleOwner, Observer {
+            tabInner.clear()
+            tabInner.addAll(it)
+
+            //touchRecycler()
+            adapter.setList(tabInner)
             adapter.notifyDataSetChanged()
+            //binding?.rvDiabete?.invalidate()
+
+
+
         })
     }
-
-
 
 }

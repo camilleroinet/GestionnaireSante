@@ -11,6 +11,8 @@ interface PlatDao {
      */
     @Insert
     suspend fun insertPlat(user: PlatData)
+    @Delete
+    suspend fun deletePlatObj(data: PlatData)
 
     @Query("UPDATE plat SET nom_plat = :nomPlat, glucide_plat = :glucide, calorie_plat = :calorie WHERE id_plat = :id")
     suspend fun updatePlat(id:Int, nomPlat: String, glucide: Int, calorie: Int)

@@ -8,15 +8,15 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie
 import com.example.gestionnairesante.databinding.FragChartLineBinding
 import com.example.gestionnairesante.ui.diabete.vm.VMDiabete
 import com.example.gestionnairesante.utils.createLineChart
 import com.example.gestionnairesante.utils.recupDataChart
 
 class DiabeteChartLine : Fragment() {
+
     private var binding: FragChartLineBinding? = null
-    private val viewModel: VMDiabete by viewModels({ requireParentFragment() })
+    private val vmdiabete: VMDiabete by viewModels({ requireParentFragment() })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,13 +43,13 @@ class DiabeteChartLine : Fragment() {
 
         //creation de message pout l'utilisateur si qqc est arrivé
         // todo a commenter
-        viewModel.message.observe(viewLifecycleOwner) { it ->
+        vmdiabete.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
 
-        viewModel.getAllGlycemie().observe(viewLifecycleOwner) { it ->
+        vmdiabete.getAllGlycemie().observe(viewLifecycleOwner) { it ->
             tabData.clear()
             tabData.addAll(it)
             recupDataLineChart()
@@ -59,7 +59,7 @@ class DiabeteChartLine : Fragment() {
     fun recupDataLineChart() {
         val valuesBdd = ArrayList<Int>()
 
-        viewModel.getAllGlycemie().observe(viewLifecycleOwner, Observer {
+        vmdiabete.getAllGlycemie().observe(viewLifecycleOwner, Observer {
             binding?.chart0?.invalidate()
             valuesBdd.clear()
             valuesBdd.addAll(it)

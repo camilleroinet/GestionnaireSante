@@ -15,5 +15,8 @@ class PlatRepo(private val dao: PlatDao) {
         return dao.deletePlat(id)
     }
 
+    suspend fun deletePlatObj(data: PlatData){
+        return dao.deletePlatObj(data)
+    }
 
 }

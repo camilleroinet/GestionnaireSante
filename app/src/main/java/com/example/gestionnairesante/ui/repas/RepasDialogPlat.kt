@@ -9,10 +9,11 @@ import com.example.gestionnairesante.database.dao.plats.PlatData
 import com.example.gestionnairesante.database.viewmodels.plat.VMPLat
 import com.example.gestionnairesante.databinding.RepasDialogPlatBinding
 import com.example.gestionnairesante.ui.diabete.DiabeteDialogInsuline
+import com.example.gestionnairesante.ui.repas.vm.VmRepas
 
 class RepasDialogPlat : DialogFragment() {
     private var binding: RepasDialogPlatBinding? = null
-    private val viewModel: VMPLat by viewModels({ requireParentFragment() })
+    private val viewModel: VmRepas by viewModels({ requireParentFragment() })
 
     companion object {
         const val TAG = "Dialog_plat"
@@ -139,7 +140,7 @@ class RepasDialogPlat : DialogFragment() {
             val glucidePlat = binding!!.etGlucide.text.toString()
 
             val newInsert = PlatData(0, nomPlat, caloriePlat.toInt(), glucidePlat.toInt())
-            viewModel.insertPlat(newInsert)
+            viewModel.ajouterPlat(newInsert)
         }
     }
 
@@ -150,7 +151,7 @@ class RepasDialogPlat : DialogFragment() {
             val nomPlat = binding!!.etNomplat.text.toString()
             val caloriePlat = binding!!.etCalories.text.toString()
             val glucidePlat = binding!!.etGlucide.text.toString()
-            viewModel.updatePlat(idPlat, nomPlat, glucidePlat.toInt(), caloriePlat.toInt() )
+            //viewModel.updatePlat(idPlat, nomPlat, glucidePlat.toInt(), caloriePlat.toInt() )
         }
     }
 

@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import com.example.gestionnairesante.R
-import com.example.gestionnairesante.adapter.AdapterViewPager
-import com.example.gestionnairesante.adapter.AdapterViewPagerCharts
-import com.example.gestionnairesante.adapter.ZoomOutPageTransformer
+import com.example.gestionnairesante.adapter.*
 import com.example.gestionnairesante.database.DB_sante
 import com.example.gestionnairesante.database.dao.innerDiabete.InnerDiabeteRepo
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieRepo
@@ -24,7 +24,8 @@ import com.google.android.material.tabs.TabLayout
 
 class DiabeteFragment : Fragment() {
     private var binding: DiabeteBinding? = null
-    private lateinit var viewModelInner: VMDiabete
+    private lateinit var vmdiabete : VMDiabete
+
     private lateinit var tablayoutTabs: TabLayout
     private lateinit var viewPagerTabs: ViewPager
     private lateinit var viewPagerCharts: ViewPager
@@ -65,11 +66,8 @@ class DiabeteFragment : Fragment() {
 
         val repoDiabete = InnerDiabeteRepo(daoGlycemie, daoPeriode, daoInsuline, daoDiabete)
         val factoryDiabete = VMDiabeteFactory(repoDiabete)
-        val vmdiabete = ViewModelProvider(this, factoryDiabete).get(VMDiabete::class.java)
-
-        binding?.viewModel = vmdiabete
-
-        viewModelInner = ViewModelProvider(this, factoryDiabete).get(VMDiabete::class.java)
+        vmdiabete = ViewModelProvider(this, factoryDiabete).get(VMDiabete::class.java)
+        binding?.vmdiabete = vmdiabete
 
         val tabInner = ArrayList<DataInner>()
 
@@ -85,9 +83,15 @@ class DiabeteFragment : Fragment() {
         }
 
         binding!!.btnInsert.setOnClickListener {
-//            vmdiabete.insertDiabete()
-
-            DiabeteDialogGlycemie.newInstance("titre", "subtitre", ind, 0, 0, 0, 0, 0, 0, "", "", "")
+            DiabeteDialogGlycemie.newInstance(
+                "titre",
+                "subtitre",
+                ind,
+                0, 0,0,
+                0,
+                0,0,
+                "","",""
+            )
                 .show(childFragmentManager, DiabeteDialogGlycemie.TAG)
             //Toast.makeText(requireContext(), "youhou", Toast.LENGTH_LONG).show()
         }
@@ -106,6 +110,9 @@ class DiabeteFragment : Fragment() {
         configViewPager(viewPagerTabs, arrayFragTab, arrayTab, tablayoutTabs)
 
     }
+
+
+
 
     fun configTablelayout(array: ArrayList<Int>) {
         tablayoutTabs.apply {
@@ -143,9 +150,7 @@ class DiabeteFragment : Fragment() {
                 override fun onTabReselected(tab: TabLayout.Tab?) {
 
                 }
-
             })
-
         }
     }
 

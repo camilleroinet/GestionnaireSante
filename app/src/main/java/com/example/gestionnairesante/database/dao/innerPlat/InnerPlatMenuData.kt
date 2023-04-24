@@ -3,6 +3,7 @@ package com.example.gestionnairesante.database.dao.innerPlat
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.PrimaryKey
 import com.example.gestionnairesante.database.dao.menu.MenuData
 import com.example.gestionnairesante.database.dao.plats.PlatData
 
@@ -15,7 +16,6 @@ import com.example.gestionnairesante.database.dao.plats.PlatData
 
 @Entity(
     tableName = "innerPlat",
-    primaryKeys = ["idpla", "idmen"],
     foreignKeys = [
         ForeignKey(
             entity = PlatData::class,
@@ -33,9 +33,13 @@ import com.example.gestionnairesante.database.dao.plats.PlatData
 )
 
 data class InnerPlatMenuData(
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id_service")
+    val id_service: Int,
+
     @ColumnInfo(name = "idpla")
-    var idPoi: Int,
+    var idpla: Int,
 
     @ColumnInfo(name = "idmen")
-    var idPer: Int
+    var idmen: Int
 )

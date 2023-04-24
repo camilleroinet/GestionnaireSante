@@ -6,25 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.gestionnairesante.database.DB_sante
-import com.example.gestionnairesante.database.dao.glycemie.GlycemieRepo
-import com.example.gestionnairesante.database.dao.innerDiabete.InnerDiabeteRepo
-import com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie
-import com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemieFactory
+import androidx.fragment.app.viewModels
 import com.example.gestionnairesante.databinding.FragChartPieBinding
 import com.example.gestionnairesante.ui.diabete.vm.VMDiabete
-import com.example.gestionnairesante.ui.diabete.vm.VMDiabeteFactory
 import com.example.gestionnairesante.utils.createColorTab
 import com.example.gestionnairesante.utils.creationPieChart
 
 class DiabeteChartPie : Fragment() {
-    /*
-        private var binding: FragChartPieBinding?= null
-        private val viewModel: VMGlycemie by viewModels ({ requireParentFragment() })
-    */
-    private lateinit var binding: FragChartPieBinding
-    private lateinit var viewModel: VMGlycemie
+
+    private var binding: FragChartPieBinding? = null
+    private val vmdiabete: VMDiabete by viewModels({ requireParentFragment() })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,14 +26,6 @@ class DiabeteChartPie : Fragment() {
         val fragBinding = FragChartPieBinding.inflate(inflater, container, false)
         binding = fragBinding
 
-        // Data binding
-        val dao = DB_sante.getInstance(requireContext()).tabGlycemie
-        val repository = GlycemieRepo(dao)
-        val factory = VMGlycemieFactory(repository)
-        viewModel = ViewModelProvider(this, factory).get(VMGlycemie::class.java)
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this
-
         // Inflate the layout for this fragment
         return fragBinding.root
     }
@@ -50,35 +33,42 @@ class DiabeteChartPie : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding?.apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = viewModel
+            binding?.fragChartPie = this@DiabeteChartPie
+        }
         val tabData = ArrayList<Int>()
 
         //creation de message pout l'utilisateur si qqc est arrivé
-        viewModel.message.observe(viewLifecycleOwner) { it ->
+        vmdiabete.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
 
-        viewModel.getAllValeurGlycemie().observe(viewLifecycleOwner) { it ->
-            binding.chart0.invalidate()
+        vmdiabete.getAllGlycemie().observe(viewLifecycleOwner) { it ->
             tabData.clear()
             tabData.addAll(it)
-            createDataPieChart()
+
         }
+        createDataPieChart()
     }
 
     fun createDataPieChart() {
         val arrayData = ArrayList<Float>()
         val tabValeur = ArrayList<Int>()
 
-        viewModel.getAllValeurGlycemie().observe(viewLifecycleOwner) { it ->
+        vmdiabete.getAllGlycemie().observe(viewLifecycleOwner) { it ->
             var hypo = 0
             var cible = 0
             var fort = 0
             var hyper = 0
 
+
             tabValeur.clear()
             tabValeur.addAll(it)
+
 
             for (i in 0 until it.size) {
                 when (tabValeur.get(i)) {
@@ -96,8 +86,8 @@ class DiabeteChartPie : Fragment() {
 
             val couleurs = createColorTab(requireContext(), arrayData.size)
 
-            creationPieChart(binding.chart0, arrayData, couleurs)
-
+            creationPieChart(binding!!.chart0, arrayData, couleurs)
+            binding!!.chart0.invalidate()
         }
 
     }

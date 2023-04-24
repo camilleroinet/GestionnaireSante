@@ -17,12 +17,12 @@ import com.example.gestionnairesante.database.viewmodels.plat.VMPLat
 import com.example.gestionnairesante.databinding.RepasTab2Binding
 import com.example.gestionnairesante.ui.diabete.DiabeteDialogInsuline
 import com.example.gestionnairesante.ui.poids.PoidsDialog
+import com.example.gestionnairesante.ui.repas.vm.VmRepas
 
 class RepasTab2 : Fragment() {
-/*
     private var binding: RepasTab2Binding? = null
     private lateinit var adapter: AdapterRecyclerPlat
-    private val viewModel: VMPLat by viewModels({ requireParentFragment() })
+    private val viewModel: VmRepas by viewModels({ requireParentFragment() })
     private var ind = 0
 
     override fun onCreateView(
@@ -43,7 +43,6 @@ class RepasTab2 : Fragment() {
 
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = viewModel
             binding?.recyclerPlats = this@RepasTab2
         }
         val tabPlat = ArrayList<PlatData>()
@@ -55,7 +54,7 @@ class RepasTab2 : Fragment() {
             }
         }
 
-        viewModel.getallPlat().observe(viewLifecycleOwner) { it ->
+        viewModel.getAllPlats().observe(viewLifecycleOwner) { it ->
             tabPlat.clear()
             tabPlat.addAll(it)
         }
@@ -77,18 +76,9 @@ class RepasTab2 : Fragment() {
 
 
 
-    fun listItemClicked(viewModel: VMPLat, data: PlatData) {
+    fun listItemClicked(viewModel: VmRepas, data: PlatData) {
 
     }
-
-    fun displayUser() {
-        viewModel.getallPlat().observe(viewLifecycleOwner, Observer {
-            //Toast.makeText(requireContext(), "size ==>> ${it.size}", Toast.LENGTH_LONG).show()
-            adapter.setList(it)
-            adapter.notifyDataSetChanged()
-        })
-    }
-
     fun touchRecycler() {
         val itemTouchHelper by lazy {
             val simplecall = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
@@ -98,10 +88,6 @@ class RepasTab2 : Fragment() {
                     viewHolder: RecyclerView.ViewHolder,
                     target: RecyclerView.ViewHolder
                 ): Boolean {
-                    val adapter = binding?.recyclerPlat?.adapter as AdapterRecyclerPlat
-                    val from = viewHolder.adapterPosition
-                    val to = target.adapterPosition
-                    adapter.notifyItemMoved(from, to)
                     return true
                 }
 
@@ -109,7 +95,7 @@ class RepasTab2 : Fragment() {
                     val sp = viewHolder.adapterPosition
                     val obj = adapter.getDbObjet(sp)
                     //DialogFragHomeSuppr.newInstance("titre", "subtitre", ind).show(childFragmentManager, DialogFragHomeSuppr.TAG)
-                    viewModel.deleteGlycemie(obj)
+                    viewModel.deletePlat(obj.id_plat)
                 }
 
                 override fun onSelectedChanged(
@@ -134,7 +120,15 @@ class RepasTab2 : Fragment() {
         }
         itemTouchHelper.attachToRecyclerView(binding?.recyclerPlat)
     }
-*/
+    fun displayUser() {
+        viewModel.getAllPlats().observe(viewLifecycleOwner, Observer {
+            //Toast.makeText(requireContext(), "size ==>> ${it.size}", Toast.LENGTH_LONG).show()
+            adapter.setList(it)
+            adapter.notifyDataSetChanged()
+        })
+    }
+
+
 
 }
 

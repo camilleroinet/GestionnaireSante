@@ -17,6 +17,7 @@ class InnerDiabeteRepo(
 
     val allGlycemie = glycemieDao.getAllValeurGlycemie()
     val innerPeriodeGlycemie = innerDiabeteDao.getAllValeurs()
+    val allInner = innerDiabeteDao.getAllInner()
 
     suspend fun insertGlycemie(gly: GlycemieData) {
         return glycemieDao.insertGlycemie(gly)

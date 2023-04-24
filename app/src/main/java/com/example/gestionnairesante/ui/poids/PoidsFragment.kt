@@ -122,7 +122,7 @@ class PoidsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = viewModel
+            //viewModel = viewModel
             binding?.fragPoids = this@PoidsFragment
         }
 
@@ -137,6 +137,7 @@ class PoidsFragment : Fragment() {
         val factory = VmPoidsFactory(repository)
         viewModel = ViewModelProvider(this, factory).get(VmPoids::class.java)
 
+        binding?.viewModel = viewModel
 
         //on declare que le linearlayout est droppable
         //le ll ecoute si qqc a été Drop
@@ -318,8 +319,6 @@ class PoidsFragment : Fragment() {
                     val sp = viewHolder.adapterPosition
                     val obj = adapter.getDbObjet(sp)
                     viewModel.deletePoidPeriode(obj.idpoi, obj.idper)
-                    displayUser()
-
 
                 }
 
