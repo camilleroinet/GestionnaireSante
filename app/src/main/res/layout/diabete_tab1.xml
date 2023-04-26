@@ -24,6 +24,35 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <LinearLayout
+            android:id="@+id/ll_avertissement"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="bottom|center"
+                android:paddingBottom="10dp"
+                android:text="@string/avert_01" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:paddingTop="10dp"
+                android:gravity="top|center"
+                android:text="@string/avert_02"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 </layout>
 

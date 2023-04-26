@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="com.example.gestionnairesante.database.viewmodels.menu.VMMenu" />
+            name="viewModelrepas"
+            type="com.example.gestionnairesante.ui.repas.vm.VmRepas" />
 
         <variable
             name="recyclerMenu"

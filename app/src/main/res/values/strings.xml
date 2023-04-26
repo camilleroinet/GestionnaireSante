@@ -40,6 +40,8 @@
     <string name="nbPlats">4</string>
     <string name="nb_plat_menu">Nombre de plats :</string>
     <string name="nom_du_menu">Nom du menu</string>
+    <string name="avert_01">Pas assez de données enregistrées ! </string>
+    <string name="avert_02">Veuillez entrer plus d\'enregistrement.</string>
 
     <string-array name="periodes">
         <item>Petit-déjeuner</item>

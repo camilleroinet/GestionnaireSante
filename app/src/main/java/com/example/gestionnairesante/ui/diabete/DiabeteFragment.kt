@@ -17,6 +17,7 @@ import com.example.gestionnairesante.database.dao.innerDiabete.InnerDiabeteRepo
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieRepo
 import com.example.gestionnairesante.database.dao.innerDiabete.DataInner
 import com.example.gestionnairesante.database.dao.insuline.InsulineRepo
+import com.example.gestionnairesante.database.dao.insuline.ParamStyloData
 import com.example.gestionnairesante.databinding.DiabeteBinding
 import com.example.gestionnairesante.ui.diabete.vm.VMDiabete
 import com.example.gestionnairesante.ui.diabete.vm.VMDiabeteFactory
@@ -24,7 +25,7 @@ import com.google.android.material.tabs.TabLayout
 
 class DiabeteFragment : Fragment() {
     private var binding: DiabeteBinding? = null
-    private lateinit var vmdiabete : VMDiabete
+    private lateinit var vmdiabete: VMDiabete
 
     private lateinit var tablayoutTabs: TabLayout
     private lateinit var viewPagerTabs: ViewPager
@@ -63,13 +64,19 @@ class DiabeteFragment : Fragment() {
         val daoPeriode = DB_sante.getInstance(requireContext()).tabPeriode
         val daoInsuline = DB_sante.getInstance(requireContext()).tabInsuline
         val daoDiabete = DB_sante.getInstance(requireContext()).tabRelationnelDiabete
+        val daoStylo = DB_sante.getInstance(requireContext()).tabStylo
 
-        val repoDiabete = InnerDiabeteRepo(daoGlycemie, daoPeriode, daoInsuline, daoDiabete)
+        val repoDiabete =
+            InnerDiabeteRepo(daoGlycemie, daoPeriode, daoInsuline, daoDiabete, daoStylo)
         val factoryDiabete = VMDiabeteFactory(repoDiabete)
         vmdiabete = ViewModelProvider(this, factoryDiabete).get(VMDiabete::class.java)
         binding?.vmdiabete = vmdiabete
 
-        val tabInner = ArrayList<DataInner>()
+        vmdiabete.nbStylo.value = vmdiabete.getAllStylo()
+        if (vmdiabete.nbStylo.value == 0) {
+            vmdiabete.insertStylo(ParamStyloData(0, 300, 300, 2))
+            vmdiabete.insertStylo(ParamStyloData(0, 500, 500, 2))
+        }
 
         vmdiabete.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
@@ -77,24 +84,19 @@ class DiabeteFragment : Fragment() {
             }
         }
 
-        vmdiabete.getGlycemiePeriode().observe(viewLifecycleOwner) { it ->
-            tabInner.clear()
-            tabInner.addAll(it)
-        }
-
         binding!!.btnInsert.setOnClickListener {
             DiabeteDialogGlycemie.newInstance(
                 "titre",
                 "subtitre",
                 ind,
-                0, 0,0,
+                0, 0, 0,
                 0,
-                0,0,
-                "","",""
+                0, 0,
+                "", "", ""
             )
                 .show(childFragmentManager, DiabeteDialogGlycemie.TAG)
-            //Toast.makeText(requireContext(), "youhou", Toast.LENGTH_LONG).show()
         }
+
         binding!!.btnInsertInsuline.setOnClickListener {
             DiabeteDialogInsuline.newInstance("titre", "subtitre", ind, 0, 0, 0)
                 .show(childFragmentManager, DiabeteDialogInsuline.TAG)
@@ -110,9 +112,6 @@ class DiabeteFragment : Fragment() {
         configViewPager(viewPagerTabs, arrayFragTab, arrayTab, tablayoutTabs)
 
     }
-
-
-
 
     fun configTablelayout(array: ArrayList<Int>) {
         tablayoutTabs.apply {
@@ -143,13 +142,9 @@ class DiabeteFragment : Fragment() {
                     }
                 }
 
-                override fun onTabUnselected(tab: TabLayout.Tab?) {
+                override fun onTabUnselected(tab: TabLayout.Tab?) {}
 
-                }
-
-                override fun onTabReselected(tab: TabLayout.Tab?) {
-
-                }
+                override fun onTabReselected(tab: TabLayout.Tab?) {}
             })
         }
     }

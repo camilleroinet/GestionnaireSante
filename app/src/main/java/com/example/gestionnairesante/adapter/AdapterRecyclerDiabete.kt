@@ -68,8 +68,5 @@ class AdapterRecyclerDiabete(private val clickListener: (DataInner) -> Unit) :
         dataList.clear()
         dataList.addAll(data)
     }
-    fun setList2(data: List<InnerDiabeteData>) {
-        dataList2.clear()
-        dataList2.addAll(data)
-    }
+
 }

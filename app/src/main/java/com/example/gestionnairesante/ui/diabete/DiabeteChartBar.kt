@@ -13,6 +13,7 @@ import com.example.gestionnairesante.utils.createBarChart
 import com.github.mikephil.charting.data.BarEntry
 
 class DiabeteChartBar : Fragment() {
+
     private var binding: FragChartBarBinding? = null
     private val viewModel: VMGlycemie by viewModels({ requireParentFragment() })
 
@@ -47,13 +48,6 @@ class DiabeteChartBar : Fragment() {
             }
         }
 
-        viewModel.getAllValeurGlycemie().observe(viewLifecycleOwner) { it ->
-            tabData.clear()
-            tabData.addAll(it)
-            recupDataBarChart()
-            //recupDataBarChart()
-            //binding.chart0.invalidate()
-        }
         recupDataBarChart()
     }
 
@@ -76,10 +70,6 @@ class DiabeteChartBar : Fragment() {
             createBarChart(barChart, valeur, stringValue, "Glycemies")
         }
         return valeur
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
     }
 
 }

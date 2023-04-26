@@ -12,13 +12,18 @@ import kotlinx.coroutines.launch
 
 class VmRepas (private val repo: InnerPlatMenuRepo) : ViewModel(){
     var totalPlats = MutableLiveData<String>()
+    var totalCalories = MutableLiveData<String>()
+    var totalGlucides = MutableLiveData<String>()
 
     private val statusMessage = MutableLiveData<Event<String>>()
     val message: LiveData<Event<String>>
         get() = statusMessage
 
     init {
-        totalPlats.value = "coucou"
+        totalPlats.value = ""
+        totalCalories.value = ""
+        totalGlucides.value = ""
+
     }
 
     fun deletePlat(id: Int) = viewModelScope.launch{
@@ -47,17 +52,31 @@ class VmRepas (private val repo: InnerPlatMenuRepo) : ViewModel(){
         }
     }
 
-    fun getLastMenuInCurrent() : Int{
-        return repo.getLastMenuInCurrent()
-    }
-    fun getPlatInMenu(id: Int) = liveData {
-        repo.getPlatInMenu(id).collect() {
+    fun getAllMenu() = liveData {
+        repo.allMenu.collect {
             emit(it)
         }
     }
+
+    fun getLastMenuInCurrent() : Int{
+        return repo.getLastMenuInCurrent()
+    }
+
+    fun getPlatInMenu() = liveData {
+        repo.getPlatInMenu().collect() {
+            emit(it)
+        }
+    }
+
     fun composerMenu(plat: PlatData)  = viewModelScope.launch {
         val lastMenu = repo.getLastMenu()
         val inner = InnerPlatMenuData(0,plat.id_plat, lastMenu)
         repo.insertInnerPlatMenu(inner)
     }
+
+    fun deletePlatInCurrent(id: Int) = viewModelScope.launch {
+        val lastMenu = repo.getLastMenu()
+        repo.deletePlatInCurrent(id)
+    }
+
 }

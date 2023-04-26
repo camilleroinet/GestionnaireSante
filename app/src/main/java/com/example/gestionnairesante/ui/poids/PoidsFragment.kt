@@ -1,22 +1,11 @@
 package com.example.gestionnairesante.ui.poids
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.content.ClipData
-import android.content.ClipDescription
-import android.graphics.Color
-import android.graphics.Path
 import android.os.Bundle
-import android.view.DragEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AccelerateInterpolator
-import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.constraintlayout.motion.widget.MotionLayout
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -29,13 +18,14 @@ import com.example.gestionnairesante.database.DB_sante
 import com.example.gestionnairesante.database.dao.innerPoids.InnerPoidsRepo
 import com.example.gestionnairesante.database.dao.innerPoids.PoidsInner
 import com.example.gestionnairesante.databinding.PoidBinding
-import com.example.gestionnairesante.divers.MyDragShadowBuilder
 import com.example.gestionnairesante.ui.poids.vm.VmPoids
 import com.example.gestionnairesante.ui.poids.vm.VmPoidsFactory
 import com.example.gestionnairesante.utils.createBarChart
 import com.github.mikephil.charting.data.BarEntry
-import kotlinx.coroutines.*
-import java.util.concurrent.TimeUnit
+import java.math.BigDecimal
+import java.math.RoundingMode
+import java.text.DecimalFormat
+import kotlin.math.roundToInt
 
 class PoidsFragment : Fragment() {
 
@@ -44,65 +34,6 @@ class PoidsFragment : Fragment() {
     private lateinit var adapter: AdapterRecyclerPoids
     private var ind = 0
     private var lastPoua = 0f
-    lateinit var targetMotion: LinearLayout
-    lateinit var motionLayout: MotionLayout
-    val dureeanimation: Long = 500
-
-    private val onDragTV = View.OnDragListener { view, dragEvent ->
-        (view as View).let {
-            when (dragEvent.action) {
-                DragEvent.ACTION_DRAG_STARTED -> {
-                    if (!targetMotion.isVisible) {
-                        //targetMotion.visibility = View.VISIBLE
-                        createAnimation(0)
-                    }
-                    return@OnDragListener true
-                }
-                else -> return@OnDragListener false
-            }
-        }
-    }
-
-    private val onDragListener = View.OnDragListener { view, dragEvent ->
-        //  TODO ATTENTION BIEN VERIFIER QUE LE TYPE CORRESPOND AU XML
-        // si cible = linear, ou si cible = framelayout, ou si cible = motionlayout ou autre
-        // sinon plante pour erreur de cast
-        (view as LinearLayout).let {
-            when (dragEvent.action) {
-
-                DragEvent.ACTION_DRAG_STARTED -> {
-                    return@OnDragListener true
-                }
-
-                DragEvent.ACTION_DRAG_ENTERED -> {
-                    return@OnDragListener true
-                }
-
-                DragEvent.ACTION_DRAG_LOCATION -> {
-                    it.setBackgroundColor(Color.BLUE)
-                    return@OnDragListener true
-                }
-
-                DragEvent.ACTION_DRAG_EXITED -> {
-                    return@OnDragListener true
-                }
-
-                DragEvent.ACTION_DROP -> {
-                    if (targetMotion.isVisible) {
-                        //it.setBackgroundColor(Color.BLUE)
-                        createAnimation(1)
-                    }
-                    return@OnDragListener true
-                }
-
-                DragEvent.ACTION_DRAG_ENDED -> {
-                    return@OnDragListener true
-                }
-
-                else -> return@OnDragListener false
-            }
-        }
-    }
 
     val tabPoids = ArrayList<Float>()
 
@@ -122,7 +53,6 @@ class PoidsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            //viewModel = viewModel
             binding?.fragPoids = this@PoidsFragment
         }
 
@@ -139,48 +69,6 @@ class PoidsFragment : Fragment() {
 
         binding?.viewModel = viewModel
 
-        //on declare que le linearlayout est droppable
-        //le ll ecoute si qqc a été Drop
-        //utilisation du findviewbyid à cause de l'utilisation du framework transition
-        targetMotion = view.findViewById<LinearLayout>(R.id.targetMotion)
-        targetMotion.setOnDragListener(onDragListener)
-
-        motionLayout = view.findViewById<MotionLayout>(R.id.motionLayout)
-        motionLayout.setTransitionListener(object : MotionLayout.TransitionListener {
-            override fun onTransitionTrigger(
-                motionLayout: MotionLayout?,
-                triggerId: Int,
-                positive: Boolean,
-                progress: Float
-            ) {
-                // TODO
-            }
-
-            override fun onTransitionStarted(
-                motionLayout: MotionLayout?,
-                startId: Int,
-                endId: Int
-            ) {
-                //target.visibility = View.VISIBLE
-                motionLayout?.transitionToStart()
-                Toast.makeText(context, "----> transition débbutée", Toast.LENGTH_SHORT).show()
-
-            }
-
-            override fun onTransitionChange(
-                motionLayout: MotionLayout?,
-                startId: Int,
-                endId: Int,
-                progress: Float
-            ) {
-                // TODO
-            }
-
-            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
-                Toast.makeText(context, "transition terminée", Toast.LENGTH_SHORT).show()
-            }
-        })
-
         // TODO a cocher a la fin
         // Message de test du viewModel
         viewModel.message.observe(viewLifecycleOwner) { it ->
@@ -192,15 +80,47 @@ class PoidsFragment : Fragment() {
         viewModel.getAllValeurPoids().observe(viewLifecycleOwner) { it ->
             tabPoids.clear()
             tabPoids.addAll(it)
-            recupDataBarChart()
-            val p = tabPoids.size - 1
-            if (p < 0) {
-                Toast.makeText(requireContext(), "Aucunes données", Toast.LENGTH_SHORT).show()
+
+            val p = tabPoids.size
+
+            Toast.makeText(requireContext(), "taille de tas : $p", Toast.LENGTH_SHORT).show()
+
+            if (p > 0) {
+                binding?.llAvertChart?.visibility = View.GONE
+                binding?.chart0?.visibility = View.VISIBLE
+                binding?.tabLayout?.visibility = View.VISIBLE
+
+                /*
+
+    val roundoff = df.format(random)
+    println(roundoff)        // 295.33
+    val decimal = BigDecimal(3.14159265359).setScale(2, RoundingMode.HALF_EVEN)
+
+                 */
+
+                //val df = DecimalFormat("#.##")
+
+
+                lastPoua = tabPoids.get(p -1 )
+
+                val imc = (calculerIMC(171, lastPoua))
+
+                val decimal = BigDecimal(imc).setScale(2, RoundingMode.HALF_EVEN)
+
+                binding!!.rere.text = decimal.toString()
+                verifIMC(decimal.toDouble())
+
+                initRecycler()
+                touchRecycler()
+                displayUser()
+
+                recupDataBarChart()
+
             } else {
-                lastPoua = tabPoids.get(p)
-                val imc = calculerIMC(171, lastPoua)
-                binding!!.rere.text = calculerIMC(171, lastPoua).toString()
-                verifIMC(imc)
+                Toast.makeText(requireContext(), "Aucunes données", Toast.LENGTH_SHORT).show()
+                binding?.llAvertChart?.visibility = View.VISIBLE
+                binding?.chart0?.visibility = View.GONE
+                binding?.tabLayout?.visibility = View.GONE
             }
         }
 
@@ -209,14 +129,6 @@ class PoidsFragment : Fragment() {
                 .show(childFragmentManager, PoidsDialog.TAG)
         }
 
-        initRecycler()
-        touchRecycler()
-        displayUser()
-
-    }
-
-    fun doDelete(adapt: AdapterRecyclerPoids, pos: Int) {
-        adapt.notifyItemRemoved(pos)
     }
 
     fun listItemClicked(viewModel: VmPoids, data: PoidsInner) {
@@ -241,17 +153,17 @@ class PoidsFragment : Fragment() {
     // TODO Apres implementation du profil modifier la valeur
     //  par defaut de la taille
     // Calcule de l'imc
-    fun calculerIMC(taille: Int, poids: Float): Float {
+    fun calculerIMC(taille: Int, poids: Float): Double {
         //  IMC = poids en kg/taille²
         val weight = poids.toDouble()
         val height = (taille.toDouble() / 100)
 
-        return (weight / (height * height)).toFloat()
+        return (weight / (height * height))
     }
 
     @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
     // Test et retour du traitement en fonction de la valeur de l'imc
-    fun verifIMC(imc: Float) {
+    fun verifIMC(imc: Double) {
         when (imc) {
             in 0.0F..18.5F -> {
                 binding?.imgImc?.setImageDrawable(resources.getDrawable(R.drawable.imc1))
@@ -308,10 +220,7 @@ class PoidsFragment : Fragment() {
                     viewHolder: RecyclerView.ViewHolder,
                     target: RecyclerView.ViewHolder
                 ): Boolean {
-                    val adapter = binding?.recyclerPoids?.adapter as AdapterRecyclerPoids
-                    val from = viewHolder.adapterPosition
-                    val to = target.adapterPosition
-                    adapter.notifyItemMoved(from, to)
+
                     return true
                 }
 
@@ -365,101 +274,5 @@ class PoidsFragment : Fragment() {
         }
 
         return data
-    }
-
-    // Animation du dragNdop
-    fun createAnimation(indice: Int) {
-        when (indice) {
-            0 -> {
-                targetMotion.setBackgroundColor(Color.BLACK)
-                targetMotion.visibility = View.VISIBLE
-                startAnimation(
-                    targetMotion,
-                    AccelerateDecelerateInterpolator(),
-                    dureeanimation,
-                    indice
-                )
-            }
-            1 -> {
-                attendre()
-                startAnimation2(targetMotion, AccelerateInterpolator(), dureeanimation, indice)
-                targetMotion.visibility = View.GONE
-                targetMotion.setBackgroundColor(Color.BLACK)
-            }
-        }
-    }
-
-    /**
-     * Gestion de l'animation
-     */
-    fun startAnimation(
-        view: View,
-        interpolator: AccelerateDecelerateInterpolator,
-        duration: Long,
-        indice: Int
-    ): ObjectAnimator {
-        val animator = ObjectAnimator.ofFloat(view, View.SCALE_X, View.SCALE_Y, initPath(indice))
-        animator.duration = duration
-        animator.interpolator = interpolator
-        animator.start()
-        return animator
-    }
-
-    // Ou
-    fun startAnimation2(
-        view: View,
-        interpolator: AccelerateInterpolator,
-        duration: Long,
-        indice: Int
-    ): ObjectAnimator {
-        val animator = ObjectAnimator.ofFloat(view, View.SCALE_X, View.SCALE_Y, initPath(indice))
-        animator.duration = duration
-        animator.interpolator = interpolator
-        animator.start()
-        return animator
-    }
-
-    fun attendre() {
-        CoroutineScope(Dispatchers.IO).launch {
-            delay(TimeUnit.SECONDS.toMillis(dureeanimation))
-            withContext(Dispatchers.Main) {
-                //createAnimation(1)
-                targetMotion.visibility = View.GONE
-                targetMotion.setBackgroundColor(Color.BLACK)
-            }
-        }
-    }
-
-    private fun initPath(indice: Int): Path {
-        val path = Path()
-
-        if (indice == 0) {
-            path.moveTo(0.2f, 0.2f)
-            path.lineTo(1f, 1f)
-        } else if (indice == 1) {
-            path.moveTo(1f, 1f)
-            path.lineTo(0.2f, 0.2f)
-        }
-        return path
-    }
-
-    /**
-     * Gestion du dragNdrop
-     */
-    fun longclickListener(f: View) {
-        f.setOnDragListener(onDragTV)
-        gestionDrag(f)
-    }
-
-    fun gestionDrag(v: View) {
-        val item = ClipData.Item(v.tag as? CharSequence)
-        val dragData = ClipData(
-            v.tag as? CharSequence,
-            arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN),
-            item
-        )
-        val myShadow = MyDragShadowBuilder(v)
-
-        v.startDragAndDrop(dragData, myShadow, null, 0)
     }
 }

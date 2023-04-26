@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.diabete.DiabeteChartBar">
+    tools:context=".ui.diabete.DiabeteChartLine">
 
     <data>
 
         <variable
-            name="viewModel"
-            type="com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie" />
+            name="vmChart"
+            type="com.example.gestionnairesante.ui.diabete.vm.VMDiabete" />
 
         <variable
             name="fragChartLine"
@@ -16,8 +16,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chart0"
             android:layout_width="match_parent"
@@ -25,5 +25,35 @@
             android:layout_gravity="center"
             android:padding="5dp" />
 
+        <LinearLayout
+            android:id="@+id/ll_avertissement"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="bottom|center"
+                android:paddingBottom="10dp"
+                android:text="@string/avert_01" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:paddingTop="10dp"
+                android:gravity="top|center"
+                android:text="@string/avert_02"/>
+
+        </LinearLayout>
+
     </LinearLayout>
+
 </layout>

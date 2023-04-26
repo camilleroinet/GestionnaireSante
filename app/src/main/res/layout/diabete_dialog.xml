@@ -7,11 +7,12 @@
 
         <variable
             name="viewModel"
-            type="com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie" />
+            type="com.example.gestionnairesante.ui.diabete.vm.VMDiabete" />
 
         <variable
             name="dialogDiabete"
             type="com.example.gestionnairesante.ui.diabete.DiabeteDialogGlycemie" />
+
     </data>
 
     <LinearLayout

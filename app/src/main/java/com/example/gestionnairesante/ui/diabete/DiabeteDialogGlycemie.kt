@@ -139,13 +139,11 @@ class DiabeteDialogGlycemie : DialogFragment() {
         }
 
         binding!!.btnSaveGlycemie.setOnClickListener {
-            // TODO a decocher quand implementation du code
             save()
             dismiss()
         }
 
         binding!!.btnUpdateGlycemie.setOnClickListener {
-            // TODO a decocher quand implementation du code
             update()
             dismiss()
         }
@@ -229,7 +227,6 @@ class DiabeteDialogGlycemie : DialogFragment() {
             date, heureDuJour.toString(),periode
 
         )
-        //viewModel.updateGlycemie(oldid, temp.toInt())
     }
 
     /**

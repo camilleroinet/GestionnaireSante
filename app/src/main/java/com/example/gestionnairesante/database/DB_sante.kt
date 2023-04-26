@@ -21,11 +21,14 @@ import com.example.gestionnairesante.database.dao.innerPoids.InnerPoidsDao
 import com.example.gestionnairesante.database.dao.innerPoids.InnerPoidsData
 import com.example.gestionnairesante.database.dao.insuline.InsulineDao
 import com.example.gestionnairesante.database.dao.insuline.InsulineData
+import com.example.gestionnairesante.database.dao.insuline.ParamStyloDao
+import com.example.gestionnairesante.database.dao.insuline.ParamStyloData
 import com.example.gestionnairesante.database.dao.periode.PeriodeDao
 import com.example.gestionnairesante.database.dao.periode.PeriodeData
 
 @Database(
     entities = [
+        ParamStyloData::class,
         InnerPlatMenuData::class,
         InnerPoidsData::class,
         InnerDiabeteData::class,
@@ -47,11 +50,11 @@ abstract class DB_sante : RoomDatabase() {
     abstract val tabPlat: PlatDao
     abstract val tabMenu: MenuDao
     abstract val tabPeriode: PeriodeDao
+    abstract val tabStylo: ParamStyloDao
 
     abstract val tabRelationnelDiabete: InnerDiabeteDao
     abstract val tabRelationnelPoids: InnerPoidsDao
     abstract val tabRelationnelPlat: InnerPlatMenuDao
-
 
     companion object {
         @Volatile

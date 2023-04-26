@@ -4,6 +4,8 @@ import com.example.gestionnairesante.database.dao.glycemie.GlycemieDao
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
 import com.example.gestionnairesante.database.dao.insuline.InsulineDao
 import com.example.gestionnairesante.database.dao.insuline.InsulineData
+import com.example.gestionnairesante.database.dao.insuline.ParamStyloDao
+import com.example.gestionnairesante.database.dao.insuline.ParamStyloData
 import com.example.gestionnairesante.database.dao.periode.PeriodeDao
 import com.example.gestionnairesante.database.dao.periode.PeriodeData
 
@@ -11,14 +13,27 @@ class InnerDiabeteRepo(
     private var glycemieDao: GlycemieDao,
     private var periodeDao: PeriodeDao,
     private var insulineDao: InsulineDao,
-    private var innerDiabeteDao: InnerDiabeteDao
+    private var innerDiabeteDao: InnerDiabeteDao,
+    private var styloDao : ParamStyloDao
 
 ) {
 
     val allGlycemie = glycemieDao.getAllValeurGlycemie()
     val innerPeriodeGlycemie = innerDiabeteDao.getAllValeurs()
     val allInner = innerDiabeteDao.getAllInner()
+    val nbStylo = styloDao.getAllStylo()
 
+    suspend fun insertStylo(data: ParamStyloData) {
+        return styloDao.insertStylo(data)
+    }
+
+    suspend fun updateStylo(id: Int, quantite: Int, maxquantite  : Int, purge: Int) {
+        return styloDao.updateStylo(id, quantite, maxquantite, purge)
+    }
+
+    fun getAllStylo() : Int{
+        return styloDao.getAllStylo()
+    }
     suspend fun insertGlycemie(gly: GlycemieData) {
         return glycemieDao.insertGlycemie(gly)
     }

@@ -44,10 +44,8 @@ class RepasFragment : Fragment() {
     private var arrayTab = arrayListOf<Int>(R.string.txt_fragmenu, R.string.txt_fragrepas)
     private var arrayFragTab = arrayListOf<Fragment>(RepasTab1(), RepasTab2())
 
-    private var arrayTabCharts =
-        arrayListOf<Int>(R.string.txt_chart1, R.string.txt_chart2, R.string.txt_chart3)
+    private var arrayTabCharts = arrayListOf<Int>(R.string.txt_chart1, R.string.txt_chart2, R.string.txt_chart3)
     private var arrayFragChart = arrayListOf<Fragment>(DiabeteChartLine(), DiabeteChartPie())
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -76,19 +74,12 @@ class RepasFragment : Fragment() {
         viewmodelrepas = ViewModelProvider(this, factory).get(VmRepas::class.java)
         binding?.viewmodelrepas = viewmodelrepas
 
-        val tabPlat = ArrayList<PlatData>()
-        val tabListePlat = ArrayList<PlatInner>()
-
         viewmodelrepas.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
-
-        viewmodelrepas.getAllPlats().observe(viewLifecycleOwner) { it ->
-            tabPlat.clear()
-            tabPlat.addAll(it)
-        }
+        displayUser()
 
         binding!!.btnMenu.setOnClickListener {
             binding!!.llVueChart.visibility = View.GONE
@@ -117,9 +108,8 @@ class RepasFragment : Fragment() {
             binding!!.llEtape01.visibility = View.GONE
             binding!!.etapeInformation.visibility = View.GONE
             binding!!.llEtape2.visibility = View.GONE
-
-
         }
+
         binding!!.annulerNommenu.setOnClickListener{
             binding!!.etNommenu.text.clear()
         }
@@ -132,18 +122,15 @@ class RepasFragment : Fragment() {
         binding!!.btnInsertPlat.setOnClickListener {
             RepasDialogPlat.newInstance("titre", "subtitre", ind, 0, "", 0, 0)
                 .show(childFragmentManager, RepasDialogPlat.TAG)
-            //Toast.makeText(requireContext(), "youhou", Toast.LENGTH_LONG).show()
         }
 
         // Pour populate la db
         binding!!.annulerNommenu.setOnClickListener {
             val plat1 = PlatData(0,"Croissant", 25,200)
-            val plat2 = PlatData(0,"Cafe", 0,0)
-            val plat3 = PlatData(0,"Orange", 10,5)
-
-
             viewmodelrepas.ajouterPlat(plat1)
+            val plat2 = PlatData(0,"Cafe", 0,0)
             viewmodelrepas.ajouterPlat(plat2)
+            val plat3 = PlatData(0,"Orange", 10,5)
             viewmodelrepas.ajouterPlat(plat3)
 
             val menu = MenuData(0, "monMenu")
@@ -181,29 +168,48 @@ class RepasFragment : Fragment() {
         binding?.listeMenu?.adapter = adapterListePlatMenu
     }
 
-
-    fun listItemClicked(viewModel: VmRepas, data: PlatData) {
-        viewModel.composerMenu(data)
-        Toast.makeText(requireContext(), "item cliqué : ${data.nom_plat}", Toast.LENGTH_LONG).show()
-        viewmodelrepas.totalPlats.value = viewmodelrepas.totalPlats.value?.plus(1)
+    fun listItemClicked(viewmodelrepas: VmRepas, data: PlatData) {
+        viewmodelrepas.composerMenu(data)
+        displayPlatInMenu()
     }
 
     fun listItemClicked2(viewModel: VmRepas, data: PlatInner) {
-        //viewModel.composerMenu(data)
-        Toast.makeText(requireContext(), "item cliqué : ${data.nomPlat}", Toast.LENGTH_LONG).show()
-        viewmodelrepas.totalPlats.value = viewmodelrepas.totalPlats.value?.plus(1)
+        viewModel.deletePlatInCurrent(data.idser)
+        //Toast.makeText(requireContext(), "delete ok", Toast.LENGTH_LONG)
     }
 
     fun displayUser() {
         viewmodelrepas.getAllPlats().observe(viewLifecycleOwner, Observer {
             //Toast.makeText(requireContext(), "size ==>> ${it.size}", Toast.LENGTH_LONG).show()
+            val tabPlat = ArrayList<PlatData>()
+
+            tabPlat.clear()
+            tabPlat.addAll(it)
+
             adapterPlat.setList(it)
             adapterPlat.notifyDataSetChanged()
         })
 
-        viewmodelrepas.getPlatInMenu(viewmodelrepas.getLastMenuInCurrent()).observe(viewLifecycleOwner, Observer {
-            //Toast.makeText(requireContext(), "size ==>> ${it.size}", Toast.LENGTH_LONG).show()
+    }
+
+    fun displayPlatInMenu() {
+
+        viewmodelrepas.getPlatInMenu().observe(viewLifecycleOwner, Observer {
+            val tabListePlat = ArrayList<PlatInner>()
+            var calories = 0
+            var glucides = 0
+
+            tabListePlat.clear()
+            tabListePlat.addAll(it)
+
+            for(i in 0..tabListePlat.size-1){
+                calories = calories + tabListePlat[i].calPlat
+                glucides = glucides + tabListePlat[i].gluPlat
+            }
             adapterListePlatMenu.setList(it)
+            viewmodelrepas.totalPlats.value = tabListePlat.size.toString()
+            viewmodelrepas.totalGlucides.value = glucides.toString()
+            viewmodelrepas.totalCalories.value = calories.toString()
             adapterListePlatMenu.notifyDataSetChanged()
 
         })

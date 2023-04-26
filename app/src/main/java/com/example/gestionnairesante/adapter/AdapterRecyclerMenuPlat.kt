@@ -43,6 +43,7 @@ class AdapterRecyclerMenuPlat (
             binding.nomPlat.text = data.nomPlat
 
             binding.itemLayout2.setOnClickListener {
+                clickListener(data)
 
             }
         }

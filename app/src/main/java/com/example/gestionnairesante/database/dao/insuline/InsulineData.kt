@@ -17,4 +17,5 @@ data class InsulineData(
     var insuline_lente: Int,
 
 
+
     )

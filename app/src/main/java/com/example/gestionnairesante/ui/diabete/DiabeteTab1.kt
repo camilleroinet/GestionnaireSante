@@ -1,5 +1,6 @@
 package com.example.gestionnairesante.ui.diabete
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -53,17 +54,17 @@ class DiabeteTab1 : Fragment() {
             binding?.recyclerDiabete = this@DiabeteTab1
         }
 
-
         //creation de message pout l'utilisateur si qqc est arrivé
         vmdiabete.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
-                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+               // Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
 
         vmdiabete.getGlycemiePeriode().observe(viewLifecycleOwner) { it ->
             tabInner.clear()
             tabInner.addAll(it)
+            displayUser()
         }
 
         initRecycler()
@@ -78,7 +79,6 @@ class DiabeteTab1 : Fragment() {
         // Configuration de l'adapter
         adapter = AdapterRecyclerDiabete { daouser: DataInner -> listItemClicked(vmdiabete, daouser) }
         binding?.rvDiabete?.adapter = adapter
-
         adapter.setList(tabInner)
     }
 
@@ -106,14 +106,11 @@ class DiabeteTab1 : Fragment() {
         val itemTouchHelper by lazy {
             val simplecall = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
 
-                override fun onMove(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    target: RecyclerView.ViewHolder
-                ): Boolean {
+                override fun onMove( recyclerView: RecyclerView,viewHolder: RecyclerView.ViewHolder,target: RecyclerView.ViewHolder): Boolean {
                     return true
                 }
 
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val sp = viewHolder.adapterPosition
                     val obj = adapter.getDbObjet(sp)
@@ -122,44 +119,30 @@ class DiabeteTab1 : Fragment() {
                     adapter.notifyDataSetChanged()
                 }
 
-                override fun onSelectedChanged(
-                    viewHolder: RecyclerView.ViewHolder?,
-                    actionState: Int
-                ) {
+                override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?,actionState: Int) {
                     super.onSelectedChanged(viewHolder, actionState)
                     if (actionState == ItemTouchHelper.RIGHT) {
                         viewHolder?.itemView?.alpha = 0.5F
                     }
                 }
 
-                override fun clearView(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder
-                ) {
+                override fun clearView(recyclerView: RecyclerView,viewHolder: RecyclerView.ViewHolder) {
                     super.clearView(recyclerView, viewHolder)
                     viewHolder.itemView.alpha = 1.0F
                 }
             }
+
             ItemTouchHelper(simplecall)
         }
         itemTouchHelper.attachToRecyclerView(binding?.rvDiabete)
-
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun displayUser() {
-
-        vmdiabete.getGlycemiePeriode().observe(viewLifecycleOwner, Observer {
-            tabInner.clear()
-            tabInner.addAll(it)
-
-            //touchRecycler()
             adapter.setList(tabInner)
             adapter.notifyDataSetChanged()
-            //binding?.rvDiabete?.invalidate()
 
+        }
 
-
-        })
-    }
 
 }

@@ -19,7 +19,7 @@ import com.example.gestionnairesante.database.dao.innerDiabete.InnerDiabeteRepo
 import com.example.gestionnairesante.databinding.FragmentSportBinding
 
 class SportFragment  : Fragment() {
-    private lateinit var binding: FragmentSportBinding
+/*    private lateinit var binding: FragmentSportBinding
     private lateinit var vmsport : SportViewModel
     private lateinit var adapterPlat: AdapterRecyclerDiabete
 
@@ -136,5 +136,5 @@ class SportFragment  : Fragment() {
             adapterPlat.notifyDataSetChanged()
         })
     }
-
+*/
 }

@@ -16,7 +16,7 @@ import com.example.gestionnairesante.utils.recupDataChart
 class DiabeteChartLine : Fragment() {
 
     private var binding: FragChartLineBinding? = null
-    private val vmdiabete: VMDiabete by viewModels({ requireParentFragment() })
+    private val vmChart: VMDiabete by viewModels({ requireParentFragment() })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,33 +36,38 @@ class DiabeteChartLine : Fragment() {
 
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = viewModel
+            vmChart = vmChart
             binding?.fragChartLine = this@DiabeteChartLine
         }
         val tabData = ArrayList<Int>()
 
         //creation de message pout l'utilisateur si qqc est arrivé
         // todo a commenter
-        vmdiabete.message.observe(viewLifecycleOwner) { it ->
+        vmChart.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
 
-        vmdiabete.getAllGlycemie().observe(viewLifecycleOwner) { it ->
-            tabData.clear()
-            tabData.addAll(it)
-            recupDataLineChart()
-        }
+        recupDataLineChart()
+
     }
 
     fun recupDataLineChart() {
         val valuesBdd = ArrayList<Int>()
-
-        vmdiabete.getAllGlycemie().observe(viewLifecycleOwner, Observer {
+        vmChart.getAllGlycemie().observe(viewLifecycleOwner, Observer {
             binding?.chart0?.invalidate()
             valuesBdd.clear()
             valuesBdd.addAll(it)
+
+            if(valuesBdd.size <=2){
+                binding?.chart0?.visibility = View.GONE
+                binding?.llAvertissement?.visibility = View.VISIBLE
+            }else{
+                binding?.chart0?.visibility = View.VISIBLE
+                binding?.llAvertissement?.visibility = View.GONE
+            }
+
             createLineChart(requireContext(), binding!!.chart0, recupDataChart(valuesBdd))
             binding!!.chart0.invalidate()
         })

@@ -38,7 +38,6 @@ class DiabeteChartPie : Fragment() {
             viewModel = viewModel
             binding?.fragChartPie = this@DiabeteChartPie
         }
-        val tabData = ArrayList<Int>()
 
         //creation de message pout l'utilisateur si qqc est arrivé
         vmdiabete.message.observe(viewLifecycleOwner) { it ->
@@ -47,12 +46,8 @@ class DiabeteChartPie : Fragment() {
             }
         }
 
-        vmdiabete.getAllGlycemie().observe(viewLifecycleOwner) { it ->
-            tabData.clear()
-            tabData.addAll(it)
-
-        }
         createDataPieChart()
+
     }
 
     fun createDataPieChart() {
@@ -65,10 +60,17 @@ class DiabeteChartPie : Fragment() {
             var fort = 0
             var hyper = 0
 
-
             tabValeur.clear()
             tabValeur.addAll(it)
 
+            if(tabValeur.size >2){
+                binding?.chart0?.visibility = View.VISIBLE
+                binding?.llAvertissement?.visibility = View.GONE
+
+            }else{
+                binding?.chart0?.visibility = View.GONE
+                binding?.llAvertissement?.visibility = View.VISIBLE
+            }
 
             for (i in 0 until it.size) {
                 when (tabValeur.get(i)) {

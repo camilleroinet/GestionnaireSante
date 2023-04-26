@@ -6,17 +6,21 @@ import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
 import com.example.gestionnairesante.database.dao.innerDiabete.InnerDiabeteData
 import com.example.gestionnairesante.database.dao.innerDiabete.InnerDiabeteRepo
 import com.example.gestionnairesante.database.dao.insuline.InsulineData
+import com.example.gestionnairesante.database.dao.insuline.ParamStyloData
 import com.example.gestionnairesante.database.dao.periode.PeriodeData
 import kotlinx.coroutines.launch
 
 class VMDiabete( private val repo: InnerDiabeteRepo): ViewModel() {
+
+    var nbPurge = MutableLiveData<Int>()
+    var nbStylo = MutableLiveData<Int>()
 
     private val statusMessage = MutableLiveData<Event<String>>()
     val message: LiveData<Event<String>>
         get() = statusMessage
 
     init {
-
+        nbPurge.value = 2
     }
 
     fun insertDiabete(periode: String, date: String, heure: String, glycemie: Int, rapide: Int, lente: Int) = viewModelScope.launch {
@@ -28,11 +32,9 @@ class VMDiabete( private val repo: InnerDiabeteRepo): ViewModel() {
         val lastPeriode = repo.getLastPeriode()
 
         //
-        // Insertiob de la glycemie
+        // Insertion de la glycemie
         //
-        val newGlycemie = GlycemieData(
-            0, glycemie
-        )
+        val newGlycemie = GlycemieData(0, glycemie )
         repo.insertGlycemie(newGlycemie)
         val lastGlycemie = repo.getLastGlycemie()//insertion de la glycemie
 
@@ -75,6 +77,14 @@ class VMDiabete( private val repo: InnerDiabeteRepo): ViewModel() {
         repo.deleteInsuline(ins)
         repo.deletePeriode(per)
         statusMessage.value = Event("L'enregistrement a bien été supprimé.")
+    }
+
+    fun getAllStylo() : Int{
+        return repo.getAllStylo()
+    }
+
+    fun insertStylo(data: ParamStyloData)  = viewModelScope.launch {
+        repo.insertStylo(data)
     }
 
 }

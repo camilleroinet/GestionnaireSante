@@ -13,17 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gestionnairesante.adapter.AdapterRecyclerPlat
 import com.example.gestionnairesante.database.dao.plats.PlatData
-import com.example.gestionnairesante.database.viewmodels.plat.VMPLat
 import com.example.gestionnairesante.databinding.RepasTab2Binding
-import com.example.gestionnairesante.ui.diabete.DiabeteDialogInsuline
-import com.example.gestionnairesante.ui.poids.PoidsDialog
 import com.example.gestionnairesante.ui.repas.vm.VmRepas
 
 class RepasTab2 : Fragment() {
     private var binding: RepasTab2Binding? = null
     private lateinit var adapter: AdapterRecyclerPlat
     private val viewModel: VmRepas by viewModels({ requireParentFragment() })
-    private var ind = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,18 +41,12 @@ class RepasTab2 : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             binding?.recyclerPlats = this@RepasTab2
         }
-        val tabPlat = ArrayList<PlatData>()
 
         //creation de message pout l'utilisateur si qqc est arrivé
         viewModel.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
-        }
-
-        viewModel.getAllPlats().observe(viewLifecycleOwner) { it ->
-            tabPlat.clear()
-            tabPlat.addAll(it)
         }
 
         initRecycler()
@@ -74,11 +64,18 @@ class RepasTab2 : Fragment() {
 
     }
 
-
-
     fun listItemClicked(viewModel: VmRepas, data: PlatData) {
 
     }
+
+    fun displayUser() {
+        viewModel.getAllPlats().observe(viewLifecycleOwner, Observer {
+            //Toast.makeText(requireContext(), "size ==>> ${it.size}", Toast.LENGTH_LONG).show()
+            adapter.setList(it)
+            adapter.notifyDataSetChanged()
+        })
+    }
+
     fun touchRecycler() {
         val itemTouchHelper by lazy {
             val simplecall = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
@@ -120,13 +117,7 @@ class RepasTab2 : Fragment() {
         }
         itemTouchHelper.attachToRecyclerView(binding?.recyclerPlat)
     }
-    fun displayUser() {
-        viewModel.getAllPlats().observe(viewLifecycleOwner, Observer {
-            //Toast.makeText(requireContext(), "size ==>> ${it.size}", Toast.LENGTH_LONG).show()
-            adapter.setList(it)
-            adapter.notifyDataSetChanged()
-        })
-    }
+
 
 
 
