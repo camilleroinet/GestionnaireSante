@@ -1,6 +1,5 @@
 package com.example.gestionnairesante.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -15,36 +14,36 @@ class AdapterRecyclerMenu(private val clickListener: (MenuData) -> Unit) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding: RepasCardviewMenuBinding =
-            DataBindingUtil.inflate(layoutInflater, R.layout.repas_cardview_menu, parent, false)
+        val binding: RepasCardviewMenuBinding = DataBindingUtil.inflate(layoutInflater, R.layout.repas_cardview_menu, parent, false)
         return MyViewHolder(binding)
+    }
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        holder.bind(menuList[position], clickListener)
+    }
+
+    class MyViewHolder(val binding: RepasCardviewMenuBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(data: MenuData, clickListener: (MenuData) -> Unit) {
+            binding.nomMenu.text = data.nom_menu
+            binding.glucides.text = data.totalGly.toString()
+            binding.calories.text = data.totalCal.toString()
+            binding.nbPlat.text = data.totalPlat.toString()
+
+            binding.itemLayout3.setOnClickListener() {
+                clickListener(data)
+            }
+
+        }
     }
 
     fun getDbObjet(position: Int): MenuData {
         return menuList.get(position)
     }
-
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bind(menuList[position], clickListener)
-    }
-
-    fun setList(daousers: List<MenuData>) {
-        menuList.clear()
-        menuList.addAll(daousers)
-    }
-
-    class MyViewHolder(val binding: RepasCardviewMenuBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun bind(dataNote: MenuData, clickListener: (MenuData) -> Unit) {
-            binding.nomMenu.text = dataNote.nom_menu
-
-            binding.itemLayout3.setOnClickListener {
-                clickListener(dataNote)
-            }
-        }
-    }
-
     override fun getItemCount(): Int {
         return menuList.size
+    }
+    fun setList(data: List<MenuData>) {
+        menuList.clear()
+        menuList.addAll(data)
     }
 }

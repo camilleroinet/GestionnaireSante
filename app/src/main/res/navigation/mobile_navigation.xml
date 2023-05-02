@@ -21,7 +21,7 @@
         android:id="@+id/navigation_poids"
         android:name="com.example.gestionnairesante.ui.poids.PoidsFragment"
         android:label="@string/title_poids"
-        tools:layout="@layout/fragment_poids" />
+        tools:layout="@layout/poid" />
 
     <fragment
         android:id="@+id/navigation_repas"
@@ -29,9 +29,4 @@
         android:label="@string/title_repas"
         tools:layout="@layout/repas" />
 
-    <fragment
-        android:id="@+id/navigation_sport"
-        android:name="com.example.gestionnairesante.ui.sport.SportFragment"
-        android:label="@string/title_sport"
-        tools:layout="@layout/fragment_sport" />
 </navigation>

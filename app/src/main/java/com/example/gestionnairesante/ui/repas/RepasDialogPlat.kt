@@ -6,9 +6,7 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.example.gestionnairesante.database.dao.plats.PlatData
-import com.example.gestionnairesante.database.viewmodels.plat.VMPLat
 import com.example.gestionnairesante.databinding.RepasDialogPlatBinding
-import com.example.gestionnairesante.ui.diabete.DiabeteDialogInsuline
 import com.example.gestionnairesante.ui.repas.vm.VmRepas
 
 class RepasDialogPlat : DialogFragment() {

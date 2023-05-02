@@ -1,5 +1,6 @@
 package com.example.gestionnairesante.ui.repas
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,11 +21,13 @@ class RepasTab1 : Fragment() {
     private lateinit var adapter: AdapterRecyclerMenu
     private val viewModelrepas: VmRepas by viewModels({ requireParentFragment() })
 
+    val tabInner = ArrayList<MenuData>()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // View binding
         val tab1Binding = RepasTab1Binding.inflate(inflater, container, false)
         binding = tab1Binding
@@ -49,9 +51,15 @@ class RepasTab1 : Fragment() {
             }
         }
 
+        viewModelrepas.getAllMenu().observe(viewLifecycleOwner) {
+            tabInner.clear()
+            tabInner.addAll(it)
+            displayUser()
+        }
+
         initRecycler()
         touchRecycler()
-        displayUser()
+//        displayUser()
     }
 
     fun initRecycler() {
@@ -59,21 +67,18 @@ class RepasTab1 : Fragment() {
         binding?.recyclerMenud?.layoutManager = LinearLayoutManager(context)
 
         // Configuration de l'adapter
-        adapter = AdapterRecyclerMenu { data: MenuData -> listItemClicked(viewModelrepas, data) }
+        adapter = AdapterRecyclerMenu { data: MenuData -> listItemClicked(data) }
         binding?.recyclerMenud?.adapter = adapter
-
     }
 
-    fun listItemClicked(viewModel: VmRepas, daouser: MenuData) {
-        Toast.makeText(requireContext(), "item clique : ${daouser.nom_menu}", Toast.LENGTH_LONG)
+    fun listItemClicked(data: MenuData) {
+        Toast.makeText(requireContext(), "item clique : ${data.nom_menu}", Toast.LENGTH_LONG)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun displayUser() {
-        viewModelrepas.getAllMenu().observe(viewLifecycleOwner, Observer {
-            //Toast.makeText(requireContext(), "size ==>> ${it.size}", Toast.LENGTH_LONG).show()
-            adapter.setList(it)
-            adapter.notifyDataSetChanged()
-        })
+        adapter.setList(tabInner)
+        adapter.notifyDataSetChanged()
     }
 
     fun touchRecycler() {
@@ -88,11 +93,13 @@ class RepasTab1 : Fragment() {
                     return true
                 }
 
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val sp = viewHolder.adapterPosition
                     val obj = adapter.getDbObjet(sp)
-                    //DialogFragHomeSuppr.newInstance("titre", "subtitre", ind).show(childFragmentManager, DialogFragHomeSuppr.TAG)
-                   // viewModel.deleteGlycemie(obj)
+                    viewModelrepas.deleteMenu(obj.id_menu)
+                    tabInner.removeAt(sp)
+                    adapter.notifyDataSetChanged()
                 }
 
                 override fun onSelectedChanged(

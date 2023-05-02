@@ -13,4 +13,14 @@ data class MenuData(
     @ColumnInfo(name = "nom_menu")
     var nom_menu: String?,
 
+    @ColumnInfo(name = "totalPlat")
+    var totalPlat: Int?,
+
+    @ColumnInfo(name = "totalGly")
+    var totalGly: Int?,
+
+    @ColumnInfo(name = "totalCal")
+    var totalCal: Int?
+
+
     )

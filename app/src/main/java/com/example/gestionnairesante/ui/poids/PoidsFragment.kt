@@ -83,23 +83,10 @@ class PoidsFragment : Fragment() {
 
             val p = tabPoids.size
 
-            Toast.makeText(requireContext(), "taille de tas : $p", Toast.LENGTH_SHORT).show()
-
             if (p > 0) {
                 binding?.llAvertChart?.visibility = View.GONE
                 binding?.chart0?.visibility = View.VISIBLE
                 binding?.tabLayout?.visibility = View.VISIBLE
-
-                /*
-
-    val roundoff = df.format(random)
-    println(roundoff)        // 295.33
-    val decimal = BigDecimal(3.14159265359).setScale(2, RoundingMode.HALF_EVEN)
-
-                 */
-
-                //val df = DecimalFormat("#.##")
-
 
                 lastPoua = tabPoids.get(p -1 )
 

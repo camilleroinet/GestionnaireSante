@@ -9,13 +9,13 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.example.gestionnairesante.database.dao.menu.MenuData
-import com.example.gestionnairesante.database.viewmodels.menu.VMMenu
 import com.example.gestionnairesante.databinding.RepasDialogMenuBinding
+import com.example.gestionnairesante.ui.repas.vm.VmRepas
 
 
 class RepasDialogMenu : DialogFragment() {
     private var binding: RepasDialogMenuBinding? = null
-    private val viewModel: VMMenu by viewModels({ requireParentFragment() })
+    private val viewModel: VmRepas by viewModels({ requireParentFragment() })
 
     companion object {
         const val TAG = "Dialog_menu"
@@ -96,8 +96,8 @@ class RepasDialogMenu : DialogFragment() {
             val caloriePlat = binding!!.etCalories.text.toString()
             val glucidePlat = binding!!.etGlucide.text.toString()
 
-            val newInsert = MenuData(0, nomMenu)
-            viewModel.insertMenu(newInsert)
+            val newInsert = MenuData(0, nomMenu, 0, 0 ,0)
+            viewModel.ajouterMenu(newInsert)
         }
     }
 

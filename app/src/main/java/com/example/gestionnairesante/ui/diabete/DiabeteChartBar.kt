@@ -7,15 +7,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.gestionnairesante.database.viewmodels.glycemie.VMGlycemie
 import com.example.gestionnairesante.databinding.FragChartBarBinding
+import com.example.gestionnairesante.ui.diabete.vm.VMDiabete
 import com.example.gestionnairesante.utils.createBarChart
 import com.github.mikephil.charting.data.BarEntry
 
 class DiabeteChartBar : Fragment() {
 
     private var binding: FragChartBarBinding? = null
-    private val viewModel: VMGlycemie by viewModels({ requireParentFragment() })
+    private val viewModel: VMDiabete by viewModels({ requireParentFragment() })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,7 +57,7 @@ class DiabeteChartBar : Fragment() {
         val barChart = binding!!.chart0
         val stringValue = ArrayList<String>()
 
-        viewModel.getAllValeurGlycemie().observe(viewLifecycleOwner) {
+        viewModel.getAllGlycemie().observe(viewLifecycleOwner) {
             tabValeur.clear()
             tabValeur.addAll(it)
 

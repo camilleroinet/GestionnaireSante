@@ -20,9 +20,5 @@
         android:id="@+id/navigation_repas"
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="@string/title_repas" />
-    <item
-        android:id="@+id/navigation_sport"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/title_sport" />
 
 </menu>

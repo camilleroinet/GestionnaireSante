@@ -5,22 +5,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gestionnairesante.Event
 import com.example.gestionnairesante.adapter.AdapterRecyclerDiabete
+import com.example.gestionnairesante.database.DB_sante
 import com.example.gestionnairesante.database.dao.innerDiabete.DataInner
+import com.example.gestionnairesante.database.dao.innerDiabete.InnerDiabeteRepo
+import com.example.gestionnairesante.database.dao.innerPoids.InnerPoidsRepo
 import com.example.gestionnairesante.databinding.DiabeteTab1Binding
 import com.example.gestionnairesante.ui.diabete.vm.VMDiabete
+import com.example.gestionnairesante.ui.poids.vm.VmPoids
+import com.example.gestionnairesante.ui.poids.vm.VmPoidsFactory
 
 class DiabeteTab1 : Fragment() {
+
     private var binding: DiabeteTab1Binding? = null
     private lateinit var adapter: AdapterRecyclerDiabete
     private val vmdiabete: VMDiabete by viewModels({ requireParentFragment() })
@@ -69,7 +74,8 @@ class DiabeteTab1 : Fragment() {
 
         initRecycler()
         touchRecycler()
-        displayUser()
+        //displayUser()
+
     }
 
     fun initRecycler() {
@@ -77,7 +83,7 @@ class DiabeteTab1 : Fragment() {
         binding?.rvDiabete?.layoutManager = LinearLayoutManager(context)
 
         // Configuration de l'adapter
-        adapter = AdapterRecyclerDiabete { daouser: DataInner -> listItemClicked(vmdiabete, daouser) }
+        adapter = AdapterRecyclerDiabete { data: DataInner -> listItemClicked(vmdiabete, data) }
         binding?.rvDiabete?.adapter = adapter
         adapter.setList(tabInner)
     }
@@ -139,10 +145,9 @@ class DiabeteTab1 : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     fun displayUser() {
-            adapter.setList(tabInner)
-            adapter.notifyDataSetChanged()
-
-        }
+        adapter.setList(tabInner)
+        adapter.notifyDataSetChanged()
+    }
 
 
 }

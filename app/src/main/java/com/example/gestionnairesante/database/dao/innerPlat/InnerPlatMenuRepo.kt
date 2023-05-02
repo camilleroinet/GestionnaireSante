@@ -63,8 +63,8 @@ class InnerPlatMenuRepo(
         return platDao.updatePlat(id, nom, glu, cal)
     }
 
-    suspend fun updateMenu(id: Int, nom: String){
-        return menuDao.updateMenu(id, nom)
+    suspend fun updateMenu(id: Int, totalPlat: Int, totalGly: Int, totalCal: Int){
+        return menuDao.updateMenu(id, totalPlat, totalGly, totalCal)
     }
 
     suspend fun deletePlatInCurrent(id: Int) {

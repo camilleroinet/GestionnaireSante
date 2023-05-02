@@ -84,6 +84,8 @@ class RepasFragment : Fragment() {
         binding!!.btnMenu.setOnClickListener {
             binding!!.llVueChart.visibility = View.GONE
             binding!!.vueMenu.visibility = View.VISIBLE
+            binding!!.llEtapeDate.visibility = View.GONE
+            binding!!.etapeInformation.visibility = View.GONE
         }
 
         //
@@ -92,14 +94,15 @@ class RepasFragment : Fragment() {
         //
 
         binding!!.validerNommenu.setOnClickListener() {
-            val newMenu = MenuData(0, binding!!.etNommenu.text.toString())
+            val newMenu = MenuData(0, binding!!.etNommenu.text.toString(), 0, 0, 0)
             if(binding!!.etNommenu.text.isEmpty()){
                 Toast.makeText(requireContext(), "Entrer un nom de menu", Toast.LENGTH_LONG).show()
             }else{
                 viewmodelrepas.ajouterMenu(newMenu)
                 binding!!.llEtape01.visibility = View.GONE
-                binding!!.etapeInformation.visibility = View.VISIBLE
-                binding!!.llEtape2.visibility = View.VISIBLE
+                binding!!.etapeInformation.visibility = View.GONE
+                binding!!.llEtapeDate.visibility = View.VISIBLE
+                binding!!.llEtape2.visibility = View.GONE
             }
         }
 
@@ -108,6 +111,12 @@ class RepasFragment : Fragment() {
             binding!!.llEtape01.visibility = View.GONE
             binding!!.etapeInformation.visibility = View.GONE
             binding!!.llEtape2.visibility = View.GONE
+
+            viewmodelrepas.updateMenu(
+                viewmodelrepas.getLastMenuInCurrent(),
+                viewmodelrepas.totalPlats.value!!.toInt(),
+                viewmodelrepas.totalGlucides.value!!.toInt(),
+                viewmodelrepas.totalCalories.value!!.toInt())
         }
 
         binding!!.annulerNommenu.setOnClickListener{
@@ -116,6 +125,12 @@ class RepasFragment : Fragment() {
 
         //
         // Etape 2
+        // On affiche l'ecran pour le choix de la date et de la periode
+        //
+
+
+        //
+        // Etape 3
         // On affiche l'ecran des informations
         // l'utilsateur choisi ses plats
         //
@@ -133,7 +148,7 @@ class RepasFragment : Fragment() {
             val plat3 = PlatData(0,"Orange", 10,5)
             viewmodelrepas.ajouterPlat(plat3)
 
-            val menu = MenuData(0, "monMenu")
+            val menu = MenuData(0, "monMenu", 0, 0, 0)
             viewmodelrepas.ajouterMenu(menu)
             val inner = InnerPlatMenuData(0, 9,1)
             viewmodelrepas.ajouterInnerPlatMenu(inner)

@@ -8,8 +8,8 @@ interface MenuDao {
 
     @Insert
     suspend fun insertMenu(user: MenuData)
-    @Query("UPDATE menu SET nom_menu = :nom WHERE id_menu = :id")
-    suspend fun updateMenu(id:Int, nom: String)
+    @Query("UPDATE menu SET totalPlat = :tplat, totalGly = :tGly, totalCal = :tCal  WHERE id_menu = :id")
+    suspend fun updateMenu(id:Int, tplat : Int, tGly : Int, tCal : Int )
 
     @Query("SELECT * FROM menu")
     fun getAllMenu(): Flow<List<MenuData>>

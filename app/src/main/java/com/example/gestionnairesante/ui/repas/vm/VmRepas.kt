@@ -30,6 +30,9 @@ class VmRepas (private val repo: InnerPlatMenuRepo) : ViewModel(){
         repo.deletePlat(id)
     }
 
+    fun deleteMenu(id: Int) = viewModelScope.launch {
+        repo.deleteMenu(id)
+    }
     fun deletePlatObj(data: PlatData) = viewModelScope.launch{
         repo.deletePlatObj(data)
     }
@@ -51,6 +54,7 @@ class VmRepas (private val repo: InnerPlatMenuRepo) : ViewModel(){
             emit(it)
         }
     }
+
 
     fun getAllMenu() = liveData {
         repo.allMenu.collect {
@@ -79,4 +83,7 @@ class VmRepas (private val repo: InnerPlatMenuRepo) : ViewModel(){
         repo.deletePlatInCurrent(id)
     }
 
+    fun updateMenu(id: Int, tplat: Int, tGly: Int, tCal: Int) = viewModelScope.launch {
+        repo.updateMenu(id, tplat, tGly, tCal)
+    }
 }

@@ -6,17 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import com.example.gestionnairesante.R
-import com.example.gestionnairesante.adapter.*
+import com.example.gestionnairesante.adapter.AdapterViewPager
+import com.example.gestionnairesante.adapter.AdapterViewPagerCharts
+import com.example.gestionnairesante.adapter.ZoomOutPageTransformer
 import com.example.gestionnairesante.database.DB_sante
 import com.example.gestionnairesante.database.dao.innerDiabete.InnerDiabeteRepo
-import com.example.gestionnairesante.database.dao.glycemie.GlycemieRepo
-import com.example.gestionnairesante.database.dao.innerDiabete.DataInner
-import com.example.gestionnairesante.database.dao.insuline.InsulineRepo
 import com.example.gestionnairesante.database.dao.insuline.ParamStyloData
 import com.example.gestionnairesante.databinding.DiabeteBinding
 import com.example.gestionnairesante.ui.diabete.vm.VMDiabete
@@ -97,10 +94,6 @@ class DiabeteFragment : Fragment() {
                 .show(childFragmentManager, DiabeteDialogGlycemie.TAG)
         }
 
-        binding!!.btnInsertInsuline.setOnClickListener {
-            DiabeteDialogInsuline.newInstance("titre", "subtitre", ind, 0, 0, 0)
-                .show(childFragmentManager, DiabeteDialogInsuline.TAG)
-        }
 
         viewPagerCharts = binding?.viewpagercharts!!
 

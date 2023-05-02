@@ -14,12 +14,10 @@ import com.example.gestionnairesante.databinding.DiabeteCardviewBinding
 class AdapterRecyclerDiabete(private val clickListener: (DataInner) -> Unit) :
     RecyclerView.Adapter<AdapterRecyclerDiabete.MyViewHolder>() {
     private val dataList = ArrayList<DataInner>()
-    private val dataList2 = ArrayList<InnerDiabeteData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding: DiabeteCardviewBinding =
-            DataBindingUtil.inflate(layoutInflater, R.layout.diabete_cardview, parent, false)
+        val binding: DiabeteCardviewBinding = DataBindingUtil.inflate(layoutInflater, R.layout.diabete_cardview, parent, false)
         return MyViewHolder(binding)
     }
 
