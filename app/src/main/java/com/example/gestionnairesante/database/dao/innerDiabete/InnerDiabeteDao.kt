@@ -58,23 +58,23 @@ interface InnerDiabeteDao {
 
     @Query(
         "SELECT " +
-                "periode.id_periode AS idper, " +
-                "periode.date_periode AS date, " +
-                "periode.heure_periode AS heure, " +
-                "periode.libelle_periode AS periode, " +
-                "glycemie.id_glycemie AS idgly, " +
-                "glycemie.valeur_glycemie AS glycemie, " +
-                "insuline.id_insuline AS idins, " +
-                "insuline_rapide AS rapide, " +
-                "insuline_lente AS lente " +
-                "FROM innerDiabete " +
-                "INNER JOIN periode " +
-                "ON periode.id_periode = innerDiabete.idper " +
-                "INNER JOIN glycemie " +
-                "ON glycemie.id_glycemie = innerDiabete.idgly " +
-                "INNER JOIN insuline " +
-                "ON insuline.id_insuline = innerDiabete.idIns "
-    )
+            "periode.id_periode AS idper, " +
+            "periode.date_periode AS date, " +
+            "periode.heure_periode AS heure, " +
+            "periode.libelle_periode AS periode, " +
+            "glycemie.id_glycemie AS idgly, " +
+            "glycemie.valeur_glycemie AS glycemie, " +
+            "insuline.id_insuline AS idins, " +
+            "insuline_rapide AS rapide, " +
+            "insuline_lente AS lente " +
+        "FROM innerDiabete " +
+        "INNER JOIN periode " +
+            "ON periode.id_periode = innerDiabete.idper " +
+        "INNER JOIN glycemie " +
+            "ON glycemie.id_glycemie = innerDiabete.idgly " +
+        "INNER JOIN insuline " +
+            "ON insuline.id_insuline = innerDiabete.idIns "
+)
     fun getAllValeurs(): Flow<List<DataInner>>
 
 }

@@ -8,10 +8,10 @@ import com.example.gestionnairesante.database.dao.periode.PeriodeData
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface InnerMenuDao {
+interface InnerPeriodeMenuDao {
 
     @Insert
-    suspend fun insertInnerMenu(data: InnerMenuData)
+    suspend fun insertInnerPeriodeMenu(data: InnerPeriodeMenuData)
 
     @Query(
         "SELECT * " +
@@ -37,26 +37,26 @@ interface InnerMenuDao {
                 "INNER JOIN periode " +
                 "ON periode.id_periode = innerMenu.idper " +
                 "INNER JOIN menu " +
-                "ON menu.id_menu = innerMenu.idmen "
+                "ON menu.id_menu = innerMenu.idmen"
     )
-    fun getAllInner(): Flow<List<InnerMenuData>>
+    fun getAllInner(): Flow<List<InnerPeriodeMenuData>>
 
     @Query(
         "SELECT " +
-                "periode.id_periode AS idper, " +
-                "periode.date_periode AS date, " +
-                "periode.heure_periode AS heure, " +
-                "periode.libelle_periode AS periode, " +
-                "menu.id_menu AS idmenu, " +
-                "menu.nom_menu AS menu, " +
-                "menu.totalPlats AS tPlats, " +
-                "menu.totalGly AS tGly, " +
-                "menu.totalCal AS tCal, " +
-                "FROM innerMenu " +
-                "INNER JOIN periode " +
-                "ON periode.id_periode = innerMenu.idper " +
-                "INNER JOIN menu " +
-                "ON menu.id_menu = innerMenu.idmen "
+            "periode.id_periode AS idper, " +
+            "periode.date_periode AS date, " +
+            "periode.heure_periode AS heure, " +
+            "periode.libelle_periode AS periode, " +
+            "menu.id_menu AS idmen, " +
+            "menu.nom_menu AS nomMenu, " +
+            "menu.totalPlat AS tplat, " +
+            "menu.totalGly AS tgly, " +
+            "menu.totalCal AS tcal " +
+        "FROM innerMenu " +
+        "INNER JOIN periode " +
+            "ON periode.id_periode = innerMenu.idper " +
+        "INNER JOIN menu " +
+            "ON menu.id_menu = innerMenu.idmen"
     )
     fun getAllValeurs(): Flow<List<DataMenuInner>>
 

@@ -13,6 +13,7 @@ interface InnerPlatMenuDao {
     @Insert
     suspend fun insertInnerPlatMenu(data: InnerPlatMenuData)
 
+
     @Query(
         "SELECT * " +
         "FROM plat " +

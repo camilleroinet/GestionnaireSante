@@ -3,8 +3,6 @@ package com.example.gestionnairesante.database.dao.innerMenu
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
-import com.example.gestionnairesante.database.dao.insuline.InsulineData
 import com.example.gestionnairesante.database.dao.menu.MenuData
 import com.example.gestionnairesante.database.dao.periode.PeriodeData
 
@@ -34,7 +32,7 @@ import com.example.gestionnairesante.database.dao.periode.PeriodeData
 
     ])
 
-data class InnerMenuData (
+data class InnerPeriodeMenuData (
     @ColumnInfo(name = "idmen")
     var idGly: Int,
 
