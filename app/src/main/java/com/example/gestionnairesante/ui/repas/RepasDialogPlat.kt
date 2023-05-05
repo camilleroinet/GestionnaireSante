@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.gestionnairesante.database.dao.plats.PlatData
 import com.example.gestionnairesante.databinding.RepasDialogPlatBinding
@@ -11,7 +12,7 @@ import com.example.gestionnairesante.ui.repas.vm.VmRepas
 
 class RepasDialogPlat : DialogFragment() {
     private var binding: RepasDialogPlatBinding? = null
-    private val viewModel: VmRepas by viewModels({ requireParentFragment() })
+    private val viewmodelrepas: VmRepas by activityViewModels()
 
     companion object {
         const val TAG = "Dialog_plat"
@@ -75,6 +76,12 @@ class RepasDialogPlat : DialogFragment() {
     ): View? {
         val dialogFrag1Binding = RepasDialogPlatBinding.inflate(inflater, container, false)
         binding = dialogFrag1Binding
+        binding?.apply {
+            lifecycleOwner = viewLifecycleOwner
+            binding?.dialogPlat = this@RepasDialogPlat
+        }
+
+        binding?.viewmodelrepas = viewmodelrepas
 
         return dialogFrag1Binding.root
     }
@@ -82,14 +89,9 @@ class RepasDialogPlat : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.apply {
-            lifecycleOwner = viewLifecycleOwner
-            binding?.dialogPlat = this@RepasDialogPlat
-        }
-
         // TODO a supprimer/cocher a la phase final
         //creation de message pout l'utilisateur si qqc est arrivé
-        viewModel.message.observe(viewLifecycleOwner) { it ->
+        viewmodelrepas.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
@@ -115,9 +117,7 @@ class RepasDialogPlat : DialogFragment() {
             dismiss()
         }
 
-        binding!!.btnClearMalade.setOnClickListener {
-            dismiss()
-        }
+
 
     }
 
@@ -138,7 +138,7 @@ class RepasDialogPlat : DialogFragment() {
             val glucidePlat = binding!!.etGlucide.text.toString()
 
             val newInsert = PlatData(0, nomPlat, caloriePlat.toInt(), glucidePlat.toInt())
-            viewModel.ajouterPlat(newInsert)
+            viewmodelrepas.ajouterPlat(newInsert)
         }
     }
 
@@ -149,7 +149,7 @@ class RepasDialogPlat : DialogFragment() {
             val nomPlat = binding!!.etNomplat.text.toString()
             val caloriePlat = binding!!.etCalories.text.toString()
             val glucidePlat = binding!!.etGlucide.text.toString()
-            //viewModel.updatePlat(idPlat, nomPlat, glucidePlat.toInt(), caloriePlat.toInt() )
+            viewmodelrepas.updatePlat(idPlat, nomPlat, glucidePlat.toInt(), caloriePlat.toInt() )
         }
     }
 

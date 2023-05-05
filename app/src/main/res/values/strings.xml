@@ -42,6 +42,13 @@
     <string name="nom_du_menu">Nom du menu</string>
     <string name="avert_01">Pas assez de données enregistrées ! </string>
     <string name="avert_02">Veuillez entrer plus d\'enregistrement.</string>
+    <string name="rien">rien</string>
+    <string name="taper_le_nom_d_un_plat_rechercher">taper le nom d\'un plat à rechercher</string>
+    <string name="entrer_un_nom_de_menu">entrer un nom de menu</string>
+    <string name="entrer_le_nom_pour_ce_menu">Entrer le nom pour ce menu</string>
+    <string name="choisir_une_date_menu">Choisir une date et une periode</string>
+    <string name="informations_concernant_ce_menu">Informations concernant ce menu</string>
+    <string name="les_plats_composants_votre_menu">Les plats composants votre menu</string>
 
     <string-array name="periodes">
         <item>Petit-déjeuner</item>

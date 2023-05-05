@@ -57,6 +57,12 @@ class AdapterRecyclerPlat(
         }
     }
 
+    fun remove(position: Int){
+        platList.removeAt(position)
+        notifyItemRemoved(position)
+        //notifyItemRangeChanged(position, dataList.size)
+        //notifyDataSetChanged()
+    }
     override fun getItemCount(): Int {
         return platList.size
     }

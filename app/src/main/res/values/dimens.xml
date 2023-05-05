@@ -21,7 +21,7 @@
     <dimen name="taille_recyclers">225dp</dimen>
     <dimen name="taille_recyclers2">350dp</dimen>
 
-    <dimen name="taille_titre">24sp</dimen>
-    <dimen name="taille_text">16sp</dimen>
+    <dimen name="taille_titre"> 16sp </dimen>
+    <dimen name="taille_text">  14sp </dimen>
 
 </resources>

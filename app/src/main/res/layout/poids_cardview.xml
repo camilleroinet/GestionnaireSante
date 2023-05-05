@@ -1,12 +1,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
 
-        <variable
-            name="frag_poids_card"
-            type="com.example.gestionnairesante.database.dao.poids.PoidsDao" />
-    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_margin="5dp"
-            android:backgroundTint="@color/Tertiary"
             app:cardElevation="2dp">
 
             <LinearLayout
@@ -34,51 +28,53 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:padding="5dp">
 
-                    <LinearLayout
-                        android:id="@+id/couleurAlerte"
-                        android:layout_width="15dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/teal_200"
-                        android:orientation="horizontal"></LinearLayout>
 
                     <TextView
                         android:id="@+id/poids"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:paddingTop="10dp"
-                        android:textColor="@color/black"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:gravity="start"
                         android:paddingTop="10dp"
-                        android:text="Periode :"
+                        android:textStyle="bold"
                         android:textColor="@color/black"
-                        android:textSize="16sp"
-                        android:visibility="gone" />
+                        android:textSize="@dimen/taille_titre" />
 
-                    <TextView
-                        android:id="@+id/periodegly"
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:gravity="start"
-                        android:paddingTop="10dp"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        android:visibility="gone" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Poids enregistré le "
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/taille_text"
+                            android:visibility="visible" />
+
+                        <TextView
+                            android:id="@+id/date_poids"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/taille_text"
+                            android:textStyle="italic"
+                            android:visibility="visible" />
+                    </LinearLayout>
+
 
                 </LinearLayout>
 

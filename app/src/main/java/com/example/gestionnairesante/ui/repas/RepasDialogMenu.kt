@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.gestionnairesante.database.dao.menu.MenuData
 import com.example.gestionnairesante.databinding.RepasDialogMenuBinding
@@ -15,7 +16,7 @@ import com.example.gestionnairesante.ui.repas.vm.VmRepas
 
 class RepasDialogMenu : DialogFragment() {
     private var binding: RepasDialogMenuBinding? = null
-    private val viewModel: VmRepas by viewModels({ requireParentFragment() })
+    private val viewmodelrepas: VmRepas by activityViewModels()
 
     companion object {
         const val TAG = "Dialog_menu"
@@ -49,34 +50,36 @@ class RepasDialogMenu : DialogFragment() {
         val dialogFrag1Binding = RepasDialogMenuBinding.inflate(inflater, container, false)
         binding = dialogFrag1Binding
 
+        binding?.apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewmodelrepas = viewmodelrepas
+            binding?.dialogMenu = this@RepasDialogMenu
+        }
+
+        binding?.viewmodelrepas = viewmodelrepas
+
         return dialogFrag1Binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.apply {
-            lifecycleOwner = viewLifecycleOwner
-            viewModel = viewModel
-            binding?.dialogMenu = this@RepasDialogMenu
-        }
-
         // TODO a supprimer/cocher a la phase final
         //creation de message pout l'utilisateur si qqc est arrivé
-        viewModel.message.observe(viewLifecycleOwner) { it ->
+        viewmodelrepas.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
 
-        binding!!.btnSaveMalade.setOnClickListener {
+/*        binding!!.btnValiderDate.setOnClickListener {
             // TODO a decocher quand implementation du code
             save()
             dismiss()
         }
         binding!!.btnClearMalade.setOnClickListener {
             dismiss()
-        }
+        }*/
 
     }
 
@@ -89,16 +92,7 @@ class RepasDialogMenu : DialogFragment() {
     }
 
     fun save() {
-        if (binding!!.etNomplat.text.isBlank()) {
-            Toast.makeText(context, "youhou ya rien", Toast.LENGTH_LONG).show()
-        } else {
-            val nomMenu = binding!!.etNomplat.text.toString()
-            val caloriePlat = binding!!.etCalories.text.toString()
-            val glucidePlat = binding!!.etGlucide.text.toString()
 
-            val newInsert = MenuData(0, nomMenu, 0, 0 ,0)
-            viewModel.ajouterMenu(newInsert)
-        }
     }
 
 }

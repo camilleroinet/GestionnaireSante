@@ -7,6 +7,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.gestionnairesante.R
 import com.example.gestionnairesante.databinding.PoidsDialogBinding
@@ -16,7 +17,7 @@ import java.time.format.DateTimeFormatter
 
 class PoidsDialog : DialogFragment() {
     private var binding: PoidsDialogBinding? = null
-    private val viewModel: VmPoids by viewModels({ requireParentFragment() })
+    private val viewModel: VmPoids by activityViewModels()
 
     // Configuration de dialogfrag
     companion object {
@@ -133,10 +134,10 @@ class PoidsDialog : DialogFragment() {
             update()
             dismiss()
         }
-        binding!!.btnCancel.setOnClickListener {
+/*        binding!!.btnCancel.setOnClickListener {
             // Fermeture de la dialog sans tansfert de données
             dismiss()
-        }
+        }*/
     }
 
     override fun onStart() {
@@ -151,23 +152,23 @@ class PoidsDialog : DialogFragment() {
         //
         // Poids
         //
-        val val1 = binding!!.picker1.value
-        val val2 = binding!!.picker2.value
-        val val3 = binding!!.picker3.value
+        val val1 = binding!!.poidsPicker1.value
+        val val2 = binding!!.poidsPicker2.value
+        val val3 = binding!!.poidsPicker3.value
         val poids: String = val1.toString() + val2.toString() + val3.toString()
 
         //
         // Date
         //
-        val val4 = binding!!.datepicker.dayOfMonth
-        val val5 = binding!!.datepicker.month + 1
-        val val6 = binding!!.datepicker.year
-        val date = "$val4/$val5/$val6"
+        val val4 = binding!!.datepickerpoids.dayOfMonth
+        val val5 = binding!!.datepickerpoids.month + 1
+        val val6 = binding!!.datepickerpoids.year
+        val date = "$val4-$val5-$val6"
 
         //
         // Periode
         //
-        val periode = binding!!.spinnerPeriode.selectedItem.toString()
+        val periode = binding!!.spinnerPeriodepoids.selectedItem.toString()
 
         //
         // Heure
@@ -186,23 +187,23 @@ class PoidsDialog : DialogFragment() {
         //
         // Poids
         //
-        val val1 = binding!!.picker1.value
-        val val2 = binding!!.picker2.value
-        val val3 = binding!!.picker3.value
+        val val1 = binding!!.poidsPicker1.value
+        val val2 = binding!!.poidsPicker2.value
+        val val3 = binding!!.poidsPicker3.value
         val poids: String = val1.toString() + val2.toString() + val3.toString()
 
         //
         // Date
         //
-        val val4 = binding!!.datepicker.dayOfMonth
-        val val5 = binding!!.datepicker.month + 1
-        val val6 = binding!!.datepicker.year
+        val val4 = binding!!.datepickerpoids.dayOfMonth
+        val val5 = binding!!.datepickerpoids.month + 1
+        val val6 = binding!!.datepickerpoids.year
         val date = "$val4/$val5/$val6"
 
         //
         // Periode
         //
-        val periode = binding!!.spinnerPeriode.selectedItem.toString()
+        val periode = binding!!.spinnerPeriodepoids.selectedItem.toString()
 
         //
         // Heure
@@ -230,7 +231,7 @@ class PoidsDialog : DialogFragment() {
         //val arrayCat = resources.getStringArray(R.array.categoriesfs)
         val adapt = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, arrayCat)
         binding?.let {
-            with(it.spinnerPeriode) {
+            with(it.spinnerPeriodepoids) {
                 adapter = adapt
                 setSelection(0, false)
                 prompt = "Selection catagorie"
@@ -240,7 +241,7 @@ class PoidsDialog : DialogFragment() {
                 //gestionRecycler(0, nomCategorie)
             }
         }
-        binding?.spinnerPeriode?.onItemSelectedListener = object :
+        binding?.spinnerPeriodepoids?.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -259,9 +260,9 @@ class PoidsDialog : DialogFragment() {
     }
 
     private fun setupNumberPicker() {
-        val numberPicker1 = binding!!.picker1
-        val numberPicker2 = binding!!.picker2
-        val numberPicker3 = binding!!.picker3
+        val numberPicker1 = binding!!.poidsPicker1
+        val numberPicker2 = binding!!.poidsPicker2
+        val numberPicker3 = binding!!.poidsPicker3
 
         // Picker des centaines
         numberPicker1.minValue = 0

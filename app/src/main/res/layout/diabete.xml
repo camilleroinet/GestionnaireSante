@@ -20,50 +20,36 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="75dp"
-            android:orientation="vertical">
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_insert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:backgroundTint="@color/SecondaryColor"
+            android:layout_margin="5dp"
+            android:visibility="visible"
+            app:maxImageSize="48dp"
+            app:srcCompat="@android:drawable/ic_input_add" />
+
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/viewpagercharts"
                 android:layout_width="wrap_content"
-                android:layout_height="250dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="MissingConstraints"/>
+                android:layout_height="250dp"/>
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/viewpagercharts"
-                app:tabTextColor="@color/PrimaryColor"
-                tools:ignore="MissingConstraints" />
+                app:tabTextColor="@color/PrimaryColor" />
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/viewpagertabhost"
                 android:layout_width="wrap_content"
-                android:layout_height="380dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tab_layout"
-                tools:ignore="MissingConstraints"/>
+                android:layout_height="380dp" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btn_insert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/fab_margin"
-                android:layout_marginBottom="32dp"
-                android:backgroundTint="@color/SecondaryColor"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:maxImageSize="48dp"
-                app:srcCompat="@android:drawable/ic_input_add" />
+
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btn_insertInsuline"
@@ -78,6 +64,5 @@
                 app:maxImageSize="48dp"
                 app:srcCompat="@android:drawable/ic_input_add" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </layout>

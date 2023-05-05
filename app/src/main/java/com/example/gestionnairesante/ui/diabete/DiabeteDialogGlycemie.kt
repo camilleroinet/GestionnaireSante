@@ -7,8 +7,9 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import com.example.gestionnairesante.R
+import com.example.gestionnairesante.adapter.AdapterRecyclerDiabete
 import com.example.gestionnairesante.databinding.DiabeteDialogBinding
 import com.example.gestionnairesante.ui.diabete.vm.VMDiabete
 import java.time.LocalDateTime
@@ -16,7 +17,7 @@ import java.time.format.DateTimeFormatter
 
 class DiabeteDialogGlycemie : DialogFragment() {
     private var binding: DiabeteDialogBinding? = null
-    private val viewModel: VMDiabete by viewModels({ requireParentFragment() })
+    private val vmdiabete: VMDiabete by activityViewModels()
 
     companion object {
         const val TAG = "Dialog_Frag1"
@@ -113,12 +114,13 @@ class DiabeteDialogGlycemie : DialogFragment() {
 
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = viewModel
+            vmdiabete = vmdiabete
             binding?.dialogDiabete = this@DiabeteDialogGlycemie
         }
 
         val tabPeriode = resources.getStringArray(R.array.periodes)
 
+        binding?.vmdiabete = vmdiabete
         configSpinner(tabPeriode)
         setupNumberPicker()
 
@@ -132,7 +134,7 @@ class DiabeteDialogGlycemie : DialogFragment() {
 
         // TODO a supprimer/cocher a la phase final
         //creation de message pout l'utilisateur si qqc est arrivé
-        viewModel.message.observe(viewLifecycleOwner) { it ->
+        vmdiabete.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
@@ -148,9 +150,9 @@ class DiabeteDialogGlycemie : DialogFragment() {
             dismiss()
         }
 
-        binding!!.btnClearGlycemie.setOnClickListener {
+/*        binding!!.btnClearGlycemie.setOnClickListener {
             dismiss()
-        }
+        }*/
 
     }
 
@@ -188,7 +190,7 @@ class DiabeteDialogGlycemie : DialogFragment() {
         dateDuJour.timeInMillis = System.currentTimeMillis()
         val heureDuJour = current.format(heure)
 
-        viewModel.insertDiabete(
+        vmdiabete.insertDiabete(
             periode, date, heureDuJour.toString(),
             temp.toInt(), tempRapide.toInt(), tempLente.toInt()
         )
@@ -221,12 +223,12 @@ class DiabeteDialogGlycemie : DialogFragment() {
         dateDuJour.timeInMillis = System.currentTimeMillis()
         val heureDuJour = current.format(heure)
 
-        viewModel.updateDiabete(
+        vmdiabete.updateDiabete(
             oldidgly, oldidins, oldidper,
             temp.toInt(),tempRapide.toInt(), tempLente.toInt(),
             date, heureDuJour.toString(),periode
-
         )
+
     }
 
     /**

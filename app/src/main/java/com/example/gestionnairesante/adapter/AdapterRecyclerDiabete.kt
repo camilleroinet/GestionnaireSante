@@ -7,17 +7,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gestionnairesante.R
 import com.example.gestionnairesante.database.dao.innerDiabete.DataInner
-import com.example.gestionnairesante.database.dao.innerDiabete.InnerDiabeteData
 
 import com.example.gestionnairesante.databinding.DiabeteCardviewBinding
 
-class AdapterRecyclerDiabete(private val clickListener: (DataInner) -> Unit) :
-    RecyclerView.Adapter<AdapterRecyclerDiabete.MyViewHolder>() {
+class AdapterRecyclerDiabete(private val clickListener: (DataInner) -> Unit) : RecyclerView.Adapter<AdapterRecyclerDiabete.MyViewHolder>() {
+
     private val dataList = ArrayList<DataInner>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding: DiabeteCardviewBinding = DataBindingUtil.inflate(layoutInflater, R.layout.diabete_cardview, parent, false)
+        val binding: DiabeteCardviewBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.diabete_cardview, parent, false)
         return MyViewHolder(binding)
     }
 
@@ -25,8 +25,7 @@ class AdapterRecyclerDiabete(private val clickListener: (DataInner) -> Unit) :
         holder.bind(dataList[position], clickListener)
     }
 
-    class MyViewHolder(val binding: DiabeteCardviewBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class MyViewHolder(val binding: DiabeteCardviewBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: DataInner, clickListener2: (DataInner) -> Unit) {
             val valeur = data.glycemie
             if (valeur in 0..79) {
@@ -62,9 +61,25 @@ class AdapterRecyclerDiabete(private val clickListener: (DataInner) -> Unit) :
         return dataList.get(position)
     }
 
+    fun update(position: Int){
+        dataList.set(position, getDbObjet(position))
+        notifyItemChanged(position)
+        //notifyItemRangeChanged(position, dataList.size)
+        //notifyDataSetChanged()
+    }
+    fun remove(position: Int){
+        dataList.removeAt(position)
+        notifyItemRemoved(position)
+        //notifyItemRangeChanged(position, dataList.size)
+        //notifyDataSetChanged()
+    }
+
     fun setList(data: List<DataInner>) {
         dataList.clear()
         dataList.addAll(data)
     }
-
+    /*fun setList2(data: List<InnerDiabeteData>) {
+        dataList2.clear()
+        dataList2.addAll(data)
+    }*/
 }

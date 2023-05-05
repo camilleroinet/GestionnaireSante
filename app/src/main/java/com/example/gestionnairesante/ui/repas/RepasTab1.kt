@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +20,7 @@ import com.example.gestionnairesante.ui.repas.vm.VmRepas
 class RepasTab1 : Fragment() {
     private var binding: RepasTab1Binding? = null
     private lateinit var adapter: AdapterRecyclerMenu
-    private val viewModelrepas: VmRepas by viewModels({ requireParentFragment() })
+    private val viewModelrepas: VmRepas by activityViewModels()
 
     val tabInner = ArrayList<MenuData>()
 
@@ -32,6 +33,17 @@ class RepasTab1 : Fragment() {
         val tab1Binding = RepasTab1Binding.inflate(inflater, container, false)
         binding = tab1Binding
 
+        binding?.apply {
+            lifecycleOwner = viewLifecycleOwner
+            binding?.recyclerMenu = this@RepasTab1
+        }
+
+        binding?.viewModelrepas = viewModelrepas
+
+        initRecycler()
+        touchRecycler()
+        displayUser()
+
         // Inflate the layout for this fragment
         return tab1Binding.root
     }
@@ -39,10 +51,6 @@ class RepasTab1 : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.apply {
-            lifecycleOwner = viewLifecycleOwner
-            binding?.recyclerMenu = this@RepasTab1
-        }
 
         //creation de message pout l'utilisateur si qqc est arrivé
         viewModelrepas.message.observe(viewLifecycleOwner) { it ->
@@ -57,9 +65,7 @@ class RepasTab1 : Fragment() {
             displayUser()
         }
 
-        initRecycler()
-        touchRecycler()
-//        displayUser()
+
     }
 
     fun initRecycler() {
@@ -83,7 +89,7 @@ class RepasTab1 : Fragment() {
 
     fun touchRecycler() {
         val itemTouchHelper by lazy {
-            val simplecall = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            val simplecall = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT) {
 
                 override fun onMove(
                     recyclerView: RecyclerView,
@@ -93,11 +99,19 @@ class RepasTab1 : Fragment() {
                     return true
                 }
 
-                @SuppressLint("NotifyDataSetChanged")
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val sp = viewHolder.adapterPosition
                     val obj = adapter.getDbObjet(sp)
-                    viewModelrepas.deleteMenu(obj.id_menu)
+
+                    when(direction) {
+                        ItemTouchHelper.RIGHT -> {
+                            viewModelrepas.deleteMenu(obj.id_menu)
+                            adapter.remove(sp)
+                        }
+                        ItemTouchHelper.LEFT -> {
+                            // TODO a coder le dialog
+                        }
+                    }
                     tabInner.removeAt(sp)
                     adapter.notifyDataSetChanged()
                 }

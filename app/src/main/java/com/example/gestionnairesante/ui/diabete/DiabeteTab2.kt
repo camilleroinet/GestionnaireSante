@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.gestionnairesante.databinding.DiabeteTab2Binding
 import com.example.gestionnairesante.ui.diabete.vm.VMDiabete
@@ -13,7 +14,7 @@ import com.example.gestionnairesante.ui.diabete.vm.VMDiabete
 class DiabeteTab2 : Fragment() {
 
     private var binding: DiabeteTab2Binding? = null
-    private val viewModelinsuline: VMDiabete by viewModels({ requireParentFragment() })
+    private val viewModelinsuline: VMDiabete by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

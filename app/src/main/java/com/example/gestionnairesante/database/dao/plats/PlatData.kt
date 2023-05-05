@@ -11,11 +11,11 @@ data class PlatData(
     val id_plat: Int,
 
     @ColumnInfo(name = "nom_plat")
-    var nom_plat: String?,
+    var nom_plat: String,
 
     @ColumnInfo(name = "glucide_plat")
-    var glucide_plat: Int?,
+    var glucide_plat: Int,
 
     @ColumnInfo(name = "calorie_plat")
-    var calorie_plat: Int?,
+    var calorie_plat: Int,
 )

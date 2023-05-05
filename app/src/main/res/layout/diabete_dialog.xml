@@ -1,12 +1,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-
     tools:context=".ui.diabete.DiabeteDialogGlycemie">
 
     <data>
 
         <variable
-            name="viewModel"
+            name="vmdiabete"
             type="com.example.gestionnairesante.ui.diabete.vm.VMDiabete" />
 
         <variable
@@ -20,45 +19,84 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="15dp"
-            android:background="@drawable/shape_bouton"
-            android:backgroundTint="@color/SecondaryColor"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:gravity="center"
+                android:paddingStart="20dp"
                 android:text="Choisir une date"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="@dimen/taille_titre" />
+
+            <ImageButton
+                android:id="@+id/fermer"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="10dp"
+                android:background="@color/white"
+                android:src="@drawable/ic_close" />
+
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:background="@color/PrimaryColor"
+            android:orientation="vertical" />
 
         <DatePicker
             android:id="@+id/datepicker"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
             android:calendarViewShown="false"
             android:datePickerMode="spinner" />
 
         <Spinner
             android:id="@+id/spinner_periode"
             android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:orientation="horizontal"
-            android:paddingStart="60dp"
-            android:paddingEnd="60dp">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Glycémie"
+                android:textSize="@dimen/taille_titre" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:background="@color/PrimaryColor"
+            android:orientation="vertical" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginEnd="35dp"
+            android:orientation="horizontal">
 
             <NumberPicker
                 android:id="@+id/picker1"
@@ -68,47 +106,112 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_weight="1"
+                android:clickable="false"
                 android:gravity="center" />
 
             <NumberPicker
                 android:id="@+id/picker2"
                 android:layout_width="50dp"
                 android:layout_height="125dp"
+
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_weight="1"
+                android:clickable="false"
                 android:gravity="center" />
 
             <NumberPicker
                 android:id="@+id/picker3"
                 android:layout_width="50dp"
                 android:layout_height="125dp"
+
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_weight="1"
+                android:clickable="false"
                 android:gravity="center" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Novorapide"
+                    android:textSize="@dimen/taille_titre" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/PrimaryColor"
+                    android:orientation="vertical" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Toujeo"
+                    android:textSize="@dimen/taille_titre" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/PrimaryColor"
+                    android:orientation="vertical" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:gravity="center"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="horizontal">
+
                 <NumberPicker
                     android:id="@+id/pickerRapide1"
                     android:layout_width="50dp"
+
                     android:layout_height="125dp"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
+                    android:clickable="false"
                     android:gravity="center" />
 
                 <NumberPicker
@@ -118,26 +221,30 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
+                    android:clickable="false"
                     android:gravity="center" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:layout_gravity="center"
-                android:gravity="center"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <NumberPicker
                     android:id="@+id/pickerLente1"
                     android:layout_width="50dp"
+
                     android:layout_height="125dp"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
+                    android:clickable="false"
                     android:gravity="center" />
 
                 <NumberPicker
@@ -151,19 +258,20 @@
 
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginStart="75dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="75dp"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_saveGlycemie"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:layout_weight="1"
                 android:background="@drawable/shape_bouton"
                 android:backgroundTint="@color/SecondaryColor"
                 android:text="@string/enregistrer"
@@ -177,20 +285,21 @@
                 android:layout_weight="1"
                 android:background="@drawable/shape_bouton"
                 android:backgroundTint="@color/SecondaryColor"
-                android:visibility="gone"
                 android:text="@string/modifier"
-                android:textColor="@color/white" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_clearGlycemie"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/shape_bouton"
-                android:text="@string/annuler"
-                android:textColor="#442C2E"
-                android:textSize="16sp" />
+                android:textColor="@color/white"
+                android:visibility="gone" />
+            <!--
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_clearGlycemie"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_bouton"
+                            android:text="@string/annuler"
+                            android:textColor="#442C2E"
+                            android:textSize="16sp" />
+                            -->
         </LinearLayout>
 
     </LinearLayout>

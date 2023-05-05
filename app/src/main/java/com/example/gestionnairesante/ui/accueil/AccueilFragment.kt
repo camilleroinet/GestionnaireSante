@@ -1,16 +1,9 @@
 package com.example.gestionnairesante.ui.accueil
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.gestionnairesante.databinding.FragmentAccueilBinding
 
 class AccueilFragment : Fragment() {
-
+/*
     private var _binding: FragmentAccueilBinding? = null
 
     // This property is only valid between onCreateView and
@@ -38,5 +31,5 @@ class AccueilFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
+    }*/
 }

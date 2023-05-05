@@ -1,12 +1,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-        <variable
-            name="frag1_card"
-            type="com.example.gestionnairesante.database.dao.glycemie.GlycemieDao" />
-    </data>
 
     <LinearLayout
         android:layout_width="match_parent"

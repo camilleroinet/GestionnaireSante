@@ -89,6 +89,11 @@ class VmRepas (private val repo: InnerPlatMenuRepo, private val repo2: InnerPeri
         repo.updateMenu(id, tplat, tGly, tCal)
     }
 
+    fun updatePlat(id: Int, nom: String, glu: Int, cal: Int) = viewModelScope.launch {
+        repo.updatePlat(id, nom, glu, cal)
+    }
+
+
     //
     // cruD
     //

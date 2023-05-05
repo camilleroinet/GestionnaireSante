@@ -1,55 +1,48 @@
 package com.example.gestionnairesante.ui.repas
 
-import android.annotation.SuppressLint
-import android.icu.util.Calendar
+import android.animation.Animator
+import android.animation.ObjectAnimator
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
+import android.view.animation.LinearInterpolator
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import com.example.gestionnairesante.R
-import com.example.gestionnairesante.adapter.AdapterRecyclerMenuPlat
-import com.example.gestionnairesante.adapter.AdapterRecyclerPlat
 import com.example.gestionnairesante.adapter.AdapterViewPager
 import com.example.gestionnairesante.adapter.ZoomOutPageTransformer
 import com.example.gestionnairesante.database.DB_sante
-import com.example.gestionnairesante.database.dao.innerMenu.InnerPeriodeMenuData
 import com.example.gestionnairesante.database.dao.innerMenu.InnerPeriodeMenuRepo
-import com.example.gestionnairesante.database.dao.innerPlat.InnerPlatMenuData
 import com.example.gestionnairesante.database.dao.innerPlat.InnerPlatMenuRepo
-import com.example.gestionnairesante.database.dao.innerPlat.PlatInner
-import com.example.gestionnairesante.database.dao.menu.MenuData
-import com.example.gestionnairesante.database.dao.periode.PeriodeData
 import com.example.gestionnairesante.database.dao.plats.PlatData
 import com.example.gestionnairesante.databinding.RepasBinding
 import com.example.gestionnairesante.ui.diabete.DiabeteChartLine
 import com.example.gestionnairesante.ui.diabete.DiabeteChartPie
 import com.example.gestionnairesante.ui.repas.vm.VmRepas
 import com.example.gestionnairesante.ui.repas.vm.VmRepasFactory
+import com.google.android.material.circularreveal.cardview.CircularRevealCardView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class RepasFragment : Fragment() {
     private var binding: RepasBinding? = null
     private lateinit var viewmodelrepas: VmRepas
 
-    private lateinit var adapterPlat: AdapterRecyclerPlat
-    private lateinit var adapterListePlatMenu: AdapterRecyclerMenuPlat
-
     private lateinit var tablayoutTabs: TabLayout
     private lateinit var viewPagerTabs: ViewPager
     private lateinit var viewPagerCharts: ViewPager
-
-    private var ind = 0
 
     private var arrayTab = arrayListOf<Int>(R.string.txt_fragmenu, R.string.txt_fragrepas)
     private var arrayFragTab = arrayListOf<Fragment>(RepasTab1(), RepasTab2())
@@ -57,6 +50,52 @@ class RepasFragment : Fragment() {
     private var arrayTabCharts = arrayListOf<Int>(R.string.txt_chart1, R.string.txt_chart2, R.string.txt_chart3)
     private var arrayFragChart = arrayListOf<Fragment>(DiabeteChartLine(), DiabeteChartPie())
 
+    // Initialisation des view dans activuty main
+    private lateinit var contain: CoordinatorLayout
+    private lateinit var fab: FloatingActionButton
+    private lateinit var sheet: CircularRevealCardView
+    private lateinit var scrim: View
+
+    private var indiceTab = 0
+    /**
+     * Declaration de toutes les view du dialog
+     */
+    private lateinit var et_nom: EditText
+    private lateinit var et_cal: EditText
+    private lateinit var et_glu: EditText
+
+    private lateinit var btnSave: Button
+
+
+    // Init des includes dans la vue (activity_main.xml
+    private lateinit var itemHolder: List<repasItemHolder>
+    private lateinit var itemHolder2: List<repasItemHolder2>
+
+    // Creation des objets de la vue : correspon aux includes
+    private class repasItemHolder(parent: LinearLayout, listener: View.OnClickListener){
+        // Bouton dans le dialogFragment (imgbutton)
+        val btn: ImageButton = parent.findViewById(R.id.btncoycyc)
+        init {
+            btn.setOnClickListener(listener)
+        }
+    }
+    private class repasItemHolder2(parent: LinearLayout, listener: View.OnClickListener){
+        // Bouton dans le dialogFragment (imgbutton)
+        val btn: ImageButton = parent.findViewById(R.id.fermer_plat)
+
+        init {
+            btn.setOnClickListener(listener)
+        }
+    }
+
+    // Clique sur le bouton
+    private val itemOnClick = View.OnClickListener { v ->
+        fab.isExpanded = false
+        startAnimationFab(1, fab, 300, -400f, 0f)
+    }
+
+    // Init de l'animation
+    var animator = ObjectAnimator()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -65,6 +104,20 @@ class RepasFragment : Fragment() {
         // viewbinding
         val repasFrag = RepasBinding.inflate(inflater, container, false)
         binding = repasFrag
+
+        // Affichage de la vue du dialogFrag
+        configFabExpanded()
+
+        // Gestion de la touche retour du telephone
+        // TODO le retour du fab a sa place initiale n'est pas codé
+        requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), object: OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                fab.isExpanded = false
+                startAnimationFab(1, fab, 300, -400f, 0f)
+
+            }
+        })
+
         return repasFrag.root
     }
 
@@ -74,6 +127,7 @@ class RepasFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             binding?.fragRepas = this@RepasFragment
         }
+
         // databinding
         val daoPlat = DB_sante.getInstance(requireContext()).tabPlat
         val daoMenu = DB_sante.getInstance(requireContext()).tabMenu
@@ -85,31 +139,79 @@ class RepasFragment : Fragment() {
         val repositoryPeriodeMenu = InnerPeriodeMenuRepo(daoMenu, daoPeriode, daoPeriodeMenu)
 
         val factory = VmRepasFactory(repositoryPlatMenu, repositoryPeriodeMenu)
-        viewmodelrepas = ViewModelProvider(this, factory).get(VmRepas::class.java)
+        viewmodelrepas = ViewModelProvider(requireActivity(), factory).get(VmRepas::class.java)
         binding?.viewmodelrepas = viewmodelrepas
-
-        val tabPeriode = resources.getStringArray(R.array.periodes)
-        configSpinner(tabPeriode)
 
         viewmodelrepas.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
-        displayUser()
 
-        binding!!.llVueChart.visibility = View.VISIBLE
-        binding!!.vueMenu.visibility = View.GONE
-
-        binding!!.btnMenu.setOnClickListener {
+/*        binding!!.btnMenu.setOnClickListener {
             binding!!.llVueChart.visibility = View.GONE
             binding!!.vueMenu.visibility = View.VISIBLE
             binding!!.llEtape01.visibility = View.VISIBLE
             binding!!.llEtapeDate.visibility = View.GONE
             binding!!.etapeInformation.visibility = View.GONE
             binding!!.llEtape2.visibility = View.GONE
+        }*/
+
+        fab.setOnClickListener {
+            when(indiceTab){
+                0 -> {
+                    val ll = requireActivity().findViewById<LinearLayout>(R.id.ajoutrepas)
+                    ll.visibility = View.VISIBLE
+                    startAnimationFab(0, fab, 300, 0f, -400f)
+
+                    // La partie noire qui entoure la vue
+                    // TODO le clic dessus est desactivé
+                    scrim.setOnClickListener {
+                        fab.isExpanded = false
+                        startAnimationFab(1, fab, 300, -400f, 0f)
+                    }
+
+                    btnSave.setOnClickListener {
+                        save()
+                        ll.visibility = View.GONE
+                        fab.isExpanded = false
+                        startAnimationFab(1, fab, 300, -400f, 0f)
+
+                    }
+                }
+                1 -> {
+                    val ll = requireActivity().findViewById<LinearLayout>(R.id.ajoutplats)
+                    ll.visibility = View.VISIBLE
+                    startAnimationFab(0, fab, 300, 0f, -400f)
+
+                    et_nom = requireActivity().findViewById(R.id.et_nomplat)
+                    et_cal = requireActivity().findViewById(R.id.et_calories)
+                    et_glu = requireActivity().findViewById(R.id.et_glucide)
+
+                    btnSave = requireActivity().findViewById(R.id.btn_savePlat)
+
+
+                    // La partie noire qui entoure la vue
+                    // TODO le clic dessus est desactivé
+                    scrim.setOnClickListener {
+                        fab.isExpanded = false
+                        startAnimationFab(1, fab, 300, -400f, 0f)
+                    }
+
+                    btnSave.setOnClickListener {
+                        save()
+                        ll.visibility = View.GONE
+                        fab.isExpanded = false
+                        startAnimationFab(1, fab, 300, -400f, 0f)
+
+                    }
+                }
+            }
+
+
         }
 
+/*
         //
         // Etape 1 du scenario
         // Je rentre le nom du menu
@@ -184,12 +286,10 @@ class RepasFragment : Fragment() {
             val plat3 = PlatData(0,"Orange", 10,5)
             viewmodelrepas.ajouterPlat(plat3)
 
-            val menu = MenuData(0, "monMenu", 0, 0, 0)
-            viewmodelrepas.ajouterMenu(menu)
-            val inner = InnerPlatMenuData(0, 9,1)
-            viewmodelrepas.ajouterInnerPlatMenu(inner)
 
         }
+
+ */
         viewPagerCharts = binding?.viewpagercharts!!
 
         tablayoutTabs = binding?.tabLayout!!
@@ -199,75 +299,8 @@ class RepasFragment : Fragment() {
         //configViewPagerChart(viewPagerCharts, arrayFragChart, arrayTabCharts)
         configViewPager(viewPagerTabs, arrayFragTab, arrayTab, tablayoutTabs)
 
-        initRecycler()
-        displayUser()
     }
 
-    fun initRecycler() {
-        // Configuration du layout
-        binding?.listeRepas?.layoutManager = LinearLayoutManager(context)
-        // Configuration de l'adapter
-        adapterPlat = AdapterRecyclerPlat {
-            data: PlatData -> listItemClicked(viewmodelrepas, data)
-        }
-        binding?.listeRepas?.adapter = adapterPlat
-
-        binding?.listeMenu?.layoutManager = LinearLayoutManager(context)
-        adapterListePlatMenu = AdapterRecyclerMenuPlat {
-            data: PlatInner -> listItemClicked2(viewmodelrepas, data)
-        }
-        binding?.listeMenu?.adapter = adapterListePlatMenu
-    }
-
-    fun listItemClicked(viewmodelrepas: VmRepas, data: PlatData) {
-        viewmodelrepas.composerMenu(data)
-        displayPlatInMenu()
-    }
-
-    fun listItemClicked2(viewModel: VmRepas, data: PlatInner) {
-        viewModel.deletePlatInCurrent(data.idser)
-        //Toast.makeText(requireContext(), "delete ok", Toast.LENGTH_LONG)
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun displayUser() {
-        viewmodelrepas.getAllPlats().observe(viewLifecycleOwner, Observer {
-            //Toast.makeText(requireContext(), "size ==>> ${it.size}", Toast.LENGTH_LONG).show()
-            val tabPlat = ArrayList<PlatData>()
-
-            tabPlat.clear()
-            tabPlat.addAll(it)
-
-            adapterPlat.setList(it)
-            adapterPlat.notifyDataSetChanged()
-        })
-
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun displayPlatInMenu() {
-
-        viewmodelrepas.getPlatInMenu().observe(viewLifecycleOwner, Observer {
-            val tabListePlat = ArrayList<PlatInner>()
-            var calories = 0
-            var glucides = 0
-
-            tabListePlat.clear()
-            tabListePlat.addAll(it)
-
-            for(i in 0..tabListePlat.size-1){
-                calories = calories + tabListePlat[i].calPlat
-                glucides = glucides + tabListePlat[i].gluPlat
-            }
-            adapterListePlatMenu.setList(it)
-            viewmodelrepas.totalPlats.value = tabListePlat.size.toString()
-            viewmodelrepas.totalGlucides.value = glucides.toString()
-            viewmodelrepas.totalCalories.value = calories.toString()
-            adapterListePlatMenu.notifyDataSetChanged()
-
-        })
-
-    }
 
     fun configTablelayout(array: ArrayList<Int>) {
         tablayoutTabs.apply {
@@ -282,12 +315,15 @@ class RepasFragment : Fragment() {
 
                         when (tab.position) {
                             0 -> {
+                                indiceTab = 0
                                 binding!!.btnInsertPlat.visibility = View.INVISIBLE
                                 binding!!.btnMenu.visibility = View.VISIBLE
                             }
                             1 -> {
+                                indiceTab = 1
                                 binding!!.btnInsertPlat.visibility = View.VISIBLE
                                 binding!!.btnMenu.visibility = View.INVISIBLE
+                                //fab.visibility= View.GONE
                             }
                         }
                     }
@@ -317,66 +353,108 @@ class RepasFragment : Fragment() {
         viewPager.setPageTransformer(true, ZoomOutPageTransformer())
     }
 
-    fun saveDate() {
-        val val4 = binding!!.datepicker.dayOfMonth
-        val val5 = binding!!.datepicker.month + 1
-        val val6 = binding!!.datepicker.year
-        val date = "$val4/$val5/$val6"
 
-        val periode = binding!!.spinnerPeriode.selectedItem.toString()
+    fun configFabExpanded(){
+        contain = requireActivity().findViewById(R.id.container)
+        fab = requireActivity().findViewById(R.id.fab)
+        sheet = requireActivity().findViewById(R.id.sheet)
+        scrim = requireActivity().findViewById(R.id.scrim)
+        when(indiceTab){
+            0 -> {
+                itemHolder = listOf(
+                    RepasFragment.repasItemHolder(
+                        requireActivity().findViewById(R.id.ajoutrepas),
+                        itemOnClick
+                    )
+                )
+            }
+            1 -> {
+                itemHolder2 = listOf(
 
-        val current = LocalDateTime.now()
-        val heure = DateTimeFormatter.ofPattern("HH:mm")
-        val dateDuJour = Calendar.getInstance()
-        dateDuJour.timeInMillis = System.currentTimeMillis()
-        val heureDuJour = current.format(heure)
+                    RepasFragment.repasItemHolder2(
+                        requireActivity().findViewById(R.id.ajoutplats),
+                        itemOnClick
+                    )
+                )
+            }
+            else -> {
 
-        val data = PeriodeData(0, periode, date, heureDuJour)
-        viewmodelrepas.ajouterPeriode(data)
-        viewmodelrepas.ajouterInnerPeriodeMenu(InnerPeriodeMenuData(viewmodelrepas.getLastMenuInCurrent(), viewmodelrepas.getLastPeriodeInCurrent()))
-    }
-
-    fun configSpinner(arrayCat: Array<String>) {
-        /* en simple java
-        mInterpolatorSpinner = (Spinner) view.findViewById(R.id.interpolatorSpinner);
-        ArrayAdapter<String> spinnerAdapter =
-                new ArrayAdapter<String>(getActivity(),
-                        android.R.layout.simple_spinner_dropdown_item, mInterpolatorNames);
-        mInterpolatorSpinner.setAdapter(spinnerAdapter);*/
-
-        //val arrayCat = resources.getStringArray(R.array.categoriesfs)
-        val adapt = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, arrayCat)
-        binding?.let {
-            with(it.spinnerPeriode) {
-                adapter = adapt
-                setSelection(0, false)
-                prompt = "Selection catagorie"
-                gravity = Gravity.CENTER
-                //posAdapter = 0
-                //nomCategorie = arrayCat[0]
-                //gestionRecycler(0, nomCategorie)
             }
         }
 
-        binding?.spinnerPeriode?.onItemSelectedListener = object :
-            AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                //posAdapter = position
-                //nomCategorie = arrayCat[position]
-                //gestionRecycler(position, nomCategorie)
-                Toast.makeText(
-                    requireContext(),
-                    "spinner selection ======> $position",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        val fabMargin = resources.getDimensionPixelSize(R.dimen.fab_margin)
+        // WindowCompat.setDecorFitsSystemWindows(window, false)
+        ViewCompat.setOnApplyWindowInsetsListener(contain) { _, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            fab.updateLayoutParams<CoordinatorLayout.LayoutParams> {
+                leftMargin = fabMargin + systemBars.left
+                rightMargin = fabMargin + systemBars.right
+                bottomMargin = fabMargin + systemBars.bottom
+            }
+            sheet.updateLayoutParams<CoordinatorLayout.LayoutParams> {
+                leftMargin = fabMargin + systemBars.left
+                rightMargin = fabMargin + systemBars.right
+                bottomMargin = fabMargin + systemBars.bottom
+            }
+            insets
+        }
+    }
+
+    fun startAnimationFab(indice: Int, view: View, duration: Long, debut: Float, fin: Float): ObjectAnimator {
+        /** Note : mouvement suivant l'axe Y = Height
+         * mettre "translationX" pour un mouvement horizontal Axe X = width
+         * parametre fin
+         * --> positif le btn va vers le bas
+         * --> negatif btn va vers le haut
+         * parametre debut et fin
+         * --> inverse les float pour revenir en position
+         **/
+
+        animator = ObjectAnimator.ofFloat(view, "translationY", debut, fin)
+        animator.duration = duration
+
+        /**
+         * Possibilite de mettre une autre interpolation
+         * voir rappel a la fin
+         */
+        animator.interpolator = LinearInterpolator()
+
+        /**
+         * Important
+         * laisser les 4 etats de l'animation
+         */
+        animator.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator) { }
+            override fun onAnimationCancel(animation: Animator) { }
+            override fun onAnimationRepeat(animation: Animator) { }
+
+            override fun onAnimationEnd(animation: Animator) {
+                if( indice == 0) {
+                    fab.isExpanded = true
+                }
+            }
+        })
+
+        animator.start()
+        return animator
+    }
+
+    override fun onDetach() {
+        fab.isExpanded = false
+        super.onDetach()
+    }
+
+    fun save() {
+        if (et_nom.text.isBlank()) {
+            Toast.makeText(context, "youhou ya rien", Toast.LENGTH_LONG).show()
+        } else {
+            val nomPlat = et_nom.text.toString()
+            val caloriePlat = et_cal.text.toString()
+            val glucidePlat = et_glu.text.toString()
+
+            val newInsert = PlatData(0, nomPlat, caloriePlat.toInt(), glucidePlat.toInt())
+            viewmodelrepas.ajouterPlat(newInsert)
         }
     }
 

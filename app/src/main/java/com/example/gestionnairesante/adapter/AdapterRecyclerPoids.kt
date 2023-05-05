@@ -32,9 +32,8 @@ class AdapterRecyclerPoids(private val clickListener: (PoidsInner) -> Unit) :
 
     class MyViewHolder(val binding: PoidsCardviewBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: PoidsInner, clickListener: (PoidsInner) -> Unit) {
-            val id = data.idpoi
-
             binding.poids.text = data.poids.toString()
+            binding.datePoids.text = data.date.toString()
 
             binding.itemLayout2.setOnClickListener {
                 clickListener(data)
@@ -50,4 +49,13 @@ class AdapterRecyclerPoids(private val clickListener: (PoidsInner) -> Unit) :
     override fun getItemCount(): Int {
         return poidsList.size
     }
+
+    fun remove(position: Int){
+        poidsList.removeAt(position)
+        notifyItemRemoved(position)
+        //notifyItemRangeChanged(position, dataList.size)
+        //notifyDataSetChanged()
+    }
+
+
 }

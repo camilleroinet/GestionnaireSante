@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.gestionnairesante.databinding.FragChartBarBinding
 import com.example.gestionnairesante.ui.diabete.vm.VMDiabete
@@ -15,7 +16,7 @@ import com.github.mikephil.charting.data.BarEntry
 class DiabeteChartBar : Fragment() {
 
     private var binding: FragChartBarBinding? = null
-    private val viewModel: VMDiabete by viewModels({ requireParentFragment() })
+    private val viewModel: VMDiabete by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -9,7 +9,7 @@
         android:id="@+id/navigation_accueil"
         android:name="com.example.gestionnairesante.ui.accueil.AccueilFragment"
         android:label="@string/title_accueil"
-        tools:layout="@layout/fragment_accueil" />
+        tools:layout="@layout/accueil" />
 
     <fragment
         android:id="@+id/navigation_diabete"

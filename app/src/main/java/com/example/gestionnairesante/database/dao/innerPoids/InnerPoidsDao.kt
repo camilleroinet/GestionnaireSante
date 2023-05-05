@@ -54,7 +54,8 @@ interface InnerPoidsDao {
         "INNER JOIN poids " +
         "ON poids.id_poids = innerPoids.idpoi " +
         "INNER JOIN periode " +
-        "ON periode.id_periode = innerPoids.idper"
+        "ON periode.id_periode = innerPoids.idper " +
+        "ORDER BY periode.date_periode DESC"
     )
     fun getAllPoids(): Flow<List<PoidsInner>>
 }

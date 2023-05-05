@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.gestionnairesante.databinding.FragChartPieBinding
 import com.example.gestionnairesante.ui.diabete.vm.VMDiabete
@@ -15,7 +16,7 @@ import com.example.gestionnairesante.utils.creationPieChart
 class DiabeteChartPie : Fragment() {
 
     private var binding: FragChartPieBinding? = null
-    private val vmdiabete: VMDiabete by viewModels({ requireParentFragment() })
+    private val vmdiabete: VMDiabete by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

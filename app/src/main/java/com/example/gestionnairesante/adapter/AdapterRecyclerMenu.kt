@@ -36,6 +36,12 @@ class AdapterRecyclerMenu(private val clickListener: (MenuData) -> Unit) :
         }
     }
 
+    fun remove(position: Int){
+        menuList.removeAt(position)
+        notifyItemRemoved(position)
+        //notifyItemRangeChanged(position, dataList.size)
+        //notifyDataSetChanged()
+    }
     fun getDbObjet(position: Int): MenuData {
         return menuList.get(position)
     }
