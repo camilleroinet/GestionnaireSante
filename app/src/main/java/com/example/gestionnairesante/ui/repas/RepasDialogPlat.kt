@@ -73,7 +73,7 @@ class RepasDialogPlat : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val dialogFrag1Binding = RepasDialogPlatBinding.inflate(inflater, container, false)
         binding = dialogFrag1Binding
         binding?.apply {
@@ -116,8 +116,6 @@ class RepasDialogPlat : DialogFragment() {
             update()
             dismiss()
         }
-
-
 
     }
 

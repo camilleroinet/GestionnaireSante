@@ -76,93 +76,32 @@ class RepasFragment : Fragment() {
             }
         }
 
-/*        binding!!.btnMenu.setOnClickListener {
-            binding!!.llVueChart.visibility = View.GONE
-            binding!!.vueMenu.visibility = View.VISIBLE
-            binding!!.llEtape01.visibility = View.VISIBLE
-            binding!!.llEtapeDate.visibility = View.GONE
-            binding!!.etapeInformation.visibility = View.GONE
-            binding!!.llEtape2.visibility = View.GONE
-        }*/
+        binding!!.btnInsertPlat.setOnClickListener {
+            Toast.makeText(requireContext(), "coucou", Toast.LENGTH_SHORT).show()
+            RepasDialogPlat.newInstance(
+                "Nouveau Plat","" ,
+            0, 0, "", 0, 0).show(childFragmentManager, RepasDialogPlat.TAG)
+        }
+
+        binding!!.btnInsertmenu.setOnClickListener {
+            Toast.makeText(requireContext(), "coucou2", Toast.LENGTH_SHORT).show()
+
+            RepasDialogMenu.newInstance(
+                "Nouveau Menu","" ,
+                0 ).show(childFragmentManager, RepasDialogMenu.TAG)
+        }
+
+        /*        binding!!.btnMenu.setOnClickListener {
+                    binding!!.llVueChart.visibility = View.GONE
+                    binding!!.vueMenu.visibility = View.VISIBLE
+                    binding!!.llEtape01.visibility = View.VISIBLE
+                    binding!!.llEtapeDate.visibility = View.GONE
+                    binding!!.etapeInformation.visibility = View.GONE
+                    binding!!.llEtape2.visibility = View.GONE
+                }*/
 
 
 /*
-        //
-        // Etape 1 du scenario
-        // Je rentre le nom du menu
-        //
-
-        binding!!.validerNommenu.setOnClickListener() {
-            val newMenu = MenuData(0, binding!!.etNommenu.text.toString(), 0, 0, 0)
-            if(binding!!.etNommenu.text.isEmpty()){
-                Toast.makeText(requireContext(), "Entrer un nom de menu", Toast.LENGTH_LONG).show()
-            }else{
-                viewmodelrepas.ajouterMenu(newMenu)
-                binding!!.llEtape01.visibility = View.GONE
-                binding!!.llEtapeDate.visibility = View.VISIBLE
-                binding!!.etapeInformation.visibility = View.GONE
-            }
-        }
-
-        binding!!.validerMenu.setOnClickListener {
-            binding!!.llVueChart.visibility = View.VISIBLE
-            binding!!.llEtape01.visibility = View.GONE
-            binding!!.etapeInformation.visibility = View.GONE
-            binding!!.llEtape2.visibility = View.GONE
-
-            viewmodelrepas.updateMenu(
-                // TODO faire un test quand rv vide
-                viewmodelrepas.getLastMenuInCurrent(),
-                viewmodelrepas.totalPlats.value!!.toInt(),
-                viewmodelrepas.totalGlucides.value!!.toInt(),
-                viewmodelrepas.totalCalories.value!!.toInt())
-        }
-
-        binding!!.annulerNommenu.setOnClickListener{
-            binding!!.etNommenu.text.clear()
-        }
-
-        //
-        // Etape 2
-        // On affiche l'ecran pour le choix de la date et de la periode
-        //
-        binding!!.btnValiderDate.setOnClickListener {
-            binding!!.llEtapeDate.visibility = View.GONE
-            binding!!.etapeInformation.visibility = View.VISIBLE
-            // TODO fonction d'update de la date en Inner
-            binding!!.llEtape2.visibility = View.VISIBLE
-            binding!!.listeRepas.visibility = View.VISIBLE
-        }
-
-        binding!!.btnCancelDate.setOnClickListener {
-            binding!!.llEtapeDate.visibility = View.GONE
-            binding!!.llEtape01.visibility = View.VISIBLE
-            // TODO fonction qui permet de recuperer le nom du dernioer menu
-            // TODO gerer l'update au niveau des boutons et db
-
-        }
-
-        //
-        // Etape 3
-        // On affiche l'ecran des informations
-        // l'utilsateur choisi ses plats
-        //
-        binding!!.btnInsertPlat.setOnClickListener {
-            RepasDialogPlat.newInstance("titre", "subtitre", ind, 0, "", 0, 0)
-                .show(childFragmentManager, RepasDialogPlat.TAG)
-        }
-
-        // Pour populate la db
-        binding!!.annulerNommenu.setOnClickListener {
-            val plat1 = PlatData(0,"Croissant", 25,200)
-            viewmodelrepas.ajouterPlat(plat1)
-            val plat2 = PlatData(0,"Cafe", 0,0)
-            viewmodelrepas.ajouterPlat(plat2)
-            val plat3 = PlatData(0,"Orange", 10,5)
-            viewmodelrepas.ajouterPlat(plat3)
-
-
-        }
 
  */
         viewPagerCharts = binding?.viewpagercharts!!
@@ -191,15 +130,18 @@ class RepasFragment : Fragment() {
                         when (tab.position) {
                             0 -> {
                                 indiceTab = 0
-                                binding!!.btnInsertPlat.visibility = View.INVISIBLE
-                                binding!!.btnMenu.visibility = View.VISIBLE
+                                binding!!.btnInsertPlat.visibility = View.GONE
+                                binding!!.btnInsertmenu.visibility = View.VISIBLE
+                                Toast.makeText(requireContext(), "coucou", Toast.LENGTH_SHORT)
+
                             }
                             1 -> {
                                 indiceTab = 1
                                 binding!!.btnInsertPlat.visibility = View.VISIBLE
-                                binding!!.btnMenu.visibility = View.INVISIBLE
-                                //fab.visibility= View.GONE
+                                binding!!.btnInsertmenu.visibility = View.GONE
                             }
+
+                            else -> {}
                         }
                     }
                 }

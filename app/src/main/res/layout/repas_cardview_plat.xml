@@ -121,6 +121,7 @@
 
                     </LinearLayout>
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/ll_boutonForMenu"
                     android:layout_width="100dp"

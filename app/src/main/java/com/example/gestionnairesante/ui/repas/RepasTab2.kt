@@ -44,8 +44,6 @@ class RepasTab2 : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         //creation de message pout l'utilisateur si qqc est arrivé
         viewmodelrepas.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
@@ -137,9 +135,6 @@ class RepasTab2 : Fragment() {
         }
         itemTouchHelper.attachToRecyclerView(binding?.recyclerPlat)
     }
-
-
-
 
 }
 

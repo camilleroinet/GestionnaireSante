@@ -1,35 +1,14 @@
 package com.example.gestionnairesante.ui.diabete
 
-import android.animation.Animator
-import android.animation.ObjectAnimator
-import android.icu.util.Calendar
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowInsets
-import android.view.animation.Animation
-import android.view.animation.LinearInterpolator
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.DatePicker
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.NumberPicker
-import android.widget.Spinner
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.example.gestionnairesante.R
-import com.example.gestionnairesante.adapter.AdapterRecyclerDiabete
 import com.example.gestionnairesante.adapter.AdapterViewPager
 import com.example.gestionnairesante.adapter.AdapterViewPagerCharts
 import com.example.gestionnairesante.adapter.ZoomOutPageTransformer
@@ -40,12 +19,7 @@ import com.example.gestionnairesante.databinding.DiabeteBinding
 import com.example.gestionnairesante.ui.diabete.vm.VMDiabete
 import com.example.gestionnairesante.ui.diabete.vm.VMDiabeteFactory
 import com.example.gestionnairesante.ui.poids.PoidsDialog
-import com.google.android.material.circularreveal.cardview.CircularRevealCardView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
-import java.time.Duration
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class DiabeteFragment : Fragment() {
     private var binding: DiabeteBinding? = null

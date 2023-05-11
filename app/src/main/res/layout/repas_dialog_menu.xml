@@ -371,13 +371,15 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/liste_menu"
+                        android:visibility="visible"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/taille_recyclers" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/liste_repas"
+                        android:background="@color/Tertiary"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/taille_recyclers2"/>
+                        android:layout_height="@dimen/taille_recyclers"/>
 
 
                 </LinearLayout>
