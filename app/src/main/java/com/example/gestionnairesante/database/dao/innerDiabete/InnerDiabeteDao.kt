@@ -16,7 +16,6 @@ interface InnerDiabeteDao {
     @Query("SELECT valeur_glycemie FROM glycemie")
     fun getAllValeurGlycemie(): Flow<List<Int>>
 
-
     @Query(
         "SELECT * " +
         "FROM glycemie " +
@@ -71,7 +70,7 @@ interface InnerDiabeteDao {
         "INNER JOIN periode ON periode.id_periode = innerDiabete.idper " +
         "INNER JOIN glycemie ON glycemie.id_glycemie = innerDiabete.idgly " +
         "INNER JOIN insuline ON insuline.id_insuline = innerDiabete.idIns "
-)
+    )
     fun getAllValeurs(): Flow<List<DataInner>>
 
 }

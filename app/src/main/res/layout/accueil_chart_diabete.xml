@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.accueil.AccueilChartDiabete">
+    tools:context=".ui.accueil.AccueilChartDiabete1">
 
     <data>
 
@@ -10,8 +10,8 @@
             type="com.example.gestionnairesante.ui.accueil.vm.VmAccueil" />
 
         <variable
-            name="fragAccueil"
-            type="com.example.gestionnairesante.ui.accueil.AccueilFragment" />
+            name="AccueilChartLine1"
+            type="com.example.gestionnairesante.ui.accueil.AccueilChartDiabete1" />
     </data>
 
     <LinearLayout
@@ -20,13 +20,14 @@
         android:orientation="vertical">
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/ac_diabete"
+            android:id="@+id/chart1_accueil_diabete"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
         <LinearLayout
             android:id="@+id/ll_avertissement_diabetechart"
-            android:layout_width="match_parent"
+            android:background="@color/Error"
+            android:layout_width="250dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
 

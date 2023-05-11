@@ -1,0 +1,57 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.accueil.AccueilDialog">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- TITRE -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingStart="20dp"
+                android:text="@string/composition_d_un_nouveau_menu"
+                android:textSize="@dimen/taille_titre" />
+
+            <ImageButton
+                android:id="@+id/fermer_accueil"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="10dp"
+                android:background="@color/white"
+                android:src="@drawable/ic_close" />
+
+        </LinearLayout>
+
+        <DatePicker
+            android:id="@+id/datepickeraccueil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_close_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_bouton"
+            android:backgroundTint="@color/SecondaryColor"
+            android:text="@string/modifier"
+            android:textColor="@color/white"
+            android:visibility="visible" />
+    </LinearLayout>
+
+</layout>

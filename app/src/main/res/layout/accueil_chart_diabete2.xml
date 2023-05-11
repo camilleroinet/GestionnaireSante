@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.accueil.AccueilChartAlimentation">
+    tools:context=".ui.accueil.AccueilChartDiabete2">
 
     <data>
 
@@ -10,8 +10,8 @@
             type="com.example.gestionnairesante.ui.accueil.vm.VmAccueil" />
 
         <variable
-            name="fragAccueil"
-            type="com.example.gestionnairesante.ui.accueil.AccueilFragment" />
+            name="AccueilChartPie1"
+            type="com.example.gestionnairesante.ui.accueil.AccueilChartDiabete2" />
     </data>
 
     <LinearLayout
@@ -19,14 +19,16 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/ac_alimentation"
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/chart2_accueil_diabete"
+            android:background="@color/color04"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
         <LinearLayout
             android:id="@+id/ll_avertissement_diabetechart"
-            android:layout_width="match_parent"
+            android:background="@color/Error"
+            android:layout_width="250dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
 

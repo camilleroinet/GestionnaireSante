@@ -173,7 +173,7 @@ class DiabeteDialogGlycemie : DialogFragment() {
         val val4 = binding!!.datepicker.dayOfMonth
         val val5 = binding!!.datepicker.month + 1
         val val6 = binding!!.datepicker.year
-        val date = "$val4/$val5/$val6"
+        val date = "$val4-$val5-$val6"
 
         val val7 = binding!!.pickerRapide1.value
         val val8 = binding!!.pickerRapide2.value
@@ -206,7 +206,7 @@ class DiabeteDialogGlycemie : DialogFragment() {
         val val4 = binding!!.datepicker.dayOfMonth
         val val5 = binding!!.datepicker.month + 1
         val val6 = binding!!.datepicker.year
-        val date = "$val4/$val5/$val6"
+        val date = "$val4-$val5-$val6"
 
         val val7 = binding!!.pickerRapide1.value
         val val8 = binding!!.pickerRapide2.value

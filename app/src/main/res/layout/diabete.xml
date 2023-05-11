@@ -20,18 +20,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btn_insert"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
-            android:backgroundTint="@color/SecondaryColor"
-            android:layout_margin="5dp"
-            android:visibility="visible"
-            app:maxImageSize="48dp"
-            app:srcCompat="@android:drawable/ic_input_add" />
-
-
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/viewpagercharts"
                 android:layout_width="wrap_content"
@@ -40,16 +28,14 @@
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="35dp"
                 android:textSize="18sp"
                 app:tabTextColor="@color/PrimaryColor" />
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/viewpagertabhost"
                 android:layout_width="wrap_content"
-                android:layout_height="380dp" />
-
-
+                android:layout_height="350dp" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btn_insertInsuline"
@@ -63,6 +49,17 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:maxImageSize="48dp"
                 app:srcCompat="@android:drawable/ic_input_add" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_insert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:backgroundTint="@color/SecondaryColor"
+            android:layout_margin="5dp"
+            android:visibility="visible"
+            app:maxImageSize="48dp"
+            app:srcCompat="@android:drawable/ic_input_add" />
 
     </LinearLayout>
 </layout>

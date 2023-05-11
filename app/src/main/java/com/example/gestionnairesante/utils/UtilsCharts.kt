@@ -1,8 +1,6 @@
 @file: JvmName("ChartsUtils")
 @file: JvmMultifileClass
 
-
-
 package com.example.gestionnairesante.utils
 
 import android.content.Context
@@ -18,12 +16,11 @@ import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 
-
 fun createLineChart(context: Context, linechart: LineChart, entri: ArrayList<Entry>){
     configGraphs(linechart)
     val lineDataSet = LineDataSet(entri, "temp")
     context?.let { lineDataSet.color = it.getColor(R.color.black) }             // Couleur de la ligne reliant les valeurs
-    lineDataSet.mode = LineDataSet.Mode.HORIZONTAL_BEZIER                       // Style de la courbe
+    lineDataSet.mode = LineDataSet.Mode.LINEAR                                  // Style de la courbe
     lineDataSet.lineWidth = 2.5F                                                // Epaisseur de la ligne reliant les valeurs
     lineDataSet.setDrawValues(false)                                            // On affiche les valeurs : oui
     lineDataSet.valueTextSize = 12F                                             // Taille de la police de caractere
@@ -34,8 +31,9 @@ fun createLineChart(context: Context, linechart: LineChart, entri: ArrayList<Ent
     val ld = LineData(iLineDataSet)
     linechart.data = ld                                                         // Associe le chart avec les valeurs
     linechart.invalidate()                                                      // Rafraichit le chart(en fait on lui dit de se
-    // reafficher entierement)
+                                                                                // reafficher entierement)
 }
+
 fun configGraphs(linechart: LineChart){
     linechart.setVisibleXRangeMaximum(10F)
     linechart.description.isEnabled = false             // Affichage description : non
@@ -194,15 +192,15 @@ fun createCombiedChart(c: Context, cc: CombinedChart, arrayDataLine: ArrayList<E
 
     //linechart
     val lineDataSet = LineDataSet(arrayDataLine, "temp")
-    c?.let { lineDataSet.color = it.getColor(R.color.black) }//coleur de la ligne reliant les valeurs
-    lineDataSet.mode = LineDataSet.Mode.LINEAR//style de la courbe
-    lineDataSet.lineWidth = 2.5F//epaisseur de la ligne reliant les valeurs
-    lineDataSet.setDrawValues(true)//on affiche les valeurs : oui
-    lineDataSet.valueTextSize = 12F//taille de la police de caractere
-    c?.let { lineDataSet.setCircleColor(it.getColor(R.color.black)) }//couleur des cercles de data dans le graph
-    lineDataSet.circleRadius = 5f//taille des cerlces des valeurs dans le graph
+    c?.let { lineDataSet.color = it.getColor(R.color.black) }            //coleur de la ligne reliant les valeurs
+    lineDataSet.mode = LineDataSet.Mode.LINEAR                           //style de la courbe
+    lineDataSet.lineWidth = 2.5F                                         //epaisseur de la ligne reliant les valeurs
+    lineDataSet.setDrawValues(true)                                      //on affiche les valeurs : oui
+    lineDataSet.valueTextSize = 12F                                      //taille de la police de caractere
+    c?.let { lineDataSet.setCircleColor(it.getColor(R.color.black)) }    //couleur des cercles de data dans le graph
+    lineDataSet.circleRadius = 5f                                        //taille des cerlces des valeurs dans le graph
     val iLineDataSet = ArrayList<ILineDataSet>()
-    iLineDataSet.add(lineDataSet)//on creer les valeurs et leur config
+    iLineDataSet.add(lineDataSet)                                        //on creer les valeurs et leur config
     val ld = LineData(iLineDataSet)
 
 

@@ -49,6 +49,14 @@
     <string name="choisir_une_date_menu">Choisir une date et une periode</string>
     <string name="informations_concernant_ce_menu">Informations concernant ce menu</string>
     <string name="les_plats_composants_votre_menu">Les plats composants votre menu</string>
+    <string name="txt_aChart1">Tendances</string>
+    <string name="txt_aChart2">HypoHyper</string>
+    <string name="txt_alChart1">Graph 1</string>
+    <string name="alChart2">Graph 2</string>
+    <string name="composition_d_un_nouveau_menu">Composition d\'un nouveau menu</string>
+    <string name="txt_accueilTab1">Diabete</string>
+    <string name="txt_accueilTab2">Alimentation</string>
+    <string name="txt_accueilTab3">multi choix</string>
 
     <string-array name="periodes">
         <item>Petit-déjeuner</item>

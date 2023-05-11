@@ -14,6 +14,8 @@ import com.example.gestionnairesante.database.dao.innerPlat.InnerPlatMenuDao
 import com.example.gestionnairesante.database.dao.innerPlat.InnerPlatMenuData
 import com.example.gestionnairesante.database.dao.innerPoids.InnerPoidsDao
 import com.example.gestionnairesante.database.dao.innerPoids.InnerPoidsData
+import com.example.gestionnairesante.database.dao.innerStats.StatsDao
+import com.example.gestionnairesante.database.dao.innerStats.StatsGlyPer
 import com.example.gestionnairesante.database.dao.insuline.InsulineDao
 import com.example.gestionnairesante.database.dao.insuline.InsulineData
 import com.example.gestionnairesante.database.dao.insuline.ParamStyloDao
@@ -29,6 +31,7 @@ import com.example.gestionnairesante.database.dao.poids.PoidsData
 
 @Database(
     entities = [
+        StatsGlyPer::class,
         InnerPeriodeMenuData::class,
         ParamStyloData::class,
         InnerPlatMenuData::class,
@@ -58,6 +61,9 @@ abstract class DB_sante : RoomDatabase() {
     abstract val tabRelationnelPoids: InnerPoidsDao
     abstract val tabRelationnelPlat: InnerPlatMenuDao
     abstract val tabRelationnelMenu: InnerPeriodeMenuDao
+
+    abstract val tabRelationnelStats: StatsDao
+
 
     companion object {
         @Volatile

@@ -50,7 +50,7 @@ class VMDiabete( private val repo: InnerDiabeteRepo): ViewModel() {
         //
         val inner = InnerDiabeteData(lastGlycemie, lastPeriode, lastInsuline)
         repo.insertGlycemieInner(inner)//insertion de la glycemie Inner Join
-        statusMessage.value = Event("L'enregistrement s'est bien déroulé.")
+        //statusMessage.value = Event("L'enregistrement s'est bien déroulé.")
     }
 
     fun getAllGlycemie() = liveData {
