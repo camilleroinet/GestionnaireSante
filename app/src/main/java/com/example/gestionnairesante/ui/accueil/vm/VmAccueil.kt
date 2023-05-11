@@ -24,6 +24,17 @@ class VmAccueil ( private val repo: StatsRepo): ViewModel() {
             emit(it)
         }
     }
+    fun getSpecRapide(date: String) = liveData {
+        repo.getSpecRapide(date).collect() {
+            emit(it)
+        }
+    }
+    fun getSpecLente(date: String) = liveData {
+        repo.getSpecLente(date).collect() {
+            emit(it)
+        }
+    }
+
 
     fun getSpecPoids(date: String) = liveData {
         repo.getSpecPoids(date).collect() {

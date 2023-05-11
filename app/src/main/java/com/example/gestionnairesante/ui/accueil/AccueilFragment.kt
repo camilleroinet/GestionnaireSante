@@ -1,9 +1,12 @@
 package com.example.gestionnairesante.ui.accueil
 
+import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.gestionnairesante.R
@@ -17,7 +20,13 @@ import com.example.gestionnairesante.utils.createColorTab
 import com.example.gestionnairesante.utils.createLineChart
 import com.example.gestionnairesante.utils.creationPieChart
 import com.example.gestionnairesante.utils.recupDataChart
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.google.android.material.tabs.TabLayout
 
 class AccueilFragment : Fragment() {
@@ -138,6 +147,9 @@ class AccueilFragment : Fragment() {
 
     fun loadCharts() {
         val valuesBdd = ArrayList<Int>()
+        val valueRapide = ArrayList<Int>()
+        val valueLente = ArrayList<Int>()
+
         val valuesPoids = ArrayList<Float>()
         val arrayData = ArrayList<Float>()
 
@@ -162,6 +174,14 @@ class AccueilFragment : Fragment() {
 
             when (posTab) {
                 0 -> {
+                    vmaccueil.getSpecRapide(date).observe(viewLifecycleOwner) {
+                        valueRapide.clear()
+                        valueRapide.addAll(it)
+                    }
+                    vmaccueil.getSpecLente(date).observe(viewLifecycleOwner) {
+                        valueLente.clear()
+                        valueLente.addAll(it)
+                    }
                     vmaccueil.getSpecGly(date).observe(viewLifecycleOwner) {
                         binding.chart1AccueilAlimentation.invalidate()
                         binding.chart2AccueilAlimentation.invalidate()
@@ -178,10 +198,16 @@ class AccueilFragment : Fragment() {
                             binding.llAvertissement.visibility = View.GONE
                             binding.llAvertissement2.visibility = View.GONE
 
+                            Toast.makeText(requireContext(), "size de lente : ${valueLente.size}", Toast.LENGTH_SHORT).show()
+
                             createLineChart(
                                 requireContext(),
                                 binding.chart1AccueilDiabete,
-                                recupDataChart(valuesBdd)
+                                recupDataChart(valuesBdd),
+                                recupDataChart(valueRapide),
+                                recupDataChart(valueLente)
+
+
                             )
 
                             binding.chart1AccueilDiabete.invalidate()
@@ -260,6 +286,83 @@ class AccueilFragment : Fragment() {
 
         }
     }
+
+    fun createLineChart(context: Context,
+                        linechart: LineChart,
+                        entri: ArrayList<Entry>,
+                        entri2: ArrayList<Entry>,
+                        entri3: ArrayList<Entry>){
+
+        configGraphs(linechart)                                                     // Configuration du linechart
+
+        val lineDataSet = LineDataSet(entri, "Glycemie")
+        context.let { lineDataSet.color = it.getColor(R.color.black) }             // Couleur de la ligne reliant les valeurs
+        lineDataSet.mode = LineDataSet.Mode.LINEAR                                  // Style de la courbe
+        lineDataSet.lineWidth = 2.5F                                                // Epaisseur de la ligne reliant les valeurs
+        lineDataSet.setDrawValues(false)                                            // On affiche les valeurs : oui
+        lineDataSet.valueTextSize = 12F                                             // Taille de la police de caractere
+        context.let { lineDataSet.setCircleColor(it.getColor(R.color.black)) }     // Couleur des cercles de data dans le graph
+        lineDataSet.circleRadius = 0f                                               // Taille des cerlces des valeurs dans le graph
+
+        val lineDataSet2 = LineDataSet(entri2, "Rapide")
+        context.let { lineDataSet2.color = it.getColor(R.color.color02) }           // Couleur de la ligne reliant les valeurs
+        lineDataSet2.mode = LineDataSet.Mode.LINEAR                                  // Style de la courbe
+        lineDataSet2.lineWidth = 2.5F                                                // Epaisseur de la ligne reliant les valeurs
+        lineDataSet2.setDrawValues(false)                                            // On affiche les valeurs : oui
+        lineDataSet2.valueTextSize = 12F                                             // Taille de la police de caractere
+        context.let { lineDataSet2.setCircleColor(it.getColor(R.color.color02)) }   // Couleur des cercles de data dans le graph
+        lineDataSet2.circleRadius = 0f
+
+        val lineDataSet3 = LineDataSet(entri3, "Lente")
+        context.let { lineDataSet3.color = it.getColor(R.color.color01) }           // Couleur de la ligne reliant les valeurs
+        lineDataSet3.mode = LineDataSet.Mode.LINEAR                                  // Style de la courbe
+        lineDataSet3.lineWidth = 2.5F                                                // Epaisseur de la ligne reliant les valeurs
+        lineDataSet3.setDrawValues(false)                                            // On affiche les valeurs : oui
+        lineDataSet3.valueTextSize = 12F                                             // Taille de la police de caractere
+        context.let { lineDataSet3.setCircleColor(it.getColor(R.color.color01)) }   // Couleur des cercles de data dans le graph
+        lineDataSet3.circleRadius = 0f
+
+        val iLineDataSet = ArrayList<ILineDataSet>()
+        iLineDataSet.add(lineDataSet)                                               // Creer les valeurs et leur config
+        iLineDataSet.add(lineDataSet2)                                              // Creer les valeurs et leur config
+        iLineDataSet.add(lineDataSet3)                                              // Creer les valeurs et leur config
+
+        val ld = LineData(iLineDataSet)
+        linechart.data = ld                                                         // Associe le chart avec les valeurs
+        linechart.invalidate()                                                      // Rafraichit le chart(en fait on lui dit de se
+        // reafficher entierement)
+    }
+
+    fun configGraphs(linechart: LineChart){
+        linechart.setVisibleXRangeMaximum(10F)
+        linechart.description.isEnabled = false             // Affichage description : non
+        linechart.setPinchZoom(true)                        // Possible de zoom ds le graph = oui
+        linechart.setDrawGridBackground(false)              // Affichage du grillage moche = non
+        linechart.axisRight.isEnabled = false               // Affichage des data à droites du graph = non
+        val axisRight = linechart.xAxis                     // Recup de axe droit (linechart.yAxis si on veut l'autre coté)
+        axisRight.axisMinimum = 0F                          // Valeur mini en principe la val de début du linechart
+        axisRight.position = XAxis.XAxisPosition.BOTTOM     // Position ds le graph
+        axisRight.textSize = 10F                            // Taille police de caractere
+        axisRight.textColor = Color.BLACK                   // Couleur police de caractere
+        axisRight.setDrawGridLines(false)                   // Affichage de la grille
+        axisRight.setDrawLabels(false)                      // Affichage des datas = oui
+        axisRight.labelRotationAngle = 45F                  // Rotation des datas pour plus de lisibilité = oui
+        linechart.axisLeft.isEnabled = true                 // Affichage de l'axe de gauche = non
+        val legend = linechart.legend                       // Legend
+        legend.isEnabled = false                            // Affichage de la legende = non
+    }
+
+    fun recupDataChart(array: ArrayList<Int>): ArrayList<Entry>{
+        val valu = ArrayList<Entry>()
+        val r = array.size - 1
+        for (i in 0..r){
+            valu.add(Entry(i.toFloat(), array[i].toFloat()))
+        }
+        return valu
+    }
+
+
+
     fun recupDataBarChart(date: String): ArrayList<BarEntry> {
         val data = ArrayList<BarEntry>()
         val tabValeur = ArrayList<Float>()

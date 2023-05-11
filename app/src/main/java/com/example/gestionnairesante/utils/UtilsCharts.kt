@@ -16,9 +16,15 @@ import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 
-fun createLineChart(context: Context, linechart: LineChart, entri: ArrayList<Entry>){
-    configGraphs(linechart)
-    val lineDataSet = LineDataSet(entri, "temp")
+fun createLineChart(context: Context,
+                    linechart: LineChart,
+                    entri: ArrayList<Entry>,
+                    entri2: ArrayList<Entry>,
+                    entri3: ArrayList<Entry>){
+
+    configGraphs(linechart)                                                     // Configuration du linechart
+
+    val lineDataSet = LineDataSet(entri, "Glycemie")
     context?.let { lineDataSet.color = it.getColor(R.color.black) }             // Couleur de la ligne reliant les valeurs
     lineDataSet.mode = LineDataSet.Mode.LINEAR                                  // Style de la courbe
     lineDataSet.lineWidth = 2.5F                                                // Epaisseur de la ligne reliant les valeurs
@@ -26,8 +32,30 @@ fun createLineChart(context: Context, linechart: LineChart, entri: ArrayList<Ent
     lineDataSet.valueTextSize = 12F                                             // Taille de la police de caractere
     context?.let { lineDataSet.setCircleColor(it.getColor(R.color.black)) }     // Couleur des cercles de data dans le graph
     lineDataSet.circleRadius = 0f                                               // Taille des cerlces des valeurs dans le graph
+
+    val lineDataSet2 = LineDataSet(entri2, "Rapide")
+    context?.let { lineDataSet2.color = it.getColor(R.color.color02) }           // Couleur de la ligne reliant les valeurs
+    lineDataSet2.mode = LineDataSet.Mode.LINEAR                                  // Style de la courbe
+    lineDataSet2.lineWidth = 2.5F                                                // Epaisseur de la ligne reliant les valeurs
+    lineDataSet2.setDrawValues(false)                                            // On affiche les valeurs : oui
+    lineDataSet2.valueTextSize = 12F                                             // Taille de la police de caractere
+    context?.let { lineDataSet2.setCircleColor(it.getColor(R.color.color02)) }   // Couleur des cercles de data dans le graph
+    lineDataSet2.circleRadius = 0f
+
+    val lineDataSet3 = LineDataSet(entri3, "Lente")
+    context?.let { lineDataSet3.color = it.getColor(R.color.color01) }           // Couleur de la ligne reliant les valeurs
+    lineDataSet3.mode = LineDataSet.Mode.LINEAR                                  // Style de la courbe
+    lineDataSet3.lineWidth = 2.5F                                                // Epaisseur de la ligne reliant les valeurs
+    lineDataSet3.setDrawValues(false)                                            // On affiche les valeurs : oui
+    lineDataSet3.valueTextSize = 12F                                             // Taille de la police de caractere
+    context?.let { lineDataSet3.setCircleColor(it.getColor(R.color.color01)) }   // Couleur des cercles de data dans le graph
+    lineDataSet3.circleRadius = 0f
+
     val iLineDataSet = ArrayList<ILineDataSet>()
     iLineDataSet.add(lineDataSet)                                               // Creer les valeurs et leur config
+    iLineDataSet.add(lineDataSet2)                                              // Creer les valeurs et leur config
+    iLineDataSet.add(lineDataSet3)                                              // Creer les valeurs et leur config
+
     val ld = LineData(iLineDataSet)
     linechart.data = ld                                                         // Associe le chart avec les valeurs
     linechart.invalidate()                                                      // Rafraichit le chart(en fait on lui dit de se

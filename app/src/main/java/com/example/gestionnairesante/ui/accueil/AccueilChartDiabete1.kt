@@ -47,11 +47,15 @@ class AccueilChartDiabete1 : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       // recupDataLineChart()
+        recupDataLineChart()
     }
 
     fun recupDataLineChart() {
         val valuesBdd = ArrayList<Int>()
+        val valuesRapide = ArrayList<Int>()
+        val valuesLente = ArrayList<Int>()
+
+
         vmaccueil.getAllGlycemie().observe(viewLifecycleOwner, Observer {
             binding?.chart1AccueilDiabete?.invalidate()
             valuesBdd.clear()
@@ -63,7 +67,11 @@ class AccueilChartDiabete1 : Fragment() {
             }else{
                 binding?.llAvertissementDiabetechart?.visibility = View.GONE
                 binding?.chart1AccueilDiabete?.visibility = View.VISIBLE
-                createLineChart(requireContext(), binding!!.chart1AccueilDiabete, recupDataChart(valuesBdd))
+                createLineChart(requireContext(), binding!!.chart1AccueilDiabete,
+                    recupDataChart(valuesBdd),
+                    recupDataChart(valuesRapide),
+                    recupDataChart(valuesLente) )
+
                 binding?.chart1AccueilDiabete?.invalidate()
             }
 

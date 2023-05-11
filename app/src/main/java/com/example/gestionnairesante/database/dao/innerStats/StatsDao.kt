@@ -36,10 +36,40 @@ interface StatsDao {
         "ON glycemie.id_glycemie = innerDiabete.idgly " +
         "INNER JOIN periode " +
         "ON periode.id_periode = innerDiabete.idper " +
+        "INNER JOIN insuline " +
+        "ON insuline.id_insuline = innerDiabete.idIns " +
         "WHERE periode.date_periode = :date " +
         "ORDER BY date_periode DESC"
     )
     fun getSpecGlycemie(date: String): Flow<List<Int>>
+
+    @Query(
+        "SELECT insuline_rapide " +
+        "FROM glycemie " +
+        "INNER JOIN innerDiabete " +
+        "ON glycemie.id_glycemie = innerDiabete.idgly " +
+        "INNER JOIN periode " +
+        "ON periode.id_periode = innerDiabete.idper " +
+        "INNER JOIN insuline " +
+        "ON insuline.id_insuline = innerDiabete.idIns " +
+        "WHERE periode.date_periode = :date " +
+        "ORDER BY date_periode DESC"
+    )
+    fun getSpecRapide(date: String): Flow<List<Int>>
+
+    @Query(
+        "SELECT insuline_lente " +
+        "FROM glycemie " +
+        "INNER JOIN innerDiabete " +
+        "ON glycemie.id_glycemie = innerDiabete.idgly " +
+        "INNER JOIN periode " +
+        "ON periode.id_periode = innerDiabete.idper " +
+        "INNER JOIN insuline " +
+        "ON insuline.id_insuline = innerDiabete.idIns " +
+        "WHERE periode.date_periode = :date " +
+        "ORDER BY date_periode DESC"
+    )
+    fun getSpecLente(date: String): Flow<List<Int>>
 
 
     @Query(
@@ -54,5 +84,16 @@ interface StatsDao {
     )
     fun getSpecPoids(date: String): Flow<List<Float>>
 
+    @Query(
+        "SELECT poids.valeur_poids  " +
+        "FROM poids " +
+        "INNER JOIN innerPoids " +
+        "ON poids.id_poids = innerPoids.idpoi " +
+        "INNER JOIN periode " +
+        "ON periode.id_periode = innerPoids.idper " +
+        "WHERE periode.date_periode = :date " +
+        "ORDER BY date_periode DESC"
+    )
+    fun getSpecPoids2(date: String): Flow<List<Float>>
 }
 
