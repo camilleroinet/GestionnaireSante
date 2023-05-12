@@ -19,10 +19,22 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.github.mikephil.charting.charts.CombinedChart
-            android:id="@+id/chart2_Alim"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/chart2_Alim"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"/>
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/chart2_Alim2"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/ll_avertissement_diabetechart"

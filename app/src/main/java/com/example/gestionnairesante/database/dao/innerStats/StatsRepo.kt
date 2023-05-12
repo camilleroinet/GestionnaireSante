@@ -22,6 +22,11 @@ class StatsRepo(
         return statsDao.getSpecLente(date)
     }
 
+
+    fun getSpecCalories(date: String) : Flow<List<Float>> {
+        return statsDao.getSpecCalories(date)
+    }
+
     fun getSpecPoids(date: String) : Flow<List<Float>> {
         return statsDao.getSpecPoids(date)
     }

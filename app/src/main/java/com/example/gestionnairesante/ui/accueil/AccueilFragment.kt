@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.gestionnairesante.R
@@ -17,15 +16,19 @@ import com.example.gestionnairesante.ui.accueil.vm.VmAccueil
 import com.example.gestionnairesante.ui.accueil.vm.VmAccueilFactory
 import com.example.gestionnairesante.utils.createBarChart
 import com.example.gestionnairesante.utils.createColorTab
-import com.example.gestionnairesante.utils.createLineChart
 import com.example.gestionnairesante.utils.creationPieChart
-import com.example.gestionnairesante.utils.recupDataChart
+import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.google.android.material.tabs.TabLayout
 
@@ -98,7 +101,7 @@ class AccueilFragment : Fragment() {
                                 binding.chart1AccueilDiabete.visibility = View.VISIBLE
                                 binding.chart2AccueilDiabete.visibility = View.VISIBLE
                                 binding.chart1AccueilAlimentation.visibility = View.GONE
-                                binding.chart2AccueilAlimentation.visibility = View.GONE
+                                binding.alimDualPie.visibility = View.GONE
                             }
 
                             1 -> {
@@ -107,7 +110,7 @@ class AccueilFragment : Fragment() {
                                 binding.chart1AccueilDiabete.visibility = View.GONE
                                 binding.chart2AccueilDiabete.visibility = View.GONE
                                 binding.chart1AccueilAlimentation.visibility = View.VISIBLE
-                                binding.chart2AccueilAlimentation.visibility = View.VISIBLE
+                                binding.alimDualPie.visibility = View.VISIBLE
                             }
 
                             else -> {
@@ -183,9 +186,6 @@ class AccueilFragment : Fragment() {
                         valueLente.addAll(it)
                     }
                     vmaccueil.getSpecGly(date).observe(viewLifecycleOwner) {
-                        binding.chart1AccueilAlimentation.invalidate()
-                        binding.chart2AccueilAlimentation.invalidate()
-
                         valuesBdd.clear()
                         valuesBdd.addAll(it)
 
@@ -193,12 +193,12 @@ class AccueilFragment : Fragment() {
                             binding.chart1AccueilDiabete.visibility = View.VISIBLE
                             binding.chart2AccueilDiabete.visibility = View.VISIBLE
                             binding.chart1AccueilAlimentation.visibility = View.GONE
-                            binding.chart2AccueilAlimentation.visibility = View.GONE
+                            binding.alimDualPie.visibility = View.GONE
 
                             binding.llAvertissement.visibility = View.GONE
                             binding.llAvertissement2.visibility = View.GONE
 
-                            Toast.makeText(requireContext(), "size de lente : ${valueLente.size}", Toast.LENGTH_SHORT).show()
+                            //Toast.makeText(requireContext(), "size de lente : ${valueLente.size}", Toast.LENGTH_SHORT).show()
 
                             createLineChart(
                                 requireContext(),
@@ -206,8 +206,6 @@ class AccueilFragment : Fragment() {
                                 recupDataChart(valuesBdd),
                                 recupDataChart(valueRapide),
                                 recupDataChart(valueLente)
-
-
                             )
 
                             binding.chart1AccueilDiabete.invalidate()
@@ -218,7 +216,7 @@ class AccueilFragment : Fragment() {
                             binding.chart1AccueilDiabete.visibility = View.GONE
                             binding.chart2AccueilDiabete.visibility = View.GONE
                             binding.chart1AccueilAlimentation.visibility = View.GONE
-                            binding.chart2AccueilAlimentation.visibility = View.GONE
+                            binding.alimDualPie.visibility = View.GONE
                         }
 
                         var hypo = 0
@@ -249,8 +247,6 @@ class AccueilFragment : Fragment() {
 
                 1 -> {
                     vmaccueil.getSpecPoids(date).observe(viewLifecycleOwner) {
-                        binding.chart1AccueilAlimentation.invalidate()
-                        binding.chart2AccueilAlimentation.invalidate()
 
                         valuesPoids.clear()
                         valuesPoids.addAll(it)
@@ -259,12 +255,12 @@ class AccueilFragment : Fragment() {
                             binding.chart1AccueilDiabete.visibility = View.GONE
                             binding.chart2AccueilDiabete.visibility = View.GONE
                             binding.chart1AccueilAlimentation.visibility = View.VISIBLE
-                            binding.chart2AccueilAlimentation.visibility = View.VISIBLE
+                            binding.alimDualPie.visibility = View.VISIBLE
 
                             binding.llAvertissement.visibility = View.GONE
                             binding.llAvertissement2.visibility = View.GONE
 
-                            recupDataBarChart(date)
+                            loadCharts2(date)
 
                         } else {
 
@@ -274,7 +270,7 @@ class AccueilFragment : Fragment() {
                             binding.chart1AccueilDiabete.visibility = View.GONE
                             binding.chart2AccueilDiabete.visibility = View.GONE
                             binding.chart1AccueilAlimentation.visibility = View.GONE
-                            binding.chart2AccueilAlimentation.visibility = View.GONE
+                            binding.alimDualPie.visibility = View.GONE
 
                         }
 
@@ -296,29 +292,29 @@ class AccueilFragment : Fragment() {
         configGraphs(linechart)                                                     // Configuration du linechart
 
         val lineDataSet = LineDataSet(entri, "Glycemie")
-        context.let { lineDataSet.color = it.getColor(R.color.black) }             // Couleur de la ligne reliant les valeurs
+        context.let { lineDataSet.color = it.getColor(R.color.black) }              // Couleur de la ligne reliant les valeurs
         lineDataSet.mode = LineDataSet.Mode.LINEAR                                  // Style de la courbe
         lineDataSet.lineWidth = 2.5F                                                // Epaisseur de la ligne reliant les valeurs
         lineDataSet.setDrawValues(false)                                            // On affiche les valeurs : oui
         lineDataSet.valueTextSize = 12F                                             // Taille de la police de caractere
-        context.let { lineDataSet.setCircleColor(it.getColor(R.color.black)) }     // Couleur des cercles de data dans le graph
+        context.let { lineDataSet.setCircleColor(it.getColor(R.color.black)) }      // Couleur des cercles de data dans le graph
         lineDataSet.circleRadius = 0f                                               // Taille des cerlces des valeurs dans le graph
 
         val lineDataSet2 = LineDataSet(entri2, "Rapide")
         context.let { lineDataSet2.color = it.getColor(R.color.color02) }           // Couleur de la ligne reliant les valeurs
-        lineDataSet2.mode = LineDataSet.Mode.LINEAR                                  // Style de la courbe
-        lineDataSet2.lineWidth = 2.5F                                                // Epaisseur de la ligne reliant les valeurs
-        lineDataSet2.setDrawValues(false)                                            // On affiche les valeurs : oui
-        lineDataSet2.valueTextSize = 12F                                             // Taille de la police de caractere
+        lineDataSet2.mode = LineDataSet.Mode.LINEAR                                 // Style de la courbe
+        lineDataSet2.lineWidth = 2.5F                                               // Epaisseur de la ligne reliant les valeurs
+        lineDataSet2.setDrawValues(false)                                           // On affiche les valeurs : oui
+        lineDataSet2.valueTextSize = 12F                                            // Taille de la police de caractere
         context.let { lineDataSet2.setCircleColor(it.getColor(R.color.color02)) }   // Couleur des cercles de data dans le graph
         lineDataSet2.circleRadius = 0f
 
         val lineDataSet3 = LineDataSet(entri3, "Lente")
         context.let { lineDataSet3.color = it.getColor(R.color.color01) }           // Couleur de la ligne reliant les valeurs
-        lineDataSet3.mode = LineDataSet.Mode.LINEAR                                  // Style de la courbe
-        lineDataSet3.lineWidth = 2.5F                                                // Epaisseur de la ligne reliant les valeurs
-        lineDataSet3.setDrawValues(false)                                            // On affiche les valeurs : oui
-        lineDataSet3.valueTextSize = 12F                                             // Taille de la police de caractere
+        lineDataSet3.mode = LineDataSet.Mode.LINEAR                                 // Style de la courbe
+        lineDataSet3.lineWidth = 2.5F                                               // Epaisseur de la ligne reliant les valeurs
+        lineDataSet3.setDrawValues(false)                                           // On affiche les valeurs : oui
+        lineDataSet3.valueTextSize = 12F                                            // Taille de la police de caractere
         context.let { lineDataSet3.setCircleColor(it.getColor(R.color.color01)) }   // Couleur des cercles de data dans le graph
         lineDataSet3.circleRadius = 0f
 
@@ -361,14 +357,19 @@ class AccueilFragment : Fragment() {
         return valu
     }
 
-
-
-    fun recupDataBarChart(date: String): ArrayList<BarEntry> {
+    fun loadCharts2(date: String): ArrayList<BarEntry> {
         val data = ArrayList<BarEntry>()
         val tabValeur = ArrayList<Float>()
         val barChart = binding.chart1AccueilAlimentation
         val stringValue = ArrayList<String>()
 
+        val totalCalories = vmaccueil.getSpecCalories(date)
+        val arrayData = ArrayList<Float>()
+
+        vmaccueil.getSpecCalories(date).observe(viewLifecycleOwner) {
+            arrayData.clear()
+            arrayData.addAll(it)
+        }
         vmaccueil.getSpecPoids(date).observe(viewLifecycleOwner) {
             tabValeur.clear()
             tabValeur.addAll(it)
@@ -379,9 +380,80 @@ class AccueilFragment : Fragment() {
                 data.add(BarEntry(i.toFloat(), tabValeur[i]))
             }
             createBarChart(barChart, data, stringValue, "Poids")
+
+            val couleurs = createColorTab(requireContext(), arrayData.size)
+            creationDemiPieChart(binding!!.chart2Alim, arrayData, couleurs)
         }
 
         return data
     }
+
+    fun creationDemiPieChart(pie: PieChart, arrayData: ArrayList<Float>, couleurs: ArrayList<Int>){
+        pie.description.isEnabled = false
+        pie.setExtraOffsets(5f, 10f, 5f, 5f)
+        pie.dragDecelerationFrictionCoef = 0.95f
+        pie.isDrawHoleEnabled = true
+        pie.setHoleColor(Color.WHITE)
+        pie.setTransparentCircleColor(Color.YELLOW)
+        pie.setTransparentCircleAlpha(110)
+        pie.holeRadius = 38f
+        pie.transparentCircleRadius = 41f
+        pie.setDrawCenterText(true)
+        pie.isRotationEnabled = false
+        pie.isHighlightPerTapEnabled = true
+        pie.animateY(1400, Easing.EaseInOutQuad)
+        pie.maxAngle = 180f
+        pie.rotationAngle = 180f
+        pie.setCenterTextOffset(0f, -20f)
+
+        val legend = pie.legend
+        legend.verticalAlignment = Legend.LegendVerticalAlignment.TOP
+        legend.horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
+        legend.orientation = Legend.LegendOrientation.VERTICAL
+        legend.setDrawInside(false)
+        legend.xEntrySpace = 7f
+        legend.yEntrySpace = 0f
+        legend.yOffset = 0f
+        legend.isEnabled = true
+
+        pie.setEntryLabelColor(Color.BLACK)
+        pie.setEntryLabelTextSize(12f)
+        pie.setDrawCenterText(false)
+
+        pie.data = demipieData(arrayData, couleurs)
+        pie.invalidate()
+
+    }
+
+    fun demipieData(arrayData: ArrayList<Float>, couleurs: ArrayList<Int>) : PieData {
+        val stringLegend = ArrayList<String>()
+
+        /*    for (i in 0 until arrayData.size){
+                stringLegend.add("Faible$i")
+            }*/
+        stringLegend.add("Calories")
+
+
+        val entries = ArrayList<PieEntry>()
+
+        for(i in 0 until arrayData.size){
+            entries.add(PieEntry(arrayData[i], stringLegend[i]))
+        }
+        arrayData.clear()
+        val set = PieDataSet(entries, "pie chart")
+        set.valueLinePart1OffsetPercentage = 80f
+        set.valueLinePart1Length = 0.70f
+        set.valueLinePart2Length = 0.30f
+        set.xValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
+        set.colors = couleurs
+
+        val data = PieData(set)
+        data.setValueTextColor(Color.BLUE)
+        data.setValueTextSize(11f)
+
+        return data
+
+    }
+
 
 }

@@ -93,11 +93,11 @@ class RepasDialogMenu : DialogFragment() {
         //
 
         binding!!.validerNommenu.setOnClickListener() {
-            val newMenu = MenuData(0, binding!!.etNommenu.text.toString(), 0, 0, 0)
             if(binding!!.etNommenu.text.isEmpty()){
                 Toast.makeText(requireContext(), "Entrer un nom de menu", Toast.LENGTH_LONG).show()
             }else{
-                viewmodelrepas.ajouterMenu(newMenu)
+                //val newMenu = MenuData(0, binding!!.etNommenu.text.toString(), 0, 0f, 0f)
+                viewmodelrepas.ajouterMenu(binding!!.etNommenu.text.toString(), 0, 0, 0)
                 binding!!.llEtape01.visibility = View.GONE
                 binding!!.llEtape02.visibility = View.VISIBLE
                 binding!!.etapeInformation.visibility = View.GONE
@@ -106,24 +106,6 @@ class RepasDialogMenu : DialogFragment() {
             }
         }
 
-        binding!!.validerMenu.setOnClickListener {
-            binding!!.llEtape01.visibility = View.GONE
-            binding!!.etapeInformation.visibility = View.GONE
-            binding!!.llEtape02.visibility = View.GONE
-            binding!!.llEtape03Compo.visibility = View.GONE
-
-
-            viewmodelrepas.updateMenu(
-                // TODO faire un test quand rv vide
-                viewmodelrepas.getLastMenuInCurrent(),
-                viewmodelrepas.totalPlats.value!!.toInt(),
-                viewmodelrepas.totalGlucides.value!!.toInt(),
-                viewmodelrepas.totalCalories.value!!.toInt())
-        }
-
-        binding!!.annulerNommenu.setOnClickListener{
-            binding!!.etNommenu.text.clear()
-        }
 
         //
         // Etape 2
@@ -166,7 +148,18 @@ class RepasDialogMenu : DialogFragment() {
                 viewmodelrepas.totalPlats.value!!.toInt(),
                 viewmodelrepas.totalGlucides.value!!.toInt(),
                 viewmodelrepas.totalCalories.value!!.toInt())
+
+            val temp = InnerPeriodeMenuData(0,viewmodelrepas.getLastMenuInCurrent(), viewmodelrepas.getLastPeriodeInCurrent())
+            Toast.makeText(requireContext(), "last Menu = ${viewmodelrepas.getLastMenuInCurrent()} , last plat = ${viewmodelrepas.getLastPeriodeInCurrent()}", Toast.LENGTH_LONG).show()
+            //val temp = InnerPeriodeMenuData(0,1,1)
+            viewmodelrepas.ajouterInnerPeriodeMenu(temp)
+
             dismiss()
+        }
+
+
+        binding!!.annulerNommenu.setOnClickListener{
+            binding!!.etNommenu.text.clear()
         }
         binding!!.annulerMenu.setOnClickListener {
             // TODO scenario de suppression d menu en cours et de tous ses plats
@@ -274,7 +267,8 @@ class RepasDialogMenu : DialogFragment() {
 
         val data = PeriodeData(0, "periode", date, heureDuJour)
         viewmodelrepas.ajouterPeriode(data)
-        viewmodelrepas.ajouterInnerPeriodeMenu(InnerPeriodeMenuData(viewmodelrepas.getLastMenuInCurrent(), viewmodelrepas.getLastPeriodeInCurrent()))
+
+
     }
 
     fun save() {

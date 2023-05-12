@@ -35,6 +35,11 @@ class VmAccueil ( private val repo: StatsRepo): ViewModel() {
         }
     }
 
+    fun getSpecCalories(date: String) = liveData {
+        repo.getSpecCalories(date).collect() {
+            emit(it)
+        }
+    }
 
     fun getSpecPoids(date: String) = liveData {
         repo.getSpecPoids(date).collect() {

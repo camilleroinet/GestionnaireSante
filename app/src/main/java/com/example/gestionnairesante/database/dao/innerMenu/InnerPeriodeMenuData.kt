@@ -3,6 +3,7 @@ package com.example.gestionnairesante.database.dao.innerMenu
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.PrimaryKey
 import com.example.gestionnairesante.database.dao.menu.MenuData
 import com.example.gestionnairesante.database.dao.periode.PeriodeData
 
@@ -15,7 +16,7 @@ import com.example.gestionnairesante.database.dao.periode.PeriodeData
 
 @Entity(
     tableName = "innerMenu",
-    primaryKeys = ["idmen", "idper"],
+    //primaryKeys = ["idmen", "idper"],
     foreignKeys = [
         ForeignKey(
             entity = MenuData::class,
@@ -29,13 +30,17 @@ import com.example.gestionnairesante.database.dao.periode.PeriodeData
             childColumns = arrayOf("idper"),
             onDelete = ForeignKey.CASCADE
         )
-
-    ])
+    ]
+)
 
 data class InnerPeriodeMenuData (
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "pk_menu")
+    val id: Int,
+
     @ColumnInfo(name = "idmen")
-    var idGly: Int,
+    var idmen: Int,
 
     @ColumnInfo(name = "idper")
-    var idPer: Int
+    var idper: Int
 )

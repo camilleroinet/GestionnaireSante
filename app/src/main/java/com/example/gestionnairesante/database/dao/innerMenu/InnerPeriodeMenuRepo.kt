@@ -16,8 +16,8 @@ class InnerPeriodeMenuRepo(
     val allInner = innerMenuDao.getAllInner()
     val innerPeriodeMenu = innerMenuDao.getAllValeurs()
 
-    suspend fun insertMenu(menu: MenuData) {
-        return menuDao.insertMenu(menu)
+    suspend fun insertMenu(nom: String, nbPlat: Int, gly: Int, cal: Int) {
+        return menuDao.insertMenu(nom,nbPlat, gly, cal)
     }
 
     suspend fun insertPeriode(per: PeriodeData) {
@@ -34,6 +34,10 @@ class InnerPeriodeMenuRepo(
 
     fun getLastPeriode(): Int {
         return periodeDao.getLastPeriode()
+    }
+
+    fun getLastMenu(): Int {
+        return menuDao.getLastMenu()
     }
 
     suspend fun deletePeriode(periode: Int) {

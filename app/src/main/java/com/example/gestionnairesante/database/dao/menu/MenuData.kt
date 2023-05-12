@@ -17,10 +17,10 @@ data class MenuData(
     var totalPlat: Int?,
 
     @ColumnInfo(name = "totalGly")
-    var totalGly: Int?,
+    var totalGly: Float?,
 
     @ColumnInfo(name = "totalCal")
-    var totalCal: Int?
+    var totalCal: Float?
 
 
     )

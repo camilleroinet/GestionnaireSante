@@ -40,8 +40,8 @@ class VmRepas (private val repo: InnerPlatMenuRepo, private val repo2: InnerPeri
         repo.insertPlat(data)
     }
 
-    fun ajouterMenu(data: MenuData) = viewModelScope.launch{
-        repo.insertMenu(data)
+    fun ajouterMenu(nom: String, nbPlat: Int, gly: Int, cal:Int) = viewModelScope.launch{
+        repo.insertMenu(nom, nbPlat, gly, cal)
     }
     fun ajouterPeriode(data: PeriodeData) = viewModelScope.launch{
         repo2.insertPeriode(data)

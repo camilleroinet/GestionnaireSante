@@ -61,12 +61,24 @@
             android:background="@color/Tertiary"
             android:layout_height="250dp"/>
 
-        <com.github.mikephil.charting.charts.CombinedChart
-            android:id="@+id/chart2_accueil_alimentation"
+
+        <LinearLayout
+            android:id="@+id/alimDualPie"
             android:visibility="gone"
             android:layout_width="match_parent"
-            android:background="@color/Tertiary"
-            android:layout_height="250dp"/>
+            android:layout_height="250dp"
+            android:orientation="horizontal">
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/chart2_Alim"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"/>
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/chart2_Alim2"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
 
         <!-- VP Diabete -->
         <!--
@@ -85,6 +97,7 @@
             android:gravity="center"
             android:orientation="vertical">
         </LinearLayout>
+
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/chart2_accueil_diabete"
             android:layout_width="match_parent"

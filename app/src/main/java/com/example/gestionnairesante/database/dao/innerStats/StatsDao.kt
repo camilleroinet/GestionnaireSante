@@ -95,5 +95,18 @@ interface StatsDao {
         "ORDER BY date_periode DESC"
     )
     fun getSpecPoids2(date: String): Flow<List<Float>>
+
+    @Query(
+        "SELECT menu.totalCal " +
+        "FROM menu " +
+        "INNER JOIN innerMenu " +
+        "ON menu.id_menu = innerMenu.idmen " +
+        "INNER JOIN periode " +
+        "ON periode.id_periode = innerMenu.idper " +
+        "WHERE periode.date_periode = :date "
+    )
+    fun getSpecCalories(date: String): Flow<List<Float>>
+
+
 }
 
