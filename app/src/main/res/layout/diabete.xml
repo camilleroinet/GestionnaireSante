@@ -37,29 +37,5 @@
                 android:layout_width="wrap_content"
                 android:layout_height="350dp" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btn_insertInsuline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/fab_margin"
-                android:layout_marginBottom="32dp"
-                android:backgroundTint="@color/Error"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:maxImageSize="48dp"
-                app:srcCompat="@android:drawable/ic_input_add" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btn_insert"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
-            android:backgroundTint="@color/SecondaryColor"
-            android:layout_margin="5dp"
-            android:visibility="visible"
-            app:maxImageSize="48dp"
-            app:srcCompat="@android:drawable/ic_input_add" />
-
     </LinearLayout>
 </layout>

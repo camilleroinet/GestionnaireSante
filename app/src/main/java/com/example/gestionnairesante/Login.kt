@@ -19,10 +19,9 @@ class Login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        /****************************/
-        /* Declaration des éléments */
-        /****************************/
-        // Ici choix de pas faire de binding
+        /**
+         * Declaration des éléments
+         **/
 
         val username: EditText = findViewById(R.id.username)
         val password: EditText = findViewById(R.id.password)

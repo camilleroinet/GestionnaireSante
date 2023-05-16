@@ -1,11 +1,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="3dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
@@ -16,7 +17,6 @@
             app:cardElevation="2dp">
 
             <LinearLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -26,7 +26,7 @@
                 <LinearLayout
                     android:id="@+id/itemLayout2"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
@@ -59,10 +59,10 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_weight="0.5">
+                        android:orientation="vertical">
+
                         <TextView
                             android:id="@+id/date_glycemie"
                             android:layout_width="match_parent"
@@ -70,6 +70,7 @@
                             android:layout_gravity="center"
                             android:textSize="@dimen/taille_text"
                             android:gravity="center"/>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -82,6 +83,7 @@
                                 android:layout_weight="2"
                                 android:textSize="@dimen/taille_text"
                                 android:text="Periode : "/>
+
                             <TextView
                                 android:id="@+id/periode"
                                 android:layout_width="match_parent"
@@ -92,6 +94,7 @@
                                 android:layout_weight="1"/>
 
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -104,6 +107,7 @@
                                 android:textSize="@dimen/taille_text"
                                 android:layout_weight="1"
                                 android:text="Heure de prise : "/>
+
                             <TextView
                                 android:id="@+id/heure"
                                 android:layout_width="match_parent"
@@ -118,6 +122,7 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -129,6 +134,7 @@
                         android:padding="5dp"
                         android:layout_weight="1"
                         android:orientation="horizontal">
+
                         <LinearLayout
                             android:id="@+id/couleurRapide"
                             android:layout_width="15dp"
@@ -136,18 +142,19 @@
                             android:orientation="horizontal"
                             android:background="@color/color02">
                         </LinearLayout>
+
                         <TextView
                             android:id="@+id/rapide"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:layout_weight="1"
                             android:gravity="center"
                             android:paddingTop="10dp"
                             android:textColor="@color/black"
                             android:textSize="20sp" />
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -155,6 +162,7 @@
                         android:padding="5dp"
                         android:layout_weight="1"
                         android:orientation="horizontal">
+
                         <LinearLayout
                             android:id="@+id/couleurLente"
                             android:layout_width="15dp"
@@ -162,16 +170,14 @@
                             android:orientation="horizontal"
                             android:background="#4CAF50">
                         </LinearLayout>
+
                         <TextView
                             android:id="@+id/lente"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:layout_weight="2"
                             android:gravity="center"
-                            android:paddingTop="10dp"
                             android:textColor="@color/black"
-                            android:text="00"
                             android:textSize="20sp" />
 
                     </LinearLayout>

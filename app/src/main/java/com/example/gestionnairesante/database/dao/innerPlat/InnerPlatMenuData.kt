@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import com.example.gestionnairesante.database.dao.menu.MenuData
+import com.example.gestionnairesante.database.dao.repas.RepasData
 import com.example.gestionnairesante.database.dao.plats.PlatData
 
 /**
@@ -24,7 +24,7 @@ import com.example.gestionnairesante.database.dao.plats.PlatData
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
-            entity = MenuData::class,
+            entity = RepasData::class,
             parentColumns = arrayOf("id_menu"),
             childColumns = arrayOf("idmen"),
             onDelete = ForeignKey.CASCADE

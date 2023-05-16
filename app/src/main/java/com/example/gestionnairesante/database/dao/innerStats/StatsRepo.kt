@@ -15,6 +15,11 @@ class StatsRepo(
     fun getSpecGlycemie(date: String) : Flow<List<Int>> {
         return statsDao.getSpecGlycemie(date)
     }
+
+    fun getGlycemiePeriode(date: String) : Flow<List<Int>> {
+        return statsDao.getGlycemiePeriode(date)
+    }
+
     fun getSpecRapide(date: String) : Flow<List<Int>> {
         return statsDao.getSpecRapide(date)
     }
@@ -23,8 +28,12 @@ class StatsRepo(
     }
 
 
-    fun getSpecCalories(date: String) : Flow<List<Float>> {
+    fun getSpecCalories(date: String) : Float {
         return statsDao.getSpecCalories(date)
+    }
+
+    fun getSpecGlucides(date: String) : Float {
+        return statsDao.getSpecGlucides(date)
     }
 
     fun getSpecPoids(date: String) : Flow<List<Float>> {

@@ -47,6 +47,7 @@
                 android:text="@string/avert_02"/>
 
         </LinearLayout>
+
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chart1_accueil_diabete"
             android:visibility="visible"
@@ -61,33 +62,33 @@
             android:background="@color/Tertiary"
             android:layout_height="250dp"/>
 
+        <com.github.mikephil.charting.charts.HorizontalBarChart
+            android:id="@+id/chart2_accueil_alimentation"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"/>
 
         <LinearLayout
-            android:id="@+id/alimDualPie"
-            android:visibility="gone"
+            android:id="@+id/diabeteDualPie"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:orientation="horizontal">
+
             <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/chart2_Alim"
+                android:id="@+id/piechart1_Dia"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"/>
+
             <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/chart2_Alim2"
+                android:id="@+id/piechart2_Dia"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"/>
+
         </LinearLayout>
 
-        <!-- VP Diabete -->
-        <!--
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/vp_diabete"
-            android:background="@color/Tertiary"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"/>
-        -->
         <LinearLayout
             android:id="@+id/ll_avertissement2"
             android:visibility="gone"
@@ -97,11 +98,6 @@
             android:gravity="center"
             android:orientation="vertical">
         </LinearLayout>
-
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/chart2_accueil_diabete"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"/>
 
         <LinearLayout
             android:id="@+id/bottom"
@@ -123,40 +119,6 @@
                 android:calendarViewShown="false"
                 android:datePickerMode="spinner" />
 
-            <LinearLayout
-                android:id="@+id/ll_choixgraph"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_graph1"
-                    android:background="@color/Tertiary"
-                    android:text="1"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"/>
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_graph2"
-                    android:background="@color/Tertiary"
-                    android:layout_weight="1"
-                    android:layout_margin="10dp"
-
-                    android:text="2"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"/>
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_graph3"
-                    android:background="@color/Tertiary"
-                    android:layout_weight="1"
-                    android:layout_margin="10dp"
-
-                    android:text="3"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"/>
-            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

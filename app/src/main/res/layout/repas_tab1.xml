@@ -11,7 +11,7 @@
 
         <variable
             name="recyclerMenu"
-            type="com.example.gestionnairesante.ui.repas.RepasTab1" />
+            type="com.example.gestionnairesante.ui.repas.service.RepasTab1" />
     </data>
 
     <LinearLayout

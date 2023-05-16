@@ -5,7 +5,7 @@
 
         <variable
             name="card_menu"
-            type="com.example.gestionnairesante.database.dao.menu.MenuDao" />
+            type="com.example.gestionnairesante.database.dao.repas.RepasDao" />
     </data>
 
     <LinearLayout

@@ -32,6 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:paddingTop="10dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -136,20 +137,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tab_layout" />
 
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btn_insert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center"
-                android:backgroundTint="@color/SecondaryColor"
-                android:layout_margin="5dp"
-                android:visibility="visible"
-                app:maxImageSize="48dp"
-                app:srcCompat="@android:drawable/ic_input_add" />
 
         </LinearLayout>
     </LinearLayout>

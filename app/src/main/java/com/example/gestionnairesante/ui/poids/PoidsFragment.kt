@@ -6,26 +6,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.withStarted
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.gestionnairesante.MainActivity
 import com.example.gestionnairesante.R
-import com.example.gestionnairesante.adapter.AdapterRecyclerPoids
+import com.example.gestionnairesante.ui.poids.adapter.AdapterRecyclerPoids
 import com.example.gestionnairesante.database.DB_sante
 import com.example.gestionnairesante.database.dao.innerPoids.InnerPoidsRepo
 import com.example.gestionnairesante.database.dao.innerPoids.PoidsInner
 import com.example.gestionnairesante.databinding.PoidBinding
+import com.example.gestionnairesante.ui.poids.service.PoidsDialog
+import com.example.gestionnairesante.ui.poids.service.calculerIMC
 import com.example.gestionnairesante.ui.poids.vm.VmPoids
 import com.example.gestionnairesante.ui.poids.vm.VmPoidsFactory
 import com.example.gestionnairesante.utils.createBarChart
 import com.github.mikephil.charting.data.BarEntry
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-class PoidsFragment : Fragment() {
+class PoidsFragment : BottomSheetDialogFragment() {
 
     private var binding: PoidBinding? = null
     private lateinit var viewModel: VmPoids
@@ -34,7 +40,6 @@ class PoidsFragment : Fragment() {
     private var lastPoua = 0f
 
     val tabPoids = ArrayList<Float>()
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,6 +53,7 @@ class PoidsFragment : Fragment() {
         return poidsFrg.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
@@ -68,23 +74,23 @@ class PoidsFragment : Fragment() {
 
         binding?.viewModel = viewModel
 
-        // TODO a cocher a la fin
-        // Message de test du viewModel
+        lifecycleScope.launch {
+            lifecycle.withStarted {
+
+                val fab: FloatingActionButton = (activity as MainActivity).findViewById<FloatingActionButton?>(R.id.fab)
+                fab.show()
+                fab.setOnClickListener {
+                    Toast.makeText(requireContext(), " this is a test", Toast.LENGTH_LONG).show()
+                    val poidsDialogGlycemie = PoidsDialog()
+                    poidsDialogGlycemie.show(childFragmentManager, PoidsDialog.TAG)
+                }
+            }
+        }
+
         viewModel.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
-        }
-
-        binding?.btnInsert?.setOnClickListener {
-            PoidsDialog.newInstance(
-                "titre",
-                "subtitre",
-                ind,
-                0, 0,
-                0F,
-                "", "", ""
-            ).show(childFragmentManager, PoidsDialog.TAG)
         }
 
         viewModel.getAllValeurPoids().observe(viewLifecycleOwner) { it ->
@@ -122,24 +128,13 @@ class PoidsFragment : Fragment() {
         }
     }
 
-    fun listItemClicked(viewModel: VmPoids, data: PoidsInner) {
-
-
+    fun listItemClicked(data: PoidsInner) {
+        //Toast.makeText(requireContext(), "item clique : ${data.poids}", Toast.LENGTH_LONG)
     }
 
-    // TODO Apres implementation du profil modifier la valeur
-    //  par defaut de la taille
-    // Calcule de l'imc
-    fun calculerIMC(taille: Int, poids: Float): Double {
-        //  IMC = poids en kg/taille²
-        val weight = poids.toDouble()
-        val height = (taille.toDouble() / 100)
 
-        return (weight / (height * height))
-    }
 
     @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
-    // Test et retour du traitement en fonction de la valeur de l'imc
     fun verifIMC(imc: Double) {
         when (imc) {
             in 0.0F..18.5F -> {
@@ -176,19 +171,18 @@ class PoidsFragment : Fragment() {
         binding?.recyclerPoids?.layoutManager = LinearLayoutManager(context)
         // Configuration de l'adapter
         // adapter = AdapterSportD { h: View -> longclickListener(h) }
-        adapter =
-            AdapterRecyclerPoids { daouser: PoidsInner -> listItemClicked(viewModel, daouser) }
+        adapter = AdapterRecyclerPoids { daouser: PoidsInner -> listItemClicked(daouser) }
         binding?.recyclerPoids?.adapter = adapter
 
     }
 
     // Afficher les données dans le recycler
-
+    @SuppressLint("NotifyDataSetChanged")
     fun displayUser() {
-        viewModel.getPoidsPeriode().observe(viewLifecycleOwner, Observer {
+        viewModel.getPoidsPeriode().observe(viewLifecycleOwner) {
             adapter.setList(it)
             adapter.notifyDataSetChanged()
-        })
+        }
     }
 
     // Gestion tactile du recycler view
@@ -202,7 +196,6 @@ class PoidsFragment : Fragment() {
                     viewHolder: RecyclerView.ViewHolder,
                     target: RecyclerView.ViewHolder
                 ): Boolean {
-
                     return true
                 }
 
@@ -234,7 +227,6 @@ class PoidsFragment : Fragment() {
                         }
 
                     }
-
                 }
 
                 override fun onSelectedChanged(
@@ -281,7 +273,4 @@ class PoidsFragment : Fragment() {
 
         return data
     }
-
-
-
 }

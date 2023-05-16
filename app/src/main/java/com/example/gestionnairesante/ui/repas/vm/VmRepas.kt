@@ -2,16 +2,15 @@ package com.example.gestionnairesante.ui.repas.vm
 
 import androidx.lifecycle.*
 import com.example.gestionnairesante.Event
-import com.example.gestionnairesante.database.dao.innerMenu.InnerPeriodeMenuData
-import com.example.gestionnairesante.database.dao.innerMenu.InnerPeriodeMenuRepo
+import com.example.gestionnairesante.database.dao.innerRepas.InnerPeriodeRepasData
+import com.example.gestionnairesante.database.dao.innerRepas.InnerPeriodeRepasRepo
 import com.example.gestionnairesante.database.dao.innerPlat.InnerPlatMenuData
 import com.example.gestionnairesante.database.dao.innerPlat.InnerPlatMenuRepo
-import com.example.gestionnairesante.database.dao.menu.MenuData
 import com.example.gestionnairesante.database.dao.periode.PeriodeData
 import com.example.gestionnairesante.database.dao.plats.PlatData
 import kotlinx.coroutines.launch
 
-class VmRepas (private val repo: InnerPlatMenuRepo, private val repo2: InnerPeriodeMenuRepo) : ViewModel(){
+class VmRepas (private val repo: InnerPlatMenuRepo, private val repo2: InnerPeriodeRepasRepo) : ViewModel(){
     var totalPlats = MutableLiveData<String>()
     var totalCalories = MutableLiveData<String>()
     var totalGlucides = MutableLiveData<String>()
@@ -51,7 +50,7 @@ class VmRepas (private val repo: InnerPlatMenuRepo, private val repo2: InnerPeri
         repo.insertInnerPlatMenu(data)
     }
 
-    fun ajouterInnerPeriodeMenu(data: InnerPeriodeMenuData) = viewModelScope.launch{
+    fun ajouterInnerPeriodeMenu(data: InnerPeriodeRepasData) = viewModelScope.launch{
         repo.insertInnerPeriodeMenu(data)
     }
 

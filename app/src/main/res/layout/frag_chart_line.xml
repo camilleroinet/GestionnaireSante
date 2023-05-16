@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.diabete.DiabeteChartLine">
+    tools:context=".ui.diabete.service.DiabeteChartLine">
 
     <data>
 
@@ -11,7 +11,7 @@
 
         <variable
             name="fragChartLine"
-            type="com.example.gestionnairesante.ui.diabete.DiabeteChartLine" />
+            type="com.example.gestionnairesante.ui.diabete.service.DiabeteChartLine" />
     </data>
 
     <LinearLayout

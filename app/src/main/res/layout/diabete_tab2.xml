@@ -11,7 +11,7 @@
 
         <variable
             name="recyclerinsuline"
-            type="com.example.gestionnairesante.ui.diabete.DiabeteTab2" />
+            type="com.example.gestionnairesante.ui.diabete.service.DiabeteTab2" />
     </data>
 
     <LinearLayout

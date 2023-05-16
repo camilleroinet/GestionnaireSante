@@ -7,19 +7,26 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.withStarted
 import androidx.viewpager.widget.ViewPager
+import com.example.gestionnairesante.MainActivity
 import com.example.gestionnairesante.R
 import com.example.gestionnairesante.adapter.AdapterViewPager
 import com.example.gestionnairesante.adapter.ZoomOutPageTransformer
 import com.example.gestionnairesante.database.DB_sante
-import com.example.gestionnairesante.database.dao.innerMenu.InnerPeriodeMenuRepo
 import com.example.gestionnairesante.database.dao.innerPlat.InnerPlatMenuRepo
+import com.example.gestionnairesante.database.dao.innerRepas.InnerPeriodeRepasRepo
 import com.example.gestionnairesante.databinding.RepasBinding
-import com.example.gestionnairesante.ui.diabete.DiabeteChartLine
-import com.example.gestionnairesante.ui.diabete.DiabeteChartPie
+import com.example.gestionnairesante.ui.repas.service.RepasDialogMenu
+import com.example.gestionnairesante.ui.repas.service.RepasDialogPlat
+import com.example.gestionnairesante.ui.repas.service.RepasTab1
+import com.example.gestionnairesante.ui.repas.service.RepasTab2
 import com.example.gestionnairesante.ui.repas.vm.VmRepas
 import com.example.gestionnairesante.ui.repas.vm.VmRepasFactory
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
+import kotlinx.coroutines.launch
 
 class RepasFragment : Fragment() {
     private var binding: RepasBinding? = null
@@ -31,9 +38,6 @@ class RepasFragment : Fragment() {
 
     private var arrayTab = arrayListOf<Int>(R.string.txt_fragmenu, R.string.txt_fragrepas)
     private var arrayFragTab = arrayListOf<Fragment>(RepasTab1(), RepasTab2())
-
-    private var arrayTabCharts = arrayListOf<Int>(R.string.txt_chart1, R.string.txt_chart2, R.string.txt_chart3)
-    private var arrayFragChart = arrayListOf<Fragment>(DiabeteChartLine(), DiabeteChartPie())
 
     private var indiceTab = 0
 
@@ -64,7 +68,7 @@ class RepasFragment : Fragment() {
         val daoPeriodeMenu = DB_sante.getInstance(requireContext()).tabRelationnelMenu
 
         val repositoryPlatMenu = InnerPlatMenuRepo(daoPlat, daoMenu, daoRepas, daoPeriodeMenu)
-        val repositoryPeriodeMenu = InnerPeriodeMenuRepo(daoMenu, daoPeriode, daoPeriodeMenu)
+        val repositoryPeriodeMenu = InnerPeriodeRepasRepo(daoMenu, daoPeriode, daoPeriodeMenu)
 
         val factory = VmRepasFactory(repositoryPlatMenu, repositoryPeriodeMenu)
         viewmodelrepas = ViewModelProvider(requireActivity(), factory).get(VmRepas::class.java)
@@ -76,34 +80,32 @@ class RepasFragment : Fragment() {
             }
         }
 
-        binding!!.btnInsertPlat.setOnClickListener {
-            Toast.makeText(requireContext(), "coucou", Toast.LENGTH_SHORT).show()
-            RepasDialogPlat.newInstance(
-                "Nouveau Plat","" ,
-            0, 0, "", 0, 0).show(childFragmentManager, RepasDialogPlat.TAG)
+        lifecycleScope.launch {
+            lifecycle.withStarted {
+                val fab: FloatingActionButton = (activity as MainActivity).findViewById<FloatingActionButton?>(R.id.fab)
+                fab.show()
+
+                fab.setOnClickListener {
+                    // Toast.makeText(requireContext(), " this is a test", Toast.LENGTH_LONG).show()
+                    when (indiceTab) {
+                        0 -> {
+                            val repasDialogMenu = RepasDialogMenu()
+                            repasDialogMenu.show(childFragmentManager, RepasDialogMenu.TAG)
+                        }
+
+                        1 -> {
+                            val repasDialogPlat = RepasDialogPlat()
+                            repasDialogPlat.show(childFragmentManager, RepasDialogPlat.TAG)
+                        }
+
+                        else -> {
+
+                        }
+                    }
+                }
+            }
         }
 
-        binding!!.btnInsertmenu.setOnClickListener {
-            Toast.makeText(requireContext(), "coucou2", Toast.LENGTH_SHORT).show()
-
-            RepasDialogMenu.newInstance(
-                "Nouveau Menu","" ,
-                0 ).show(childFragmentManager, RepasDialogMenu.TAG)
-        }
-
-        /*        binding!!.btnMenu.setOnClickListener {
-                    binding!!.llVueChart.visibility = View.GONE
-                    binding!!.vueMenu.visibility = View.VISIBLE
-                    binding!!.llEtape01.visibility = View.VISIBLE
-                    binding!!.llEtapeDate.visibility = View.GONE
-                    binding!!.etapeInformation.visibility = View.GONE
-                    binding!!.llEtape2.visibility = View.GONE
-                }*/
-
-
-/*
-
- */
         viewPagerCharts = binding?.viewpagercharts!!
 
         tablayoutTabs = binding?.tabLayout!!
@@ -114,7 +116,6 @@ class RepasFragment : Fragment() {
         configViewPager(viewPagerTabs, arrayFragTab, arrayTab, tablayoutTabs)
 
     }
-
 
     fun configTablelayout(array: ArrayList<Int>) {
         tablayoutTabs.apply {
@@ -130,15 +131,11 @@ class RepasFragment : Fragment() {
                         when (tab.position) {
                             0 -> {
                                 indiceTab = 0
-                                binding!!.btnInsertPlat.visibility = View.GONE
-                                binding!!.btnInsertmenu.visibility = View.VISIBLE
-                                Toast.makeText(requireContext(), "coucou", Toast.LENGTH_SHORT)
-
                             }
+
                             1 -> {
                                 indiceTab = 1
-                                binding!!.btnInsertPlat.visibility = View.VISIBLE
-                                binding!!.btnInsertmenu.visibility = View.GONE
+                                Toast.makeText(requireContext(), "$indiceTab", Toast.LENGTH_SHORT)
                             }
 
                             else -> {}
@@ -151,9 +148,9 @@ class RepasFragment : Fragment() {
                 override fun onTabReselected(tab: TabLayout.Tab?) {}
 
             })
-
         }
     }
+
     fun configViewPager(
         viewPager: ViewPager,
         arrayFrag: ArrayList<Fragment>,

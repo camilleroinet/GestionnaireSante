@@ -11,7 +11,7 @@
 
         <variable
             name="recyclerPlats"
-            type="com.example.gestionnairesante.ui.repas.RepasTab2" />
+            type="com.example.gestionnairesante.ui.repas.service.RepasTab2" />
     </data>
 
     <LinearLayout

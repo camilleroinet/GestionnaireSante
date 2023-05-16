@@ -1,23 +1,22 @@
 package com.example.gestionnairesante.database.dao.innerPlat
 
-import com.example.gestionnairesante.database.dao.innerMenu.InnerPeriodeMenuDao
-import com.example.gestionnairesante.database.dao.innerMenu.InnerPeriodeMenuData
-import com.example.gestionnairesante.database.dao.menu.MenuDao
-import com.example.gestionnairesante.database.dao.menu.MenuData
+import com.example.gestionnairesante.database.dao.innerRepas.InnerPeriodeRepasDao
+import com.example.gestionnairesante.database.dao.innerRepas.InnerPeriodeRepasData
+import com.example.gestionnairesante.database.dao.repas.RepasDao
 import com.example.gestionnairesante.database.dao.plats.PlatDao
 import com.example.gestionnairesante.database.dao.plats.PlatData
 import kotlinx.coroutines.flow.Flow
 
 class InnerPlatMenuRepo(
     private var platDao: PlatDao,
-    private var menuDao: MenuDao,
+    private var repasDao: RepasDao,
     private var innerPlatMenuDao: InnerPlatMenuDao,
-    private var innerMenuDao: InnerPeriodeMenuDao
+    private var innerMenuDao: InnerPeriodeRepasDao
 
 ) {
 
     val allPlat = platDao.getAllPlat()
-    val allMenu = menuDao.getAllMenu()
+    val allMenu = repasDao.getAllMenu()
     val allInner = innerMenuDao.getAllInner()
     val innerPeriodeMenu = innerMenuDao.getAllValeurs()
 
@@ -26,7 +25,7 @@ class InnerPlatMenuRepo(
     }
 
     suspend fun insertMenu(nom: String, nbPlat: Int, gly: Int, cal:Int) {
-        return menuDao.insertMenu(nom, nbPlat, gly, cal)
+        return repasDao.insertMenu(nom, nbPlat, gly, cal)
     }
 
 
@@ -34,7 +33,7 @@ class InnerPlatMenuRepo(
     suspend fun insertInnerPlatMenu(data: InnerPlatMenuData) {
         return innerPlatMenuDao.insertInnerPlatMenu(data)
     }
-    suspend fun insertInnerPeriodeMenu(data: InnerPeriodeMenuData) {
+    suspend fun insertInnerPeriodeMenu(data: InnerPeriodeRepasData) {
         return innerMenuDao.insertInnerPeriodeMenu(data)
     }
 
@@ -49,7 +48,7 @@ class InnerPlatMenuRepo(
     }
 
     fun getLastMenu() : Int {
-        return menuDao.getLastMenu()
+        return repasDao.getLastMenu()
     }
 
     fun getPlatInMenu(): Flow<List<PlatInner>> {
@@ -71,7 +70,7 @@ class InnerPlatMenuRepo(
 
 
     suspend fun deleteMenu(id: Int) {
-        return menuDao.deleteMenu(id)
+        return repasDao.deleteMenu(id)
     }
 
     suspend fun updatePlat(id: Int, nom: String, glu : Int, cal: Int){
@@ -79,7 +78,7 @@ class InnerPlatMenuRepo(
     }
 
     suspend fun updateMenu(id: Int, totalPlat: Int, totalGly: Int, totalCal: Int){
-        return menuDao.updateMenu(id, totalPlat, totalGly, totalCal)
+        return repasDao.updateMenu(id, totalPlat, totalGly, totalCal)
     }
 
     suspend fun deletePlatInCurrent(id: Int) {

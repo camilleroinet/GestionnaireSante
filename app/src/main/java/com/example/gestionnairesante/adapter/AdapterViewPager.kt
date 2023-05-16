@@ -24,7 +24,7 @@ class AdapterViewPager(
         }
     }
 
-    override fun getPageTitle(position: Int): CharSequence? {
+    override fun getPageTitle(position: Int): CharSequence {
         return when (position) {
             position -> context.getString(arrayTab[position])
             else -> context.getString(arrayTab[0])

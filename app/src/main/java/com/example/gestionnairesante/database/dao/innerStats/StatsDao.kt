@@ -1,5 +1,6 @@
 package com.example.gestionnairesante.database.dao.innerStats
 
+import androidx.loader.content.Loader.ForceLoadContentObserver
 import androidx.room.Dao
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
@@ -97,7 +98,7 @@ interface StatsDao {
     fun getSpecPoids2(date: String): Flow<List<Float>>
 
     @Query(
-        "SELECT menu.totalCal " +
+        "SELECT SUM(menu.totalCal) " +
         "FROM menu " +
         "INNER JOIN innerMenu " +
         "ON menu.id_menu = innerMenu.idmen " +
@@ -105,8 +106,30 @@ interface StatsDao {
         "ON periode.id_periode = innerMenu.idper " +
         "WHERE periode.date_periode = :date "
     )
-    fun getSpecCalories(date: String): Flow<List<Float>>
+    fun getSpecCalories(date: String): Float
 
+    @Query(
+    "SELECT SUM(menu.totalGly) " +
+    "FROM menu " +
+    "INNER JOIN innerMenu " +
+    "ON menu.id_menu = innerMenu.idmen " +
+    "INNER JOIN periode " +
+    "ON periode.id_periode = innerMenu.idper " +
+    "WHERE periode.date_periode = :date "
+    )
+    fun getSpecGlucides(date: String): Float
+
+    @Query(
+        "SELECT valeur_glycemie  " +
+        "FROM periode " +
+        "INNER JOIN innerDiabete " +
+        "ON id_periode = innerDiabete.idper " +
+        "INNER JOIN glycemie " +
+        "ON glycemie.id_glycemie = innerDiabete.idgly " +
+        "WHERE date_periode = :date " +
+        "ORDER BY date_periode DESC "
+    )
+    fun getGlycemiePeriode(date: String) : Flow<List<Int>>
 
 }
 

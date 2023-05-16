@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.withStarted
 import androidx.viewpager.widget.ViewPager
+import com.example.gestionnairesante.MainActivity
 import com.example.gestionnairesante.R
 import com.example.gestionnairesante.adapter.AdapterViewPager
 import com.example.gestionnairesante.adapter.AdapterViewPagerCharts
@@ -16,10 +19,16 @@ import com.example.gestionnairesante.database.DB_sante
 import com.example.gestionnairesante.database.dao.innerDiabete.InnerDiabeteRepo
 import com.example.gestionnairesante.database.dao.insuline.ParamStyloData
 import com.example.gestionnairesante.databinding.DiabeteBinding
+import com.example.gestionnairesante.ui.diabete.service.DiabeteChartLine
+import com.example.gestionnairesante.ui.diabete.service.DiabeteChartPie
+import com.example.gestionnairesante.ui.diabete.service.DiabeteDialogGlycemie
+import com.example.gestionnairesante.ui.diabete.service.DiabeteTab1
+import com.example.gestionnairesante.ui.diabete.service.DiabeteTab2
 import com.example.gestionnairesante.ui.diabete.vm.VMDiabete
 import com.example.gestionnairesante.ui.diabete.vm.VMDiabeteFactory
-import com.example.gestionnairesante.ui.poids.PoidsDialog
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
+import kotlinx.coroutines.launch
 
 class DiabeteFragment : Fragment() {
     private var binding: DiabeteBinding? = null
@@ -29,15 +38,12 @@ class DiabeteFragment : Fragment() {
     private lateinit var viewPagerTabs: ViewPager
     private lateinit var viewPagerCharts: ViewPager
 
-    private var ind = 0
-
-    private var arrayTab = arrayListOf<Int>(R.string.txt_fragtab1, R.string.txt_fragtab2)
-    private var arrayFragTab = arrayListOf<Fragment>(DiabeteTab1(), DiabeteTab2())
+    private var arrayTab = arrayListOf(R.string.txt_fragtab1, R.string.txt_fragtab2)
+    private var arrayFragTab = arrayListOf(DiabeteTab1(), DiabeteTab2())
 
     private var arrayTabCharts =
-        arrayListOf<Int>(R.string.txt_chart1, R.string.txt_chart2, R.string.txt_chart3)
-    private var arrayFragChart =
-        arrayListOf<Fragment>(DiabeteChartLine(), DiabeteChartPie())
+        arrayListOf(R.string.txt_chart1, R.string.txt_chart2, R.string.txt_chart3)
+    private var arrayFragChart = arrayListOf(DiabeteChartLine(), DiabeteChartPie())
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,23 +71,22 @@ class DiabeteFragment : Fragment() {
         val daoDiabete = DB_sante.getInstance(requireContext()).tabRelationnelDiabete
         val daoStylo = DB_sante.getInstance(requireContext()).tabStylo
 
-        val repoDiabete =
-            InnerDiabeteRepo(daoGlycemie, daoPeriode, daoInsuline, daoDiabete, daoStylo)
+        val repoDiabete = InnerDiabeteRepo(daoGlycemie, daoPeriode, daoInsuline, daoDiabete, daoStylo)
         val factoryDiabete = VMDiabeteFactory(repoDiabete)
         vmdiabete = ViewModelProvider(requireActivity(), factoryDiabete).get(VMDiabete::class.java)
         binding?.vmdiabete = vmdiabete
 
-
-        binding?.btnInsert?.setOnClickListener {
-            DiabeteDialogGlycemie.newInstance(
-                "titre",
-                "subtitre",
-                ind,
-                0, 0,
-                0,
-                0, 0, 0, "", "", ""
-            ).show(childFragmentManager, PoidsDialog.TAG)
+        lifecycleScope.launch {
+            lifecycle.withStarted {
+                val fab: FloatingActionButton = (activity as MainActivity).findViewById(R.id.fab)
+                fab.show()
+                fab.setOnClickListener {
+                    val diabeteDialogGlycemie = DiabeteDialogGlycemie()
+                    diabeteDialogGlycemie.show(childFragmentManager, DiabeteDialogGlycemie.TAG)
+                }
+            }
         }
+
         vmdiabete.nbStylo.value = vmdiabete.getAllStylo()
         if (vmdiabete.nbStylo.value == 0) {
             vmdiabete.insertStylo(ParamStyloData(0, 300, 300, 2))
@@ -94,10 +99,7 @@ class DiabeteFragment : Fragment() {
             }
         }
 
-
-
         viewPagerCharts = binding?.viewpagercharts!!
-
         tablayoutTabs = binding?.tabLayout!!
         viewPagerTabs = binding?.viewpagertabhost!!
 
@@ -117,24 +119,6 @@ class DiabeteFragment : Fragment() {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
                     tab?.position?.let {
                         viewPagerTabs.currentItem = it
-
-                        when (tab.position) {
-                            0 -> {
-                                binding!!.btnInsert.visibility = View.VISIBLE
-                                binding!!.btnInsertInsuline.visibility = View.GONE
-                            }
-
-                            1 -> {
-                                binding!!.btnInsert.visibility = View.GONE
-                                binding!!.btnInsertInsuline.visibility = View.GONE
-                            }
-
-                            else -> {
-                                binding!!.btnInsert.visibility = View.VISIBLE
-                                binding!!.btnInsertInsuline.visibility = View.GONE
-                            }
-                        }
-
                     }
                 }
 

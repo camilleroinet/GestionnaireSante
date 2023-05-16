@@ -7,6 +7,7 @@ import android.content.Context
 import android.graphics.Color
 import com.example.gestionnairesante.R
 import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.animation.Easing.EasingFunction
 import com.github.mikephil.charting.charts.*
 import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.components.Legend
@@ -25,30 +26,30 @@ fun createLineChart(context: Context,
     configGraphs(linechart)                                                     // Configuration du linechart
 
     val lineDataSet = LineDataSet(entri, "Glycemie")
-    context?.let { lineDataSet.color = it.getColor(R.color.black) }             // Couleur de la ligne reliant les valeurs
+    context.let { lineDataSet.color = it.getColor(R.color.black) }              // Couleur de la ligne reliant les valeurs
     lineDataSet.mode = LineDataSet.Mode.LINEAR                                  // Style de la courbe
     lineDataSet.lineWidth = 2.5F                                                // Epaisseur de la ligne reliant les valeurs
     lineDataSet.setDrawValues(false)                                            // On affiche les valeurs : oui
     lineDataSet.valueTextSize = 12F                                             // Taille de la police de caractere
-    context?.let { lineDataSet.setCircleColor(it.getColor(R.color.black)) }     // Couleur des cercles de data dans le graph
+    context.let { lineDataSet.setCircleColor(it.getColor(R.color.black)) }      // Couleur des cercles de data dans le graph
     lineDataSet.circleRadius = 0f                                               // Taille des cerlces des valeurs dans le graph
 
     val lineDataSet2 = LineDataSet(entri2, "Rapide")
-    context?.let { lineDataSet2.color = it.getColor(R.color.color02) }           // Couleur de la ligne reliant les valeurs
+    context.let { lineDataSet2.color = it.getColor(R.color.color02) }            // Couleur de la ligne reliant les valeurs
     lineDataSet2.mode = LineDataSet.Mode.LINEAR                                  // Style de la courbe
     lineDataSet2.lineWidth = 2.5F                                                // Epaisseur de la ligne reliant les valeurs
     lineDataSet2.setDrawValues(false)                                            // On affiche les valeurs : oui
     lineDataSet2.valueTextSize = 12F                                             // Taille de la police de caractere
-    context?.let { lineDataSet2.setCircleColor(it.getColor(R.color.color02)) }   // Couleur des cercles de data dans le graph
+    context.let { lineDataSet2.setCircleColor(it.getColor(R.color.color02)) }    // Couleur des cercles de data dans le graph
     lineDataSet2.circleRadius = 0f
 
     val lineDataSet3 = LineDataSet(entri3, "Lente")
-    context?.let { lineDataSet3.color = it.getColor(R.color.color01) }           // Couleur de la ligne reliant les valeurs
+    context.let { lineDataSet3.color = it.getColor(R.color.color01) }            // Couleur de la ligne reliant les valeurs
     lineDataSet3.mode = LineDataSet.Mode.LINEAR                                  // Style de la courbe
     lineDataSet3.lineWidth = 2.5F                                                // Epaisseur de la ligne reliant les valeurs
     lineDataSet3.setDrawValues(false)                                            // On affiche les valeurs : oui
     lineDataSet3.valueTextSize = 12F                                             // Taille de la police de caractere
-    context?.let { lineDataSet3.setCircleColor(it.getColor(R.color.color01)) }   // Couleur des cercles de data dans le graph
+    context.let { lineDataSet3.setCircleColor(it.getColor(R.color.color01)) }    // Couleur des cercles de data dans le graph
     lineDataSet3.circleRadius = 0f
 
     val iLineDataSet = ArrayList<ILineDataSet>()
@@ -56,6 +57,8 @@ fun createLineChart(context: Context,
     iLineDataSet.add(lineDataSet2)                                              // Creer les valeurs et leur config
     iLineDataSet.add(lineDataSet3)                                              // Creer les valeurs et leur config
 
+
+    linechart.animateX(9000, Easing.EaseOutBack)
     val ld = LineData(iLineDataSet)
     linechart.data = ld                                                         // Associe le chart avec les valeurs
     linechart.invalidate()                                                      // Rafraichit le chart(en fait on lui dit de se
@@ -90,15 +93,18 @@ fun recupDataChart(array: ArrayList<Int>): ArrayList<Entry>{
     return valu
 }
 
-fun recupDataBarChart(array: ArrayList<Int>): ArrayList<BarEntry> {
+fun recupDataBarChart(array: ArrayList<Float>): ArrayList<BarEntry> {
     val valu = ArrayList<BarEntry>()
     val r = array.size - 1
     for(i in 0..r){
-        valu.add(BarEntry(i.toFloat(), array[i].toFloat()))
+        valu.add(BarEntry(i.toFloat(), array[i]))
     }
     return valu
 }
 
+/**
+ * Fonction du pie chart pour le diabete
+ */
 fun creationPieChart(pie: PieChart, arrayData: ArrayList<Float>, couleurs: ArrayList<Int>){
     pie.description.isEnabled = false
     pie.setExtraOffsets(5f, 10f, 5f, 5f)
@@ -139,9 +145,9 @@ fun creationPieChart(pie: PieChart, arrayData: ArrayList<Float>, couleurs: Array
 fun pieData(arrayData: ArrayList<Float>, couleurs: ArrayList<Int>) : PieData {
     val stringLegend = ArrayList<String>()
 
-/*    for (i in 0 until arrayData.size){
-        stringLegend.add("Faible$i")
-    }*/
+    /*    for (i in 0 until arrayData.size){
+            stringLegend.add("Faible$i")
+        }*/
     stringLegend.add("hypo")
     stringLegend.add("cible")
     stringLegend.add("fort")
@@ -149,7 +155,7 @@ fun pieData(arrayData: ArrayList<Float>, couleurs: ArrayList<Int>) : PieData {
 
     val entries = ArrayList<PieEntry>()
 
-    for(i in 0 until arrayData.size){
+    for(i in 0 until arrayData.size -1 ){
         entries.add(PieEntry(arrayData[i], stringLegend[i]))
     }
     arrayData.clear()
@@ -167,16 +173,148 @@ fun pieData(arrayData: ArrayList<Float>, couleurs: ArrayList<Int>) : PieData {
     return data
 
 }
+/**
+ * Fonction du demi pie chart pour l'accueil
+ * graph de gauche
+ */
+fun creationPieChart1(pie: PieChart, arrayData: ArrayList<Float>, couleurs: ArrayList<Int>){
+    pie.description.isEnabled = false
+    pie.setExtraOffsets(5f, 10f, 5f, 5f)
+    pie.dragDecelerationFrictionCoef = 0.95f
+    pie.isDrawHoleEnabled = true
+    pie.setHoleColor(Color.WHITE)
+    pie.setTransparentCircleColor(Color.WHITE)
+    pie.setTransparentCircleAlpha(110)
+    pie.holeRadius = 43f
+    pie.transparentCircleRadius = 41f
+    pie.setDrawCenterText(false)
+    pie.isRotationEnabled = false
+    pie.isHighlightPerTapEnabled = false
+    pie.animateY(1400, Easing.EaseInOutQuad)
+    pie.maxAngle = 360f
+    pie.rotationAngle = 360f
+    pie.setCenterTextOffset(0f, -20f)
+
+    val legend = pie.legend
+    legend.verticalAlignment = Legend.LegendVerticalAlignment.TOP
+    legend.horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
+    legend.orientation = Legend.LegendOrientation.VERTICAL
+    legend.setDrawInside(false)
+    legend.xEntrySpace = 7f
+    legend.yEntrySpace = 0f
+    legend.yOffset = 0f
+    legend.isEnabled = false
+
+
+    pie.setEntryLabelColor(Color.WHITE)
+    pie.setEntryLabelTextSize(12f)
+    pie.setDrawCenterText(false)
+
+    pie.data = pieData1(arrayData, couleurs)
+    pie.invalidate()
+
+}
+
+fun pieData1(arrayData: ArrayList<Float>, couleurs: ArrayList<Int>) : PieData {
+    val stringLegend = ArrayList<String>()
+
+    stringLegend.add("hypo")
+    stringLegend.add("hyper")
+
+    val entries = ArrayList<PieEntry>()
+
+    for(i in 0 until arrayData.size){
+        entries.add(PieEntry(arrayData[i], stringLegend[i]))
+    }
+    arrayData.clear()
+    val set = PieDataSet(entries, "Hypo / Hyper")
+    set.colors = couleurs
+
+    val data = PieData(set)
+    data.setValueTextColor(Color.WHITE)
+    data.setValueTextSize(13f)
+
+    return data
+
+}
+/**
+ * Fonction du demi pie chart pour l'accueil
+ * graph de droite
+ */
+fun creationPieChart2(pie: PieChart, arrayData: ArrayList<Float>, couleurs: ArrayList<Int>){
+    pie.description.isEnabled = false
+    pie.setExtraOffsets(5f, 10f, 5f, 5f)
+    pie.dragDecelerationFrictionCoef = 0.95f
+    pie.isDrawHoleEnabled = true
+    pie.setHoleColor(Color.WHITE)
+    pie.setTransparentCircleColor(Color.WHITE)
+    pie.setTransparentCircleAlpha(110)
+    pie.holeRadius = 43f
+    pie.transparentCircleRadius = 41f
+    pie.setDrawCenterText(false)
+    pie.isRotationEnabled = false
+    pie.isHighlightPerTapEnabled = false
+    pie.animateY(1400, Easing.EaseInOutQuad)
+    pie.maxAngle = 360f
+    pie.rotationAngle = 360f
+    pie.setCenterTextOffset(0f, -20f)
+
+
+    val legend = pie.legend
+    legend.verticalAlignment = Legend.LegendVerticalAlignment.TOP
+    legend.horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
+    legend.orientation = Legend.LegendOrientation.VERTICAL
+    legend.setDrawInside(false)
+    legend.xEntrySpace = 7f
+    legend.yEntrySpace = 0f
+    legend.yOffset = 0f
+    legend.isEnabled = false
+
+    pie.setEntryLabelColor(Color.WHITE)
+    pie.setEntryLabelTextSize(12f)
+    pie.setDrawCenterText(false)
+
+    pie.data = pieData2(arrayData, couleurs)
+    pie.invalidate()
+
+}
+
+fun pieData2(arrayData: ArrayList<Float>, couleurs: ArrayList<Int>) : PieData {
+    val stringLegend = ArrayList<String>()
+
+    /*    for (i in 0 until arrayData.size){
+            stringLegend.add("Faible$i")
+        }*/
+    stringLegend.add("cible")
+    stringLegend.add("fort")
+
+    val entries = ArrayList<PieEntry>()
+
+    for(i in 0 until arrayData.size){
+        entries.add(PieEntry(arrayData[i], stringLegend[i]))
+    }
+    arrayData.clear()
+    val set = PieDataSet(entries, "pie chart 2")
+    set.colors = couleurs
+
+    val data = PieData(set)
+    data.setValueTextColor(Color.WHITE)
+    data.setValueTextSize(13f)
+
+    return data
+
+}
+
 
 fun barData(barEntry: ArrayList<BarEntry>, titreGraph: String): BarData {
     val bardataset = BarDataSet(barEntry, titreGraph)
-    bardataset.color = Color.rgb(60f, 220f, 78f)
+    bardataset.color = Color.rgb(121, 134, 203)
     bardataset.valueTextSize = 12f
     bardataset.valueTextColor = Color.BLACK
     bardataset.axisDependency = YAxis.AxisDependency.LEFT
     bardataset.setDrawValues(true)
     val bardata = BarData(bardataset)
-    bardata.barWidth = 0.85f
+    bardata.barWidth = 0.50f
     bardata.setValueTextColor(Color.BLACK)
 
     return bardata
@@ -190,16 +328,30 @@ fun createBarChart(barChart: BarChart, barentry: ArrayList<BarEntry>, stringVale
 
     val rightAxis = barChart.axisRight
     rightAxis.isEnabled = false
-    barChart.setFitBars(true)
+
+    barChart.setFitBars(false)
+    barChart.animateY(2000)
+    barChart.setDrawGridBackground(false)
+    barChart.isHorizontalFadingEdgeEnabled
+    barChart.setDrawBarShadow(false)
+    barChart.setPinchZoom(true)
+    barChart.setDrawGridBackground(false)
+    barChart.setMaxVisibleValueCount(8)
+    barChart.setFitBars(false)
+    barChart.setDrawValueAboveBar(true)
+
+    val leftAxis = barChart.axisLeft
+    leftAxis.setDrawGridLines(false)
+    leftAxis.axisMinimum = 0f
+    rightAxis.isEnabled = false
     barChart.data = barData(barentry, titreGraph)
+
     val xAxis = barChart.xAxis
-    val indexAxisValueFormatter = IndexAxisValueFormatter(stringValeur)
-    xAxis.valueFormatter = indexAxisValueFormatter
-    xAxis.position = XAxis.XAxisPosition.BOTTOM
-    xAxis.setDrawGridLines(true)
-    xAxis.isEnabled = true
+    xAxis.setDrawGridLines(false)
+    xAxis.isEnabled = false
     barChart.setVisibleXRangeMaximum(6f)
     barChart.setNoDataText("Rien à afficher, Désolé")
+
     val description = Description()
     description.text = ""
     barChart.description = description
@@ -220,12 +372,13 @@ fun createCombiedChart(c: Context, cc: CombinedChart, arrayDataLine: ArrayList<E
 
     //linechart
     val lineDataSet = LineDataSet(arrayDataLine, "temp")
-    c?.let { lineDataSet.color = it.getColor(R.color.black) }            //coleur de la ligne reliant les valeurs
-    lineDataSet.mode = LineDataSet.Mode.LINEAR                           //style de la courbe
+    c.let { lineDataSet.color = it.getColor(R.color.black) }            //coleur de la ligne reliant les valeurs
+    lineDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER                           //style de la courbe
     lineDataSet.lineWidth = 2.5F                                         //epaisseur de la ligne reliant les valeurs
     lineDataSet.setDrawValues(true)                                      //on affiche les valeurs : oui
-    lineDataSet.valueTextSize = 12F                                      //taille de la police de caractere
-    c?.let { lineDataSet.setCircleColor(it.getColor(R.color.black)) }    //couleur des cercles de data dans le graph
+    lineDataSet.valueTextSize = 12F                                      //taille de la police de caractere<
+
+    c.let { lineDataSet.setCircleColor(it.getColor(R.color.black)) }    //couleur des cercles de data dans le graph
     lineDataSet.circleRadius = 5f                                        //taille des cerlces des valeurs dans le graph
     val iLineDataSet = ArrayList<ILineDataSet>()
     iLineDataSet.add(lineDataSet)                                        //on creer les valeurs et leur config
@@ -254,18 +407,32 @@ fun createCombiedChart(c: Context, cc: CombinedChart, arrayDataLine: ArrayList<E
 //HorizontalBarchart
 fun createHorizBarchart(hbarChart: HorizontalBarChart, barentri: ArrayList<BarEntry>,
                         stringValeur: ArrayList<String>, titreGraph: String){
-    //juste pour le show
-    //doit etre mieux pris en charge
+
     stringValeur.clear()
-    for (i in 0 until barentri.size){
-        stringValeur.add("")
-    }
+    stringValeur.add("Calories")
+    stringValeur.add("Glucides")
+
 
     val rightAxis = hbarChart.axisRight
     rightAxis.isEnabled = false
+    hbarChart.setFitBars(false)
+    hbarChart.animateY(3000)
+    hbarChart.setDrawGridBackground(false)
+    hbarChart.isHorizontalFadingEdgeEnabled
+    hbarChart.setDrawGridBackground(false)
+    hbarChart.setDrawValueAboveBar(false)
+
+    hbarChart.setDrawBarShadow(false)
+    hbarChart.setPinchZoom(false)
+    hbarChart.setDrawGridBackground(false)
+    hbarChart.setMaxVisibleValueCount(5)
     hbarChart.setFitBars(true)
+    hbarChart.setDrawValueAboveBar(true)
+    hbarChart.setDrawBarShadow(false)
+
     hbarChart.data = barData(barentri, titreGraph)
     val xAxis = hbarChart.xAxis
+    xAxis.isEnabled = false
     hbarChart.setVisibleXRangeMaximum(6f)
     hbarChart.setNoDataText("Rien à afficher, Désolé")
     val description = Description()

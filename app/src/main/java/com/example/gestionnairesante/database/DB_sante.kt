@@ -8,8 +8,8 @@ import com.example.gestionnairesante.database.dao.glycemie.GlycemieDao
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
 import com.example.gestionnairesante.database.dao.innerDiabete.InnerDiabeteDao
 import com.example.gestionnairesante.database.dao.innerDiabete.InnerDiabeteData
-import com.example.gestionnairesante.database.dao.innerMenu.InnerPeriodeMenuDao
-import com.example.gestionnairesante.database.dao.innerMenu.InnerPeriodeMenuData
+import com.example.gestionnairesante.database.dao.innerRepas.InnerPeriodeRepasDao
+import com.example.gestionnairesante.database.dao.innerRepas.InnerPeriodeRepasData
 import com.example.gestionnairesante.database.dao.innerPlat.InnerPlatMenuDao
 import com.example.gestionnairesante.database.dao.innerPlat.InnerPlatMenuData
 import com.example.gestionnairesante.database.dao.innerPoids.InnerPoidsDao
@@ -20,8 +20,8 @@ import com.example.gestionnairesante.database.dao.insuline.InsulineDao
 import com.example.gestionnairesante.database.dao.insuline.InsulineData
 import com.example.gestionnairesante.database.dao.insuline.ParamStyloDao
 import com.example.gestionnairesante.database.dao.insuline.ParamStyloData
-import com.example.gestionnairesante.database.dao.menu.MenuDao
-import com.example.gestionnairesante.database.dao.menu.MenuData
+import com.example.gestionnairesante.database.dao.repas.RepasDao
+import com.example.gestionnairesante.database.dao.repas.RepasData
 import com.example.gestionnairesante.database.dao.periode.PeriodeDao
 import com.example.gestionnairesante.database.dao.periode.PeriodeData
 import com.example.gestionnairesante.database.dao.plats.PlatDao
@@ -32,13 +32,13 @@ import com.example.gestionnairesante.database.dao.poids.PoidsData
 @Database(
     entities = [
         StatsGlyPer::class,
-        InnerPeriodeMenuData::class,
+        InnerPeriodeRepasData::class,
         ParamStyloData::class,
         InnerPlatMenuData::class,
         InnerPoidsData::class,
         InnerDiabeteData::class,
         PeriodeData::class,
-        MenuData::class,
+        RepasData::class,
         PlatData::class,
         GlycemieData::class,
         InsulineData::class,
@@ -53,14 +53,14 @@ abstract class DB_sante : RoomDatabase() {
     abstract val tabInsuline: InsulineDao
     abstract val tabPoids: PoidsDao
     abstract val tabPlat: PlatDao
-    abstract val tabMenu: MenuDao
+    abstract val tabMenu: RepasDao
     abstract val tabPeriode: PeriodeDao
     abstract val tabStylo: ParamStyloDao
 
     abstract val tabRelationnelDiabete: InnerDiabeteDao
     abstract val tabRelationnelPoids: InnerPoidsDao
     abstract val tabRelationnelPlat: InnerPlatMenuDao
-    abstract val tabRelationnelMenu: InnerPeriodeMenuDao
+    abstract val tabRelationnelMenu: InnerPeriodeRepasDao
 
     abstract val tabRelationnelStats: StatsDao
 

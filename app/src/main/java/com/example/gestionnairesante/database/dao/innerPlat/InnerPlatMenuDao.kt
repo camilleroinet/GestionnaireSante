@@ -3,7 +3,7 @@ package com.example.gestionnairesante.database.dao.innerPlat
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.gestionnairesante.database.dao.menu.MenuData
+import com.example.gestionnairesante.database.dao.repas.RepasData
 import com.example.gestionnairesante.database.dao.plats.PlatData
 import kotlinx.coroutines.flow.Flow
 
@@ -30,7 +30,7 @@ interface InnerPlatMenuDao {
             "ON menu.id_menu = innerPlat.idmen " +
         "WHERE innerPlat.idpla = :id_plat"
     )
-    fun getInnerMenu(id_plat: Int): Flow<List<MenuData>>
+    fun getInnerMenu(id_plat: Int): Flow<List<RepasData>>
 
     @Query(
         "SELECT " +

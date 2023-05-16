@@ -11,7 +11,7 @@ class VmAccueil ( private val repo: StatsRepo): ViewModel() {
 
     private val statusMessage = MutableLiveData<Event<String>>()
     val message: LiveData<Event<String>>
-        get() = statusMessage
+    get() = statusMessage
 
     fun getAllGlycemie() = liveData {
         repo.allGlycemie.collect(){
@@ -24,21 +24,29 @@ class VmAccueil ( private val repo: StatsRepo): ViewModel() {
             emit(it)
         }
     }
+    fun getGlycemiePeriode(date: String) = liveData {
+        repo.getGlycemiePeriode(date).collect() {
+            emit(it)
+        }
+    }
     fun getSpecRapide(date: String) = liveData {
         repo.getSpecRapide(date).collect() {
             emit(it)
         }
     }
+
     fun getSpecLente(date: String) = liveData {
         repo.getSpecLente(date).collect() {
             emit(it)
         }
     }
 
-    fun getSpecCalories(date: String) = liveData {
-        repo.getSpecCalories(date).collect() {
-            emit(it)
-        }
+    fun getSpecCalories(date: String) : Float {
+        return repo.getSpecCalories(date)
+    }
+
+    fun getSpecGlucides(date: String) : Float {
+        return repo.getSpecGlucides(date)
     }
 
     fun getSpecPoids(date: String) = liveData {

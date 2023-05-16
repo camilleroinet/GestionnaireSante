@@ -23,8 +23,7 @@ class MainActivity : AppCompatActivity() {
         navView.menu.getItem(2).isEnabled = false
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_accueil, R.id.navigation_diabete, R.id.navigation_poids,

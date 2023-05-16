@@ -17,7 +17,7 @@
     <string name="txt_chart2">Graphique 2</string>
     <string name="txt_chart3">Graphique 3</string>
     <string name="my_image_01">image repas</string>
-    <string name="txt_fragmenu">Menu</string>
+    <string name="txt_fragmenu">Repas</string>
     <string name="txt_fragrepas">Repas</string>
     <string name="erasetext">supprimer</string>
     <string name="periode">Periode :</string>
@@ -56,7 +56,9 @@
     <string name="composition_d_un_nouveau_menu">Composition d\'un nouveau menu</string>
     <string name="txt_accueilTab1">Diabete</string>
     <string name="txt_accueilTab2">Alimentation</string>
-    <string name="txt_accueilTab3">multi choix</string>
+    <string name="txt_accueilTab3">â venir</string>
+    <string name="profil">Profil</string>
+    <string name="action_settings">Menu</string>
 
     <string-array name="periodes">
         <item>Petit-déjeuner</item>
