@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -19,12 +18,8 @@ import com.example.gestionnairesante.database.dao.innerStats.StatsRepo
 import com.example.gestionnairesante.databinding.AccueilBinding
 import com.example.gestionnairesante.ui.accueil.vm.VmAccueil
 import com.example.gestionnairesante.ui.accueil.vm.VmAccueilFactory
-import com.example.gestionnairesante.ui.diabete.service.DiabeteDialogGlycemie
-import com.example.gestionnairesante.utils.createBarChart
-import com.example.gestionnairesante.utils.createColorTab
+import com.example.gestionnairesante.ui.poids.service.calculerIMC
 import com.example.gestionnairesante.utils.createHorizBarchart
-import com.example.gestionnairesante.utils.creationPieChart1
-import com.example.gestionnairesante.utils.creationPieChart2
 import com.example.gestionnairesante.utils.recupDataBarChart
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.LineChart
@@ -37,6 +32,8 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 class AccueilFragment : Fragment() {
 
@@ -44,9 +41,8 @@ class AccueilFragment : Fragment() {
     private lateinit var vmaccueil: VmAccueil
 
     private lateinit var tablayoutTabs: TabLayout
-    private var arrayTab = arrayListOf(R.string.txt_accueilTab1, R.string.txt_accueilTab2, R.string.txt_accueilTab3)
+    private var arrayTab = arrayListOf(R.string.txt_accueilTab1, R.string.txt_accueilTab2)
 
-    val tabData = ArrayList<Int> ()
     private var posTab = 0
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,8 +67,6 @@ class AccueilFragment : Fragment() {
         vmaccueil = ViewModelProvider(requireActivity(), factory).get(VmAccueil::class.java)
         binding.vmaccueil = vmaccueil
 
-
-
         return accueilFrag.root
     }
 
@@ -80,12 +74,6 @@ class AccueilFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val tabGlycemie = ArrayList<Int>()
-        val arrayDataHYypoper = ArrayList<Float>()        // ArrayList des hypo/hyper
-        val arrayDataCiblePresq = ArrayList<Float>()      // ArrayList des cibles/fort
-
-        val valuesPoids = ArrayList<Float>()
-        val valueRapide = ArrayList<Int>()
-        val valueLente = ArrayList<Int>()
 
         //
         // Date
@@ -105,13 +93,13 @@ class AccueilFragment : Fragment() {
                 binding.diabeteDualPie.visibility = View.VISIBLE
                 binding.chart1AccueilAlimentation.visibility = View.GONE
                 binding.chart2AccueilAlimentation.visibility = View.GONE
+                binding.llhbar.visibility = View.GONE
+                binding.llhbar2.visibility = View.GONE
 
                 createLineChart(
                     requireContext(),
                     binding.chart1AccueilDiabete,
-                    recupDataChart(tabGlycemie),
-                    recupDataChart(valueRapide),
-                    recupDataChart(valueLente)
+                    recupDataChart(tabGlycemie)
                 )
                 var hypo = 0
                 var cible = 0
@@ -127,16 +115,10 @@ class AccueilFragment : Fragment() {
                     }
                 }
 
-                arrayDataHYypoper.add(hypo.toFloat())
-                arrayDataCiblePresq.add(cible.toFloat())
-                arrayDataCiblePresq.add(fort.toFloat())
-                arrayDataHYypoper.add(hyper.toFloat())
-
-                val couleurs = createColorTab(requireContext(), arrayDataHYypoper.size)
-                val couleurs2 = createColorTab(requireContext(), arrayDataCiblePresq.size)
-
-                creationPieChart1(binding.piechart1Dia, arrayDataHYypoper, couleurs)
-                creationPieChart2(binding.piechart2Dia, arrayDataCiblePresq, couleurs2)
+                binding.tvNbhypo.text = hypo.toString()
+                binding.tvNbcible.text = cible.toString()
+                binding.tvNbfort.text = fort.toString()
+                binding.tvNbhyper.text = hyper.toString()
 
             } else {
                 binding.llAvertissement.visibility = View.VISIBLE
@@ -145,29 +127,17 @@ class AccueilFragment : Fragment() {
                 binding.diabeteDualPie.visibility = View.GONE
                 binding.chart1AccueilAlimentation.visibility = View.GONE
                 binding.chart2AccueilAlimentation.visibility = View.GONE
+                binding.llhbar.visibility = View.GONE
+                binding.llhbar2.visibility = View.GONE
             }
         }
 
-        vmaccueil.getSpecPoids(date).observe(viewLifecycleOwner) {
+        binding.valpoids.text = vmaccueil.getSpecPoids(date).toString()
 
-            valuesPoids.clear()
-            valuesPoids.addAll(it)
-            Toast.makeText(requireContext(), "taille = ${valuesPoids.size}", Toast.LENGTH_LONG).show()
-            if (valuesPoids.size > 0) {
-                loadCharts2(date)
-
-            } else {
-                binding.llAvertissement.visibility = View.VISIBLE
-                binding.llAvertissement2.visibility = View.VISIBLE
-                binding.chart1AccueilDiabete.visibility = View.GONE
-                binding.diabeteDualPie.visibility = View.GONE
-                binding.chart1AccueilAlimentation.visibility = View.GONE
-                binding.chart2AccueilAlimentation.visibility = View.GONE
-            }
-
-        }
-
-
+        val decimal = BigDecimal(calculerIMC(171, vmaccueil.getSpecPoids(date))).setScale(2, RoundingMode.HALF_EVEN)
+        
+        binding.valimc.text = decimal.toString()
+        loadCharts2(date)
 
         tablayoutTabs = binding.tabLayout
 
@@ -178,12 +148,9 @@ class AccueilFragment : Fragment() {
             }
         }
 
-
         configTablelayout(arrayTab)
         loadCharts()
     }
-
-
 
     fun configTablelayout(array: ArrayList<Int>) {
         tablayoutTabs.apply {
@@ -202,8 +169,10 @@ class AccueilFragment : Fragment() {
                                 binding.datepickeraccueil.visibility = View.VISIBLE
                                 binding.chart1AccueilDiabete.visibility = View.VISIBLE
                                 binding.diabeteDualPie.visibility = View.VISIBLE
+                                binding.llhbar.visibility = View.GONE
                                 binding.chart1AccueilAlimentation.visibility = View.GONE
                                 binding.chart2AccueilAlimentation.visibility = View.GONE
+                                binding.llhbar2.visibility = View.GONE
 
 
                             }
@@ -215,8 +184,11 @@ class AccueilFragment : Fragment() {
                                 binding.datepickeraccueil.visibility = View.VISIBLE
                                 binding.chart1AccueilDiabete.visibility = View.GONE
                                 binding.diabeteDualPie.visibility = View.GONE
+                                binding.llhbar.visibility = View.VISIBLE
                                 binding.chart1AccueilAlimentation.visibility = View.VISIBLE
                                 binding.chart2AccueilAlimentation.visibility = View.VISIBLE
+                                binding.llhbar2.visibility = View.VISIBLE
+
                             }
 
                             else -> {
@@ -253,13 +225,6 @@ class AccueilFragment : Fragment() {
 
     fun loadCharts() {
         val valuesBdd = ArrayList<Int>()
-        val valueRapide = ArrayList<Int>()
-        val valueLente = ArrayList<Int>()
-
-        val valuesPoids = ArrayList<Float>()
-
-        val arrayDataHYypoper = ArrayList<Float>()      // ArrayList des hypo/hyper
-        val arrayDataCiblePresq = ArrayList<Float>()      // ArrayList des cibles/fort
 
         //
         // Date
@@ -282,14 +247,6 @@ class AccueilFragment : Fragment() {
 
             when (posTab) {
                 0 -> {
-                    vmaccueil.getSpecRapide(date).observe(viewLifecycleOwner) {
-                        valueRapide.clear()
-                        valueRapide.addAll(it)
-                    }
-                    vmaccueil.getSpecLente(date).observe(viewLifecycleOwner) {
-                        valueLente.clear()
-                        valueLente.addAll(it)
-                    }
                     vmaccueil.getSpecGly(date).observe(viewLifecycleOwner) {
                         valuesBdd.clear()
                         valuesBdd.addAll(it)
@@ -299,23 +256,26 @@ class AccueilFragment : Fragment() {
                             binding.llAvertissement2.visibility = View.GONE
                             binding.chart1AccueilDiabete.visibility = View.VISIBLE
                             binding.diabeteDualPie.visibility = View.VISIBLE
+                            binding.llhbar.visibility = View.GONE
                             binding.chart1AccueilAlimentation.visibility = View.GONE
                             binding.chart2AccueilAlimentation.visibility = View.GONE
+                            binding.llhbar2.visibility = View.GONE
 
                             createLineChart(
                                 requireContext(),
                                 binding.chart1AccueilDiabete,
-                                recupDataChart(valuesBdd),
-                                recupDataChart(valueRapide),
-                                recupDataChart(valueLente)
+                                recupDataChart(valuesBdd)
                             )
                         } else {
                             binding.llAvertissement.visibility = View.VISIBLE
                             binding.llAvertissement2.visibility = View.VISIBLE
                             binding.chart1AccueilDiabete.visibility = View.GONE
                             binding.diabeteDualPie.visibility = View.GONE
+                            binding.llhbar.visibility = View.GONE
                             binding.chart1AccueilAlimentation.visibility = View.GONE
                             binding.chart2AccueilAlimentation.visibility = View.GONE
+                            binding.llhbar2.visibility = View.GONE
+
                         }
 
                         var hypo = 0
@@ -332,46 +292,16 @@ class AccueilFragment : Fragment() {
                             }
                         }
 
-                        arrayDataHYypoper.add(hypo.toFloat())
-                        arrayDataCiblePresq.add(cible.toFloat())
-                        arrayDataCiblePresq.add(fort.toFloat())
-                        arrayDataHYypoper.add(hyper.toFloat())
-
-                        val couleurs = createColorTab(requireContext(), arrayDataHYypoper.size)
-                        val couleurs2 = createColorTab(requireContext(), arrayDataCiblePresq.size)
-
-                        creationPieChart1(binding.piechart1Dia, arrayDataHYypoper, couleurs)
-                        creationPieChart2(binding.piechart2Dia, arrayDataCiblePresq, couleurs2)
+                        binding.tvNbhypo.text = hypo.toString()
+                        binding.tvNbcible.text = cible.toString()
+                        binding.tvNbfort.text = fort.toString()
+                        binding.tvNbhyper.text = hyper.toString()
 
                     }
                 }
 
                 1 -> {
-                    vmaccueil.getSpecPoids(date).observe(viewLifecycleOwner) {
-
-                        valuesPoids.clear()
-                        valuesPoids.addAll(it)
-
-                        if (valuesPoids.size > 0) {
-                            binding.llAvertissement.visibility = View.GONE
-                            binding.llAvertissement2.visibility = View.GONE
-                            binding.chart1AccueilDiabete.visibility = View.GONE
-                            binding.diabeteDualPie.visibility = View.GONE
-                            binding.chart1AccueilAlimentation.visibility = View.VISIBLE
-                            binding.chart2AccueilAlimentation.visibility = View.VISIBLE
-
-                            loadCharts2(date)
-
-                        } else {
-                            binding.llAvertissement.visibility = View.VISIBLE
-                            binding.llAvertissement2.visibility = View.VISIBLE
-                            binding.chart1AccueilDiabete.visibility = View.GONE
-                            binding.diabeteDualPie.visibility = View.GONE
-                            binding.chart1AccueilAlimentation.visibility = View.GONE
-                            binding.chart2AccueilAlimentation.visibility = View.GONE
-                        }
-
-                    }
+                        loadCharts2(date)
                 }
 
                 else -> {}
@@ -383,17 +313,14 @@ class AccueilFragment : Fragment() {
     fun createLineChart(
         context: Context,
         linechart: LineChart,
-        entri: ArrayList<Entry>,
-        entri2: ArrayList<Entry>,
-        entri3: ArrayList<Entry>
+        entri: ArrayList<Entry>
     ) {
 
         configGraphs(linechart)                                             // Configuration du linechart
 
         val lineDataSet = LineDataSet(entri, "Glycemie")
-        context.let {
-            lineDataSet.color = it.getColor(R.color.black)
-        }              // Couleur de la ligne reliant les valeurs
+
+        lineDataSet.color = resources.getColor(R.color.black)                              // Couleur de la ligne reliant les valeurs
         lineDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER                                   // Style de la courbe
         lineDataSet.lineWidth = 2.5F                                                       // Epaisseur de la ligne reliant les valeurs
         lineDataSet.setDrawValues(false)                                                   // On affiche les valeurs : oui
@@ -401,28 +328,8 @@ class AccueilFragment : Fragment() {
         context.let { lineDataSet.setCircleColor(it.getColor(R.color.black)) }             // Couleur des cercles de data dans le graph
         lineDataSet.circleRadius = 0f                                                      // Taille des cerlces des valeurs dans le graph
 
-        val lineDataSet2 = LineDataSet(entri2, "Rapide")
-        context.let { lineDataSet2.color = it.getColor(R.color.color02) }                  // Couleur de la ligne reliant les valeurs
-        lineDataSet2.mode = LineDataSet.Mode.LINEAR                                        // Style de la courbe
-        lineDataSet2.lineWidth = 2.5F                                                      // Epaisseur de la ligne reliant les valeurs
-        lineDataSet2.setDrawValues(false)                                                  // On affiche les valeurs : oui
-        lineDataSet2.valueTextSize = 12F                                                   // Taille de la police de caractere
-        context.let { lineDataSet2.setCircleColor(it.getColor(R.color.color02)) }          // Couleur des cercles de data dans le graph
-        lineDataSet2.circleRadius = 0f
-
-        val lineDataSet3 = LineDataSet(entri3, "Lente")
-        context.let { lineDataSet3.color = it.getColor(R.color.color01) }                  // Couleur de la ligne reliant les valeurs
-        lineDataSet3.mode = LineDataSet.Mode.LINEAR                                        // Style de la courbe
-        lineDataSet3.lineWidth = 2.5F                                                      // Epaisseur de la ligne reliant les valeurs
-        lineDataSet3.setDrawValues(false)                                                  // On affiche les valeurs : oui
-        lineDataSet3.valueTextSize = 12F                                                   // Taille de la police de caractere
-        context.let { lineDataSet3.setCircleColor(it.getColor(R.color.color01)) }          // Couleur des cercles de data dans le graph
-        lineDataSet3.circleRadius = 0f
-
         val iLineDataSet = ArrayList<ILineDataSet>()
         iLineDataSet.add(lineDataSet)                                                      // Creer les valeurs et leur config (line 1)
-        iLineDataSet.add(lineDataSet2)                                                     // Creer les valeurs et leur config (line 2)
-        iLineDataSet.add(lineDataSet3)                                                     // Creer les valeurs et leur config (line 3)
 
         val ld = LineData(iLineDataSet)
         linechart.data = ld                                                                // Associe le chart avec les valeurs
@@ -463,42 +370,37 @@ class AccueilFragment : Fragment() {
 
     fun loadCharts2(date: String): ArrayList<BarEntry> {
         val data = ArrayList<BarEntry>()
-        val tabValeur = ArrayList<Float>()
-        val barChart = binding.chart1AccueilAlimentation
-        val stringValue = ArrayList<String>()
 
         val array = ArrayList<Float>()
+        val array2 = ArrayList<Float>()
 
         val totalGlu = vmaccueil.getSpecGlucides(date)
         val totalCal = vmaccueil.getSpecCalories(date)
 
         array.clear()
-        array.add(totalGlu)
         array.add(totalCal)
+        array2.clear()
+        array2.add(totalGlu)
 
         val stringValeur = ArrayList<String>()
         stringValeur.add("Calories")
         stringValeur.add("Glucides")
 
         createHorizBarchart(
-            binding.chart2AccueilAlimentation,
+            1,
+            binding.chart1AccueilAlimentation,
             recupDataBarChart(array),
             stringValeur,
-            "Calories et glucides ingéré aujourd'hui"
+            "Calories de la journée"
         )
 
-        vmaccueil.getSpecPoids(date).observe(viewLifecycleOwner) {
-            tabValeur.clear()
-            tabValeur.addAll(it)
-
-            val r = tabValeur.size - 1
-            for (i in 0..r) {
-                stringValue.add("")
-                data.add(BarEntry(i.toFloat(), tabValeur[i]))
-            }
-            createBarChart(barChart, data, stringValue, "Poids")
-
-        }
+        createHorizBarchart(
+            2,
+            binding.chart2AccueilAlimentation,
+            recupDataBarChart(array2),
+            stringValeur,
+            "Glucides de la journée"
+        )
 
         return data
     }

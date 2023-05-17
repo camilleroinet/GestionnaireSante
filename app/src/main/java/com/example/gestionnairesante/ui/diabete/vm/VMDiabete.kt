@@ -58,6 +58,11 @@ class VMDiabete( private val repo: InnerDiabeteRepo): ViewModel() {
             emit(it)
         }
     }
+    fun getAllGlycemieDESC() = liveData {
+        repo.allGlycemieDESC.collect(){
+            emit(it)
+        }
+    }
 
     fun getGlycemiePeriode() = liveData {
         repo.innerPeriodeGlycemie.collect{

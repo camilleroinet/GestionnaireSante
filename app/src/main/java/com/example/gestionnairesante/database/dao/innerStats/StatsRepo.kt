@@ -36,7 +36,7 @@ class StatsRepo(
         return statsDao.getSpecGlucides(date)
     }
 
-    fun getSpecPoids(date: String) : Flow<List<Float>> {
+    fun getSpecPoids(date: String) : Float {
         return statsDao.getSpecPoids(date)
     }
 

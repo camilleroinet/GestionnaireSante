@@ -58,7 +58,7 @@ fun createLineChart(context: Context,
     iLineDataSet.add(lineDataSet3)                                              // Creer les valeurs et leur config
 
 
-    linechart.animateX(9000, Easing.EaseOutBack)
+    linechart.animateX(2000, Easing.EaseOutBack)
     val ld = LineData(iLineDataSet)
     linechart.data = ld                                                         // Associe le chart avec les valeurs
     linechart.invalidate()                                                      // Rafraichit le chart(en fait on lui dit de se
@@ -155,7 +155,7 @@ fun pieData(arrayData: ArrayList<Float>, couleurs: ArrayList<Int>) : PieData {
 
     val entries = ArrayList<PieEntry>()
 
-    for(i in 0 until arrayData.size -1 ){
+    for(i in 0 until arrayData.size  ){
         entries.add(PieEntry(arrayData[i], stringLegend[i]))
     }
     arrayData.clear()
@@ -190,9 +190,9 @@ fun creationPieChart1(pie: PieChart, arrayData: ArrayList<Float>, couleurs: Arra
     pie.setDrawCenterText(false)
     pie.isRotationEnabled = false
     pie.isHighlightPerTapEnabled = false
-    pie.animateY(1400, Easing.EaseInOutQuad)
-    pie.maxAngle = 360f
-    pie.rotationAngle = 360f
+    pie.animateY(1500, Easing.EaseInOutQuad)
+    pie.maxAngle = 180f
+    pie.rotationAngle = 180f
     pie.setCenterTextOffset(0f, -20f)
 
     val legend = pie.legend
@@ -405,13 +405,8 @@ fun createCombiedChart(c: Context, cc: CombinedChart, arrayDataLine: ArrayList<E
 }
 
 //HorizontalBarchart
-fun createHorizBarchart(hbarChart: HorizontalBarChart, barentri: ArrayList<BarEntry>,
+fun createHorizBarchart(indice: Int, hbarChart: HorizontalBarChart, barentri: ArrayList<BarEntry>,
                         stringValeur: ArrayList<String>, titreGraph: String){
-
-    stringValeur.clear()
-    stringValeur.add("Calories")
-    stringValeur.add("Glucides")
-
 
     val rightAxis = hbarChart.axisRight
     rightAxis.isEnabled = false
@@ -430,9 +425,37 @@ fun createHorizBarchart(hbarChart: HorizontalBarChart, barentri: ArrayList<BarEn
     hbarChart.setDrawValueAboveBar(true)
     hbarChart.setDrawBarShadow(false)
 
+    val leftAxis = hbarChart.axisLeft
+
+    when(indice){
+        1 -> {
+            stringValeur.clear()
+            stringValeur.add("Calories")
+
+            leftAxis.setDrawGridLines(false)
+            leftAxis.axisMinimum = 0f
+            leftAxis.axisMaximum = 2100f
+        }
+        2 -> {
+            stringValeur.clear()
+            stringValeur.add("Glucides")
+
+            leftAxis.setDrawGridLines(false)
+            leftAxis.axisMinimum = 0f
+            leftAxis.axisMaximum = 325f
+        }
+        else -> {
+
+        }
+    }
+
+
+    rightAxis.isEnabled = false
+
     hbarChart.data = barData(barentri, titreGraph)
     val xAxis = hbarChart.xAxis
     xAxis.isEnabled = false
+
     hbarChart.setVisibleXRangeMaximum(6f)
     hbarChart.setNoDataText("Rien à afficher, Désolé")
     val description = Description()

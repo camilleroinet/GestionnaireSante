@@ -18,7 +18,9 @@ class InnerDiabeteRepo(
 
 ) {
 
-    val allGlycemie = glycemieDao.getAllValeurGlycemie()
+    val allGlycemie = innerDiabeteDao.getAllGlycemieByDateASC()
+    val allGlycemieDESC = innerDiabeteDao.getAllValeurs()
+
     val innerPeriodeGlycemie = innerDiabeteDao.getAllValeurs()
     val allInner = innerDiabeteDao.getAllInner()
     val nbStylo = styloDao.getAllStylo()
@@ -30,6 +32,7 @@ class InnerDiabeteRepo(
     suspend fun updateStylo(id: Int, quantite: Int, maxquantite  : Int, purge: Int) {
         return styloDao.updateStylo(id, quantite, maxquantite, purge)
     }
+
 
     fun getAllStylo() : Int{
         return styloDao.getAllStylo()

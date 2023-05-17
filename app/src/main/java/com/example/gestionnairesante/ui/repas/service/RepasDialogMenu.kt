@@ -1,22 +1,26 @@
 package com.example.gestionnairesante.ui.repas.service
 
+import android.R
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.gestionnairesante.ui.repas.adapter.AdapterRecyclerMenuPlat
-import com.example.gestionnairesante.ui.repas.adapter.AdapterRecyclerPlat
-import com.example.gestionnairesante.database.dao.innerRepas.InnerPeriodeRepasData
 import com.example.gestionnairesante.database.dao.innerPlat.PlatInner
+import com.example.gestionnairesante.database.dao.innerRepas.InnerPeriodeRepasData
 import com.example.gestionnairesante.database.dao.periode.PeriodeData
 import com.example.gestionnairesante.database.dao.plats.PlatData
 import com.example.gestionnairesante.databinding.RepasDialogMenuBinding
+import com.example.gestionnairesante.ui.repas.adapter.AdapterRecyclerMenuPlat
+import com.example.gestionnairesante.ui.repas.adapter.AdapterRecyclerPlat
 import com.example.gestionnairesante.ui.repas.vm.VmRepas
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.time.LocalDateTime
@@ -31,7 +35,7 @@ class RepasDialogMenu : BottomSheetDialogFragment() {
     private lateinit var adapterListePlatMenu: AdapterRecyclerMenuPlat
 
     companion object {
-        const val TAG = "Dialog_menu"
+        const val TAG = "Dialog_repas"
         private const val KEY_TITLE = "KEY_TITLE"
         private const val KEY_SUBTITLE = "KEY_SUBTITLE"
         private var keyg = "indice"
@@ -41,11 +45,49 @@ class RepasDialogMenu : BottomSheetDialogFragment() {
         val frag = RepasDialogMenu()
         var argFrag = frag.arguments
 
-        fun newInstance(title: String, subTitle: String, indicefrag: Int): RepasDialogMenu {
+        private var txtid = "id_menu"
+        private var txtnom = "Nom repas"
+        private var txtglucide = "txt Glucide"
+        private var txtcalorie = "txt Calorie"
+        private var txtplat = "txt nb Plat"
+
+        var idMenu = 0
+        var oldNom = ""
+        var oldGlucide = 0
+        var oldCalorie = 0
+        var oldPlat = 0
+
+        fun newInstance(
+            title: String,
+            subTitle: String,
+            indicefrag: Int,
+            id: Int,
+            nom: String,
+            glucide: Int,
+            calorie: Int,
+            plat: Int
+
+        ): RepasDialogMenu {
             val args = Bundle()
             args.putString(KEY_TITLE, title)
             args.putString(KEY_SUBTITLE, subTitle)
             args.putInt(keyg, indicefrag)
+
+            //
+            // Parametre de la data a modifier
+            //
+            args.putInt(txtid, idMenu)
+            args.putString(txtnom, nom)
+            args.putInt(txtglucide, glucide)
+            args.putInt(txtcalorie, calorie)
+            args.putInt(txtplat, plat)
+
+            idMenu = id
+            oldNom = nom
+            oldGlucide = glucide
+            oldCalorie = calorie
+            oldPlat = plat
+
             argFrag = args
             indice = indicefrag
             return frag
@@ -93,9 +135,15 @@ class RepasDialogMenu : BottomSheetDialogFragment() {
                 binding!!.llEtape02.visibility = View.VISIBLE
                 binding!!.etapeInformation.visibility = View.GONE
                 binding!!.llEtape03Compo.visibility = View.GONE
-
             }
         }
+
+        binding!!.annulerNommenu.setOnClickListener{
+            binding!!.etNommenu.text.clear()
+        }
+
+        val tabPeriode = resources.getStringArray(com.example.gestionnairesante.R.array.periodes)
+        configSpinner(tabPeriode)
 
         //
         // Etape 2
@@ -109,17 +157,18 @@ class RepasDialogMenu : BottomSheetDialogFragment() {
             binding!!.listeRepas.visibility = View.VISIBLE
             binding!!.llEtape03Compo.visibility = View.VISIBLE
             binding!!.llBoutons.visibility = View.VISIBLE
+            binding!!.voirTout.visibility = View.VISIBLE
+            binding!!.fermerRv.visibility = View.GONE
 
             viewmodelrepas.totalPlats.value = "0"
             viewmodelrepas.totalGlucides.value = "0"
             viewmodelrepas.totalCalories.value = "0"
-
+            viewmodelrepas.getPlatInMenu()
         }
 
         binding!!.btnCancelDate.setOnClickListener {
             binding!!.llEtape02.visibility = View.GONE
             binding!!.llEtape01.visibility = View.VISIBLE
-
         }
 
         //
@@ -138,27 +187,31 @@ class RepasDialogMenu : BottomSheetDialogFragment() {
             )
 
             val temp = InnerPeriodeRepasData(0,viewmodelrepas.getLastMenuInCurrent(), viewmodelrepas.getLastPeriodeInCurrent())
-            Toast.makeText(requireContext(), "last Menu = ${viewmodelrepas.getLastMenuInCurrent()} , last plat = ${viewmodelrepas.getLastPeriodeInCurrent()}", Toast.LENGTH_LONG).show()
             viewmodelrepas.ajouterInnerPeriodeMenu(temp)
 
             dismiss()
         }
 
-
-        binding!!.annulerNommenu.setOnClickListener{
-            binding!!.etNommenu.text.clear()
-        }
         binding!!.annulerMenu.setOnClickListener {
             dismiss()
         }
 
-        binding!!.annulerNommenu.setOnClickListener {
-            val plat1 = PlatData(0,"Croissant", 25,200)
-            viewmodelrepas.ajouterPlat(plat1)
-            val plat2 = PlatData(0,"Cafe", 0,0)
-            viewmodelrepas.ajouterPlat(plat2)
-            val plat3 = PlatData(0,"Orange", 10,5)
-            viewmodelrepas.ajouterPlat(plat3)
+        binding!!.fermerRv.setOnClickListener {
+            binding!!.listeRepas.visibility = View.VISIBLE
+            binding!!.listeMenu.visibility = View.GONE
+            binding!!.voirTout.visibility = View.VISIBLE
+            binding!!.fermerRv.visibility = View.GONE
+        }
+
+        binding!!.voirTout.setOnClickListener {
+            binding!!.listeRepas.visibility = View.GONE
+            binding!!.listeMenu.visibility = View.VISIBLE
+            binding!!.fermerRv.visibility = View.VISIBLE
+            binding!!.voirTout.visibility = View.GONE
+        }
+
+        binding!!.btnfermer.setOnClickListener {
+            dismiss()
         }
 
         initRecycler()
@@ -189,20 +242,21 @@ class RepasDialogMenu : BottomSheetDialogFragment() {
         viewModel.deletePlatInCurrent(data.idser)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun displayUser() {
-        viewmodelrepas.getAllPlats().observe(viewLifecycleOwner, Observer {
+        viewmodelrepas.getAllPlats().observe(viewLifecycleOwner) {
             val tabPlat = ArrayList<PlatData>()
             tabPlat.clear()
             tabPlat.addAll(it)
 
             adapterPlat.setList(it)
             adapterPlat.notifyDataSetChanged()
-        })
+        }
     }
     @SuppressLint("NotifyDataSetChanged")
     fun displayPlatInMenu() {
 
-        viewmodelrepas.getPlatInMenu().observe(viewLifecycleOwner, Observer {
+        viewmodelrepas.getPlatInMenu().observe(viewLifecycleOwner) {
             val tabListePlat = ArrayList<PlatInner>()
             var calories = 0
             var glucides = 0
@@ -210,17 +264,18 @@ class RepasDialogMenu : BottomSheetDialogFragment() {
             tabListePlat.clear()
             tabListePlat.addAll(it)
 
-            for(i in 0..tabListePlat.size-1){
+            for (i in 0..tabListePlat.size - 1) {
                 calories = calories + tabListePlat[i].calPlat
                 glucides = glucides + tabListePlat[i].gluPlat
             }
+
             adapterListePlatMenu.setList(it)
             viewmodelrepas.totalPlats.value = tabListePlat.size.toString()
             viewmodelrepas.totalGlucides.value = glucides.toString()
             viewmodelrepas.totalCalories.value = calories.toString()
             adapterListePlatMenu.notifyDataSetChanged()
 
-        })
+        }
 
     }
 
@@ -238,7 +293,7 @@ class RepasDialogMenu : BottomSheetDialogFragment() {
         val val6 = binding!!.datepicker.year
         val date = "$val4-$val5-$val6"
 
-       // val periode = binding!!.spinnerPeriode.selectedItem.toString()
+        val periode = binding!!.spinnerPeriode.selectedItem.toString()
 
         val current = LocalDateTime.now()
         val heure = DateTimeFormatter.ofPattern("HH:mm")
@@ -246,14 +301,38 @@ class RepasDialogMenu : BottomSheetDialogFragment() {
         dateDuJour.timeInMillis = System.currentTimeMillis()
         val heureDuJour = current.format(heure)
 
-        val data = PeriodeData(0, "periode", date, heureDuJour)
+        val data = PeriodeData(0, periode, date, heureDuJour)
         viewmodelrepas.ajouterPeriode(data)
 
 
     }
 
-    fun save() {
+    /**
+     * Fonction de gestion du spinner
+     */
+    fun configSpinner(arrayCat: Array<String>) {
+        val adapt = ArrayAdapter(requireContext(), R.layout.simple_spinner_item, arrayCat)
+        binding?.let {
+            with(it.spinnerPeriode) {
+                adapter = adapt
+                setSelection(0, false)
+                prompt = "Selection catagorie"
+                gravity = android.view.Gravity.CENTER
+            }
+        }
+        binding?.spinnerPeriode?.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                //  Toast.makeText(requireContext(), "spinner selection ======> $position", Toast.LENGTH_SHORT).show()
+            }
 
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
     }
 
 }

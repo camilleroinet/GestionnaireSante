@@ -41,8 +41,7 @@ class DiabeteFragment : Fragment() {
     private var arrayTab = arrayListOf(R.string.txt_fragtab1, R.string.txt_fragtab2)
     private var arrayFragTab = arrayListOf(DiabeteTab1(), DiabeteTab2())
 
-    private var arrayTabCharts =
-        arrayListOf(R.string.txt_chart1, R.string.txt_chart2, R.string.txt_chart3)
+    private var arrayTabCharts = arrayListOf(R.string.txt_chart1, R.string.txt_chart2, R.string.txt_chart3)
     private var arrayFragChart = arrayListOf(DiabeteChartLine(), DiabeteChartPie())
 
     override fun onCreateView(

@@ -81,9 +81,9 @@ interface StatsDao {
         "INNER JOIN periode " +
         "ON periode.id_periode = innerPoids.idper " +
         "WHERE periode.date_periode = :date " +
-        "ORDER BY date_periode DESC"
+        "AND id_poids = (SELECT MAX(id_poids) FROM poids)"
     )
-    fun getSpecPoids(date: String): Flow<List<Float>>
+    fun getSpecPoids(date: String): Float
 
     @Query(
         "SELECT poids.valeur_poids  " +

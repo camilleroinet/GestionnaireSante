@@ -50,42 +50,254 @@
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chart1_accueil_diabete"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="270dp"/>
+
+        <LinearLayout
+            android:id="@+id/llhbar"
             android:visibility="visible"
             android:layout_width="match_parent"
-            android:background="@color/Tertiary"
-            android:layout_height="250dp"/>
+            android:layout_height="320dp"
+            android:padding="10dp"
+            android:orientation="vertical">
 
-        <com.github.mikephil.charting.charts.BarChart
-            android:id="@+id/chart1_accueil_alimentation"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:background="@color/Tertiary"
-            android:layout_height="250dp"/>
+            <com.github.mikephil.charting.charts.HorizontalBarChart
+                android:id="@+id/chart1_accueil_alimentation"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:visibility="visible" />
 
-        <com.github.mikephil.charting.charts.HorizontalBarChart
-            android:id="@+id/chart2_accueil_alimentation"
-            android:visibility="gone"
+            <com.github.mikephil.charting.charts.HorizontalBarChart
+                android:id="@+id/chart2_accueil_alimentation"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/llhbar2"
+            android:visibility="visible"
             android:layout_width="match_parent"
-            android:layout_height="250dp"/>
+            android:layout_height="200dp"
+            android:padding="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/llpoids"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/viewpagercharts">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Dernier poids enregistré"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/valpoids"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
+                        android:background="@drawable/shape_resultat_75x75"
+                        android:layout_gravity="center"
+                        android:gravity="center" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="@string/imc"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/valimc"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
+                        android:background="@drawable/shape_resultat_75x75"
+                        android:layout_gravity="center"
+                        android:gravity="center" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/diabeteDualPie"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:orientation="horizontal">
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="10dp"
+            android:orientation="vertical">
 
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/piechart1_Dia"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nombre_d_hypoglyc_mie_et_d_hyperglyc_mie"
+                android:textSize="@dimen/taille_titre"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textAllCaps="true"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/PrimaryColor"
+                android:orientation="vertical" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:orientation="horizontal"
+                >
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/piechart1_Dia"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="Hypoglycémies"/>
+                        <TextView
+                            android:id="@+id/tv_nbhypo"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/shape_bouton"
+                            android:text="5"
+                            android:layout_marginEnd="30dp"
+                            android:textColor="@color/white"
+                            android:backgroundTint="@color/color00"
+                            android:layout_gravity="center"
+                            android:gravity="center"/>
 
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/piechart2_Dia"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="Glycémies dans la normale"/>
+                        <TextView
+                            android:id="@+id/tv_nbcible"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/shape_bouton"
+                            android:text="5"
+                            android:layout_marginEnd="30dp"
+                            android:textColor="@color/white"
+                            android:backgroundTint="@color/color01"
+                            android:layout_gravity="center"
+                            android:gravity="center"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="Glycémies fortes"/>
+                        <TextView
+                            android:id="@+id/tv_nbfort"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/shape_bouton"
+                            android:text="5"
+                            android:layout_marginEnd="30dp"
+                            android:textColor="@color/white"
+                            android:backgroundTint="@color/color02"
+                            android:layout_gravity="center"
+                            android:gravity="center"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="Hyperglycémies"/>
+                        <TextView
+                            android:id="@+id/tv_nbhyper"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/shape_bouton"
+                            android:text="5"
+                            android:layout_marginEnd="30dp"
+                            android:textColor="@color/white"
+                            android:backgroundTint="@color/color03"
+                            android:layout_gravity="center"
+                            android:gravity="center"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 

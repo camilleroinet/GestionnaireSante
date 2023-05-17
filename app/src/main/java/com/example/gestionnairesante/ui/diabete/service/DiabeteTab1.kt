@@ -136,7 +136,7 @@ class DiabeteTab1 : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     fun displayUser() {
-        vmdiabete.getGlycemiePeriode().observe(viewLifecycleOwner) {
+        vmdiabete.getAllGlycemieDESC().observe(viewLifecycleOwner) {
             tabInner.clear()
             tabInner.addAll(it)
             adapteur.setList(tabInner)

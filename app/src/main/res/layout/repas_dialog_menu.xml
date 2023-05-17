@@ -1,5 +1,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:minHeight="300dp"
     tools:context=".ui.repas.service.RepasDialogPlat">
 
     <data>
@@ -31,36 +32,31 @@
             <!-- TITRE -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:paddingEnd="10dp"
+                android:background="@color/Tertiary"
+                android:paddingStart="10dp">
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:paddingStart="20dp"
-                    android:text="Composition d'un nouveau menu"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:text="@string/composition_d_un_nouveau_menu"
                     android:textSize="@dimen/taille_titre" />
                 <ImageButton
-                    android:id="@+id/btncoycyc"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="10dp"
-                    android:background="@color/white"
-                    android:src="@drawable/ic_close" />
-<!--
-                <ImageButton
-                    android:id="@+id/fermer_menu"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="10dp"
-                    android:background="@color/white"
-                    android:src="@drawable/ic_close" />
--->
+                    android:id="@+id/btnfermer"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/shape_bouton"
+                    android:src="@drawable/ic_close"
+                    android:contentDescription="@string/fermer_la_fenetre" />
+
             </LinearLayout>
 
             <!-- ETAPE 01 - NOM DU MENU -->
@@ -75,9 +71,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
                     android:gravity="center"
                     android:padding="5dp"
+                    android:textColor="@color/black"
                     android:text="@string/entrer_le_nom_pour_ce_menu"
                     android:textSize="@dimen/taille_titre"
                     android:textStyle="bold" />
@@ -85,51 +83,47 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@color/PrimaryColor"
                     android:orientation="vertical" />
-
-                <LinearLayout
-                    android:id="@+id/nomdumenu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:orientation="horizontal"
-                    android:padding="5dp">
 
                     <EditText
                         android:id="@+id/et_nommenu"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:hint="@string/entrer_un_nom_de_menu"
-                        android:textSize="@dimen/taille_text" />
-                </LinearLayout>
+                        android:textSize="@dimen/taille_text"
+                        android:layout_margin="15dp"
+                        android:autofillHints=""/>
 
                 <LinearLayout
                     android:id="@+id/ll_boutonsMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="45dp"
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/valider_nommenu"
                         android:layout_width="0dp"
-                        android:layout_height="30dp"
+                        android:layout_height="35dp"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/shape_bouton"
-                        android:backgroundTint="@color/SecondaryColor"
+                        android:backgroundTint="@color/Tertiary"
                         android:text="@string/enregistrer"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/taille_text" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/annuler_nommenu"
                         android:layout_width="0dp"
-                        android:layout_height="30dp"
+                        android:layout_height="35dp"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/shape_bouton"
+                        android:background="@drawable/shape_bouton_w_stroke"
                         android:text="@string/annuler"
                         android:textColor="#442C2E"
                         android:textSize="@dimen/taille_text" />
@@ -167,8 +161,12 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="20dp"
                         android:background="@color/PrimaryColor"
                         android:orientation="vertical" />
+
                 </LinearLayout>
 
                 <DatePicker
@@ -181,11 +179,16 @@
                 <Spinner
                     android:id="@+id/spinner_periode"
                     android:layout_width="match_parent"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
                     android:layout_height="50dp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@color/PrimaryColor"
                     android:orientation="vertical" />
 
@@ -198,15 +201,15 @@
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_validerDate"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/shape_bouton"
-                        android:backgroundTint="@color/SecondaryColor"
+                        android:backgroundTint="@color/Tertiary"
                         android:text="@string/enregistrer"
-                        android:textColor="@color/white"
-                        android:visibility="visible" />
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/taille_text" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_updateDate"
@@ -222,14 +225,14 @@
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_cancelDate"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/shape_bouton"
+                        android:background="@drawable/shape_bouton_w_stroke"
                         android:text="@string/annuler"
-                        android:textColor="#442C2E"
-                        android:textSize="16sp" />
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/taille_text" />
 
                 </LinearLayout>
 
@@ -265,6 +268,9 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="20dp"
                         android:background="@color/PrimaryColor"
                         android:orientation="vertical" />
 
@@ -342,6 +348,32 @@
                             android:textSize="@dimen/taille_text" />
 
                     </LinearLayout>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/fermer_rv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:background="@drawable/shape_bouton"
+                        android:backgroundTint="@color/Tertiary"
+                        android:text="@string/voir_tout_le_repas"
+                        android:textSize="12sp"
+                        android:padding="10dp"
+                        android:textStyle="italic"
+                        android:layout_marginTop="15dp"
+                        android:layout_gravity="center"
+                        android:gravity="center" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/voir_tout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:background="@drawable/shape_bouton"
+                        android:backgroundTint="@color/Tertiary"
+                        android:text="@string/voir_tout_les_repas"
+                        android:textSize="12sp"
+                        android:padding="10dp"
+                        android:textStyle="italic"
+                        android:layout_marginTop="15dp"
+                        android:layout_gravity="center"
+                        android:gravity="center" />
                 </LinearLayout>
 
                 <!-- COMPOSER LE MENU -->
@@ -366,20 +398,22 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="20dp"
                         android:background="@color/PrimaryColor"
                         android:orientation="vertical" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/liste_menu"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/taille_recyclers" />
+                        android:layout_height="150dp" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/liste_repas"
-                        android:background="@color/Tertiary"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/taille_recyclers"/>
+                        android:layout_height="250dp" />
 
 
                 </LinearLayout>
@@ -390,29 +424,31 @@
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:layout_marginTop="25dp">
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/valider_menu"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/shape_bouton"
-                    android:backgroundTint="@color/SecondaryColor"
+                    android:backgroundTint="@color/Tertiary"
                     android:text="@string/enregistrer"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/taille_text" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/annuler_menu"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/shape_bouton"
+                    android:background="@drawable/shape_bouton_w_stroke"
                     android:text="@string/annuler"
                     android:textColor="#442C2E"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/taille_text" />
 
             </LinearLayout>
 

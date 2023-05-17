@@ -49,10 +49,8 @@ class VmAccueil ( private val repo: StatsRepo): ViewModel() {
         return repo.getSpecGlucides(date)
     }
 
-    fun getSpecPoids(date: String) = liveData {
-        repo.getSpecPoids(date).collect() {
-            emit(it)
-        }
+    fun getSpecPoids(date: String) : Float {
+        return repo.getSpecPoids(date)
     }
 
 }

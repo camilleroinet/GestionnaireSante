@@ -60,6 +60,7 @@ class RepasTab2 : Fragment() {
 
         // Configuration de l'adapter
         adapter = AdapterRecyclerPlat { daouser: PlatData -> listItemClicked(daouser) }
+
         binding?.recyclerPlat?.adapter = adapter
 
     }

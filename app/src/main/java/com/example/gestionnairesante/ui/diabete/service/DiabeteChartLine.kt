@@ -87,7 +87,7 @@ class DiabeteChartLine : Fragment() {
         context.let { lineDataSet.setCircleColor(it.getColor(R.color.black)) }      // Couleur des cercles de data dans le graph
         lineDataSet.circleRadius = 0f                                               // Taille des cerlces des valeurs dans le graph
 
-        linechart.animateX(2000)
+        linechart.animateX(1500)
         linechart.isHorizontalFadingEdgeEnabled
 
         val iLineDataSet = ArrayList<ILineDataSet>()

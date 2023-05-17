@@ -11,7 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp"
+        android:layout_margin="10dp"
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
@@ -19,8 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:backgroundTint="@color/Tertiary"
-            app:cardElevation="2dp">
+            app:cardElevation="5dp">
 
             <LinearLayout
                 android:id="@+id/itemLayout3"
@@ -37,9 +36,9 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:paddingTop="10dp"
-                    android:text="Menu du 01/01/01 du petit-dej"
                     android:textColor="@color/black"
                     android:textSize="20sp"
+                    android:text="Repas du"
                     android:textStyle="bold" />
 
                 <LinearLayout

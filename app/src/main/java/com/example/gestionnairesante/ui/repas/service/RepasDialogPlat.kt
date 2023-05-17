@@ -42,7 +42,6 @@ class RepasDialogPlat : BottomSheetDialogFragment() {
             nom: String,
             glucide: Int,
             calorie: Int
-
         ): RepasDialogPlat {
             val args = Bundle()
             args.putString(KEY_TITLE, title)
@@ -94,12 +93,17 @@ class RepasDialogPlat : BottomSheetDialogFragment() {
             }
         }
 
-        if (idPlat == 0) {
-            binding!!.btnSavePlat.visibility = View.VISIBLE
-            binding!!.btnUpdatePlat.visibility = View.GONE
-        } else {
-            binding!!.btnSavePlat.visibility = View.GONE
-            binding!!.btnUpdatePlat.visibility = View.VISIBLE
+        when (idPlat) {
+            0-> {
+                binding!!.btnSavePlat.visibility = View.VISIBLE
+                binding!!.btnUpdatePlat.visibility = View.GONE
+            }
+
+            else -> {
+                binding!!.btnSavePlat.visibility = View.GONE
+                binding!!.btnUpdatePlat.visibility = View.VISIBLE
+            }
+
         }
 
         binding!!.btnSavePlat.setOnClickListener {

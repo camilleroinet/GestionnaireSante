@@ -20,6 +20,7 @@ class RepasTab1 : Fragment() {
     private var binding: RepasTab1Binding? = null
     private lateinit var adapter: AdapterRecyclerMenu
     private val viewModelrepas: VmRepas by activityViewModels()
+    private var ind = 0
 
     val tabInner = ArrayList<RepasData>()
 
@@ -103,13 +104,23 @@ class RepasTab1 : Fragment() {
                         ItemTouchHelper.RIGHT -> {
                             viewModelrepas.deleteMenu(obj.id_menu)
                             adapter.remove(sp)
+
                         }
                         ItemTouchHelper.LEFT -> {
-                            // TODO a coder le dialog
+                            val idmenu = obj.id_menu
+                            val nom = obj.nom_menu
+                            val cal = obj.totalCal.toInt()
+                            val glu = obj.totalGly.toInt()
+                            val pla = obj.totalPlat
+
+                            RepasDialogMenu.newInstance(
+                                "titre", "subtitre", ind,
+                                idmenu, nom, glu, cal, pla
+                            )
+                                .show(childFragmentManager, RepasDialogMenu.TAG)
                         }
                     }
-                    tabInner.removeAt(sp)
-                    adapter.notifyDataSetChanged()
+
                 }
 
                 override fun onSelectedChanged(

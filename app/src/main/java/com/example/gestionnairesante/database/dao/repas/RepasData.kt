@@ -11,16 +11,16 @@ data class RepasData(
     val id_menu: Int,
 
     @ColumnInfo(name = "nom_menu")
-    var nom_menu: String?,
+    var nom_menu: String,
 
     @ColumnInfo(name = "totalPlat")
-    var totalPlat: Int?,
+    var totalPlat: Int,
 
     @ColumnInfo(name = "totalGly")
-    var totalGly: Float?,
+    var totalGly: Float,
 
     @ColumnInfo(name = "totalCal")
-    var totalCal: Float?
+    var totalCal: Float
 
 
     )
