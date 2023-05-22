@@ -11,8 +11,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.gestionnairesante.database.dao.innerRepas.DataMenuInner
 import com.example.gestionnairesante.ui.repas.adapter.AdapterRecyclerMenu
-import com.example.gestionnairesante.database.dao.repas.RepasData
 import com.example.gestionnairesante.databinding.RepasTab1Binding
 import com.example.gestionnairesante.ui.repas.vm.VmRepas
 
@@ -22,7 +22,7 @@ class RepasTab1 : Fragment() {
     private val viewModelrepas: VmRepas by activityViewModels()
     private var ind = 0
 
-    val tabInner = ArrayList<RepasData>()
+    val tabInner = ArrayList<DataMenuInner>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,11 +69,11 @@ class RepasTab1 : Fragment() {
         // Configuration du layout
         binding?.recyclerMenud?.layoutManager = LinearLayoutManager(context)
         // Configuration de l'adapter
-        adapter = AdapterRecyclerMenu { data: RepasData -> listItemClicked(data) }
+        adapter = AdapterRecyclerMenu { data: DataMenuInner -> listItemClicked(data) }
         binding?.recyclerMenud?.adapter = adapter
     }
 
-    fun listItemClicked(data: RepasData) {
+    fun listItemClicked(data: DataMenuInner) {
         //Toast.makeText(requireContext(), "item clique : ${data.nom_menu}", Toast.LENGTH_LONG)
     }
 
@@ -102,16 +102,16 @@ class RepasTab1 : Fragment() {
 
                     when(direction) {
                         ItemTouchHelper.RIGHT -> {
-                            viewModelrepas.deleteMenu(obj.id_menu)
+                            viewModelrepas.deleteMenu(obj.idmen)
                             adapter.remove(sp)
 
                         }
                         ItemTouchHelper.LEFT -> {
-                            val idmenu = obj.id_menu
-                            val nom = obj.nom_menu
-                            val cal = obj.totalCal.toInt()
-                            val glu = obj.totalGly.toInt()
-                            val pla = obj.totalPlat
+                            val idmenu = obj.idmen
+                            val nom = obj.nomMenu
+                            val cal = obj.tcal
+                            val glu = obj.tgly
+                            val pla = obj.tplat
 
                             RepasDialogMenu.newInstance(
                                 "titre", "subtitre", ind,

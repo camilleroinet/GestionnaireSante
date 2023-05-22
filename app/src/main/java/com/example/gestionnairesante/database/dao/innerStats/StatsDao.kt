@@ -131,5 +131,6 @@ interface StatsDao {
     )
     fun getGlycemiePeriode(date: String) : Flow<List<Int>>
 
+
 }
 

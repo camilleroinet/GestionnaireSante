@@ -150,6 +150,10 @@ class DiabeteDialogGlycemie : BottomSheetDialogFragment() {
             dismiss()
         }
 
+        binding!!.fermerDiabete.setOnClickListener {
+            dismiss()
+        }
+
     }
 
     override fun onStart() {
@@ -169,6 +173,14 @@ class DiabeteDialogGlycemie : BottomSheetDialogFragment() {
         val val4 = binding!!.datepicker.dayOfMonth
         val val5 = binding!!.datepicker.month + 1
         val val6 = binding!!.datepicker.year
+        var newMois = ""
+        var newDay = ""
+        if (val5<10){
+            newMois = "0$val5"
+        }
+        if (val4<10){
+            newDay = "0$val4"
+        }
         val date = "$val4-$val5-$val6"
 
         val val7 = binding!!.pickerRapide1.value
@@ -186,6 +198,7 @@ class DiabeteDialogGlycemie : BottomSheetDialogFragment() {
         dateDuJour.timeInMillis = System.currentTimeMillis()
         val heureDuJour = current.format(heure)
 
+
         vmdiabete.insertDiabete(
             periode, date, heureDuJour.toString(),
             temp.toInt(), tempRapide.toInt(), tempLente.toInt()
@@ -202,7 +215,15 @@ class DiabeteDialogGlycemie : BottomSheetDialogFragment() {
         val val4 = binding!!.datepicker.dayOfMonth
         val val5 = binding!!.datepicker.month + 1
         val val6 = binding!!.datepicker.year
-        val date = "$val4-$val5-$val6"
+        var newMois = ""
+        var newDay = ""
+        if (val5<10){
+            newMois = "0$val5"
+        }
+        if (val4<10){
+            newDay = "0$val4"
+        }
+        val date = "$newDay-$newMois-$val6"
 
         val val7 = binding!!.pickerRapide1.value
         val val8 = binding!!.pickerRapide2.value

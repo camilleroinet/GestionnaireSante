@@ -52,7 +52,7 @@
             android:id="@+id/chart1_accueil_diabete"
             android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="270dp"/>
+            android:layout_height="250dp"/>
 
         <LinearLayout
             android:id="@+id/llhbar"
@@ -104,7 +104,7 @@
                         android:layout_height="50dp"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="Dernier poids enregistré"
+                        android:text="@string/dernier_poids_enregistr"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -177,14 +177,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:orientation="horizontal"
-                >
-                <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/piechart1_Dia"
-                    android:layout_marginTop="10dp"
-                    android:visibility="gone"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"/>
+                android:orientation="horizontal">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -201,13 +195,12 @@
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:text="Hypoglycémies"/>
+                            android:text="@string/hypoglyc_mies"/>
                         <TextView
                             android:id="@+id/tv_nbhypo"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="@drawable/shape_bouton"
-                            android:text="5"
                             android:layout_marginEnd="30dp"
                             android:textColor="@color/white"
                             android:backgroundTint="@color/color00"
@@ -234,7 +227,6 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="@drawable/shape_bouton"
-                            android:text="5"
                             android:layout_marginEnd="30dp"
                             android:textColor="@color/white"
                             android:backgroundTint="@color/color01"

@@ -118,6 +118,15 @@ class RepasDialogPlat : BottomSheetDialogFragment() {
             dismiss()
         }
 
+        binding!!.btnAnnulerPlat.setOnClickListener {
+            binding!!.etNomplat.setText("")
+            binding!!.etCalories.setText("")
+            binding!!.etGlucide.setText("")
+        }
+
+        binding!!.fermerPlat.setOnClickListener {
+            dismiss()
+        }
     }
 
     override fun onStart() {

@@ -47,5 +47,12 @@ class InnerPeriodeRepasRepo(
         return periodeDao.updatePeriode(id, date, heure, periode)
     }
 
+    fun getSpecCalories(date: String) : Float {
+        return repasDao.getSpecCalories(date)
+    }
+
+    fun getSpecGlucides(date: String) : Float {
+        return repasDao.getSpecGlucides(date)
+    }
 
 }

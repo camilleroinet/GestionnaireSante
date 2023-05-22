@@ -35,7 +35,7 @@
         <item>@color/color09</item>
     </array>
     <!--    Couleur de l'application-->
-    <color name="PrimaryColor">#3F51B5</color>
+    <color name="PrimaryColor">#7986CB</color>
     <color name="SecondaryColor">#7986CB</color>
     <color name="Tertiary">#E3F2FD</color>
     <color name="Error">#B3261E</color>

@@ -20,4 +20,27 @@ interface RepasDao {
 
     @Query("SELECT id_menu FROM menu WHERE id_menu = (SELECT MAX(id_menu) FROM menu)")
     fun getLastMenu(): Int
+
+
+    @Query(
+        "SELECT SUM(menu.totalCal) " +
+                "FROM menu " +
+                "INNER JOIN innerMenu " +
+                "ON menu.id_menu = innerMenu.idmen " +
+                "INNER JOIN periode " +
+                "ON periode.id_periode = innerMenu.idper " +
+                "WHERE periode.date_periode = :date "
+    )
+    fun getSpecCalories(date: String): Float
+
+    @Query(
+        "SELECT SUM(menu.totalGly) " +
+                "FROM menu " +
+                "INNER JOIN innerMenu " +
+                "ON menu.id_menu = innerMenu.idmen " +
+                "INNER JOIN periode " +
+                "ON periode.id_periode = innerMenu.idper " +
+                "WHERE periode.date_periode = :date "
+    )
+    fun getSpecGlucides(date: String): Float
 }

@@ -5,12 +5,13 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gestionnairesante.R
+import com.example.gestionnairesante.database.dao.innerRepas.DataMenuInner
 import com.example.gestionnairesante.database.dao.repas.RepasData
 import com.example.gestionnairesante.databinding.RepasCardviewMenuBinding
 
-class AdapterRecyclerMenu(private val clickListener: (RepasData) -> Unit) :
+class AdapterRecyclerMenu(private val clickListener: (DataMenuInner) -> Unit) :
     RecyclerView.Adapter<AdapterRecyclerMenu.MyViewHolder>() {
-    private val menuList = ArrayList<RepasData>()
+    private val menuList = ArrayList<DataMenuInner>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -23,11 +24,11 @@ class AdapterRecyclerMenu(private val clickListener: (RepasData) -> Unit) :
 
     class MyViewHolder(val binding: RepasCardviewMenuBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: RepasData, clickListener: (RepasData) -> Unit) {
-            binding.nomMenu.text = data.nom_menu
-            binding.glucides.text = data.totalGly.toString()
-            binding.calories.text = data.totalCal.toString()
-            binding.nbPlat.text = data.totalPlat.toString()
+        fun bind(data: DataMenuInner, clickListener: (DataMenuInner) -> Unit) {
+            binding.nomMenu.text = data.nomMenu
+            binding.glucides.text = data.tgly.toString()
+            binding.calories.text = data.tcal.toString()
+            binding.nbPlat.text = data.tplat.toString()
 
             binding.itemLayout3.setOnClickListener() {
                 clickListener(data)
@@ -40,7 +41,7 @@ class AdapterRecyclerMenu(private val clickListener: (RepasData) -> Unit) :
         notifyItemRemoved(position)
     }
 
-    fun getDbObjet(position: Int): RepasData {
+    fun getDbObjet(position: Int): DataMenuInner {
         return menuList.get(position)
     }
 
@@ -48,7 +49,7 @@ class AdapterRecyclerMenu(private val clickListener: (RepasData) -> Unit) :
         return menuList.size
     }
 
-    fun setList(data: List<RepasData>) {
+    fun setList(data: ArrayList<DataMenuInner>) {
         menuList.clear()
         menuList.addAll(data)
     }

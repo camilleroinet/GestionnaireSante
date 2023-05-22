@@ -35,7 +35,7 @@
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/viewpagertabhost"
                 android:layout_width="wrap_content"
-                android:layout_height="350dp" />
+                android:layout_height="400dp" />
 
     </LinearLayout>
 </layout>

@@ -28,8 +28,6 @@ class InnerPlatMenuRepo(
         return repasDao.insertMenu(nom, nbPlat, gly, cal)
     }
 
-
-
     suspend fun insertInnerPlatMenu(data: InnerPlatMenuData) {
         return innerPlatMenuDao.insertInnerPlatMenu(data)
     }

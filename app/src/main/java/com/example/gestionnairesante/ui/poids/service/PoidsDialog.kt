@@ -116,17 +116,22 @@ class PoidsDialog : BottomSheetDialogFragment() {
             binding!!.btnUpdatePoids.visibility = View.VISIBLE
         }
 
-        viewModel.message.observe(viewLifecycleOwner) { it ->
+/*        viewModel.message.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandle()?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
-        }
+        }*/
+
         binding!!.btnInsertPoids.setOnClickListener {
             save()
             dismiss()
         }
         binding!!.btnUpdatePoids.setOnClickListener {
             update()
+            dismiss()
+        }
+
+        binding!!.fermerPoids.setOnClickListener {
             dismiss()
         }
 

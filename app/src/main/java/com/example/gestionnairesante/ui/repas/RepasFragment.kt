@@ -24,9 +24,16 @@ import com.example.gestionnairesante.ui.repas.service.RepasTab1
 import com.example.gestionnairesante.ui.repas.service.RepasTab2
 import com.example.gestionnairesante.ui.repas.vm.VmRepas
 import com.example.gestionnairesante.ui.repas.vm.VmRepasFactory
+import com.example.gestionnairesante.utils.createHorizBarchart
+import com.example.gestionnairesante.utils.recupDataBarChart
+import com.github.mikephil.charting.data.BarEntry
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Calendar
 
 class RepasFragment : Fragment() {
     private var binding: RepasBinding? = null
@@ -34,7 +41,6 @@ class RepasFragment : Fragment() {
 
     private lateinit var tablayoutTabs: TabLayout
     private lateinit var viewPagerTabs: ViewPager
-    private lateinit var viewPagerCharts: ViewPager
 
     private var arrayTab = arrayListOf<Int>(R.string.txt_fragmenu, R.string.txt_fragrepas)
     private var arrayFragTab = arrayListOf<Fragment>(RepasTab1(), RepasTab2())
@@ -106,8 +112,6 @@ class RepasFragment : Fragment() {
             }
         }
 
-        viewPagerCharts = binding?.viewpagercharts!!
-
         tablayoutTabs = binding?.tabLayout!!
         viewPagerTabs = binding?.viewpagertabhost!!
 
@@ -115,6 +119,7 @@ class RepasFragment : Fragment() {
         //configViewPagerChart(viewPagerCharts, arrayFragChart, arrayTabCharts)
         configViewPager(viewPagerTabs, arrayFragTab, arrayTab, tablayoutTabs)
 
+        loadCharts2()
     }
 
     fun configTablelayout(array: ArrayList<Int>) {
@@ -165,6 +170,51 @@ class RepasFragment : Fragment() {
         }
         tablayout.setupWithViewPager(viewPager, true)
         viewPager.setPageTransformer(true, ZoomOutPageTransformer())
+    }
+
+    fun loadCharts2(): ArrayList<BarEntry> {
+        val data = ArrayList<BarEntry>()
+
+        val array = ArrayList<Float>()
+        val array2 = ArrayList<Float>()
+
+        //
+        // Date
+        //
+        val current = LocalDateTime.now()
+        val dateDuJour = android.icu.util.Calendar.getInstance()
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+
+        val date = current.format(formatter)
+
+
+
+        //val date = LocalDate.parse(LocalDate.now().toString(), formatter)
+
+        Toast.makeText(requireContext(),"$date" , Toast.LENGTH_LONG).show()
+        val totalGlu = viewmodelrepas.getSpecGlucides("17-5-2023")
+        val totalCal = viewmodelrepas.getSpecCalories("17-5-2023")
+
+        array.clear()
+        array.add(totalCal)
+        array.add(totalGlu)
+
+        val stringValeur = ArrayList<String>()
+        stringValeur.add("Calories")
+        stringValeur.add("Glucides")
+
+        binding?.let {
+            createHorizBarchart(
+                1,
+                it.chart1Journee,
+                recupDataBarChart(array),
+                stringValeur,
+                "Calories de la journée"
+            )
+        }
+
+
+        return data
     }
 
 }

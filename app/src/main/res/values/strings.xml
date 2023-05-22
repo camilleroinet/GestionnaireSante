@@ -17,8 +17,8 @@
     <string name="txt_chart2">Graphique 2</string>
     <string name="txt_chart3">Graphique 3</string>
     <string name="my_image_01">image repas</string>
-    <string name="txt_fragmenu">Repas</string>
-    <string name="txt_fragrepas">Repas</string>
+    <string name="txt_fragmenu">Mes repas</string>
+    <string name="txt_fragrepas">Mes plats</string>
     <string name="erasetext">supprimer</string>
     <string name="periode">Periode :</string>
     <string name="enregistrer">Enregistrer</string>
@@ -64,6 +64,14 @@
     <string name="voir_tout_les_repas">voir tout les repas</string>
     <string name="voir_tout_le_repas">fermer</string>
     <string name="fermer_la_fenetre">fermer la fenetre</string>
+    <string name="inforamtions_concernant_le_nouveau_plat">Inforamtions concernant le nouveau plat</string>
+    <string name="enregistrer_son_poids">Enregistrer son poids</string>
+    <string name="enregistrer_une_glyc_mie">Enregistrer une glycémie</string>
+    <string name="glyc_mie">Glycémie</string>
+    <string name="novorapide">Novorapide</string>
+    <string name="toujeo">Toujeo</string>
+    <string name="hypoglyc_mies">Hypoglycémies</string>
+    <string name="dernier_poids_enregistr">Dernier poids enregistré</string>
 
     <string-array name="periodes">
         <item>Petit-déjeuner</item>

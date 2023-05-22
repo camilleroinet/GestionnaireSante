@@ -63,7 +63,7 @@ class VmRepas (private val repo: InnerPlatMenuRepo, private val repo2: InnerPeri
         }
     }
     fun getAllMenu() = liveData {
-        repo.allMenu.collect {
+        repo.innerPeriodeMenu.collect {
             emit(it)
         }
     }
@@ -79,6 +79,14 @@ class VmRepas (private val repo: InnerPlatMenuRepo, private val repo2: InnerPeri
         repo.getPlatInMenu().collect() {
             emit(it)
         }
+    }
+
+    fun getSpecCalories(date: String) : Float {
+        return repo2.getSpecCalories(date)
+    }
+
+    fun getSpecGlucides(date: String) : Float {
+        return repo2.getSpecGlucides(date)
     }
 
     //
