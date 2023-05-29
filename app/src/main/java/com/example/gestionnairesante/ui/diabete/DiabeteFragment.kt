@@ -98,6 +98,9 @@ class DiabeteFragment : Fragment() {
             }
         }
 
+        /**
+         * view binding pour les view pagers et le tab host
+         */
         viewPagerCharts = binding?.viewpagercharts!!
         tablayoutTabs = binding?.tabLayout!!
         viewPagerTabs = binding?.viewpagertabhost!!

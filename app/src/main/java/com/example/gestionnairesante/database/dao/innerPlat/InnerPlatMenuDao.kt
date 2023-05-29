@@ -13,12 +13,11 @@ interface InnerPlatMenuDao {
     @Insert
     suspend fun insertInnerPlatMenu(data: InnerPlatMenuData)
 
-
     @Query(
         "SELECT * " +
         "FROM plat " +
         "INNER JOIN innerPlat " +
-            "ON plat.id_plat = innerPlat.idpla " +
+        "ON plat.id_plat = innerPlat.idpla " +
         "WHERE innerPlat.idmen = :id_menu"
     )
     fun getInnerPlat(id_menu: Int): Flow<List<PlatData>>
@@ -27,7 +26,7 @@ interface InnerPlatMenuDao {
         "SELECT * " +
         "FROM menu " +
         "INNER JOIN innerPlat " +
-            "ON menu.id_menu = innerPlat.idmen " +
+        "ON menu.id_menu = innerPlat.idmen " +
         "WHERE innerPlat.idpla = :id_plat"
     )
     fun getInnerMenu(id_plat: Int): Flow<List<RepasData>>
@@ -43,9 +42,9 @@ interface InnerPlatMenuDao {
             "menu.nom_menu AS nomMenu " +
         "FROM innerPlat " +
         "INNER JOIN plat " +
-            "ON plat.id_plat = innerPlat.idpla " +
+        "ON plat.id_plat = innerPlat.idpla " +
         "INNER JOIN menu " +
-            "ON menu.id_menu = innerPlat.idmen " +
+        "ON menu.id_menu = innerPlat.idmen " +
         "WHERE innerPlat.idmen  =(SELECT MAX(id_menu) FROM menu)"
     )
     fun getPlatInMenu() : Flow<List<PlatInner>>
@@ -57,9 +56,9 @@ interface InnerPlatMenuDao {
         "SELECT * " +
         "FROM innerPlat " +
         "INNER JOIN plat " +
-            "ON plat.id_plat = innerPlat.idpla " +
+        "ON plat.id_plat = innerPlat.idpla " +
         "INNER JOIN menu " +
-            "ON menu.id_menu = innerPlat.idmen"
+        "ON menu.id_menu = innerPlat.idmen"
     )
     fun getInnerAllInner(): Flow<List<InnerPlatMenuData>>
 
@@ -74,9 +73,9 @@ interface InnerPlatMenuDao {
             "menu.nom_menu AS nomMenu " +
         "FROM innerPlat " +
         "INNER JOIN plat " +
-            "ON plat.id_plat = innerPlat.idpla " +
+        "ON plat.id_plat = innerPlat.idpla " +
         "INNER JOIN menu " +
-            "ON menu.id_menu = innerPlat.idmen"
+        "ON menu.id_menu = innerPlat.idmen"
     )
     fun getAllPlat(): Flow<List<PlatInner>>
 

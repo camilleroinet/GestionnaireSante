@@ -20,7 +20,6 @@ interface GlycemieDao {
     @Query("SELECT valeur_glycemie FROM glycemie")
     fun getAllValeurGlycemie(): Flow<List<Int>>
 
-    // Retourne le dernier id de la glycemie
     @Query("SELECT id_glycemie FROM glycemie WHERE id_glycemie=(SELECT MAX(id_glycemie) FROM glycemie)")
     fun getLastGlycemie(): Int
 

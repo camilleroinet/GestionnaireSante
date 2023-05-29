@@ -1,7 +1,6 @@
 package com.example.gestionnairesante.database.dao.glycemie
 
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 

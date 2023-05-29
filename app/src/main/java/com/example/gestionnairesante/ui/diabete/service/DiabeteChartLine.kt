@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import com.example.gestionnairesante.R
+import com.example.gestionnairesante.database.dao.innerDiabete.DataInner
 import com.example.gestionnairesante.databinding.FragChartLineBinding
 import com.example.gestionnairesante.ui.diabete.vm.VMDiabete
 import com.example.gestionnairesante.utils.configGraphs
@@ -57,30 +57,28 @@ class DiabeteChartLine : Fragment() {
     }
 
     fun recupDataLineChart() {
-        val valuesBdd = ArrayList<Int>()
-        ArrayList<Int>()
+        vmdiabete.getAllGlycemieDESC().observe(viewLifecycleOwner) {
+            val valuesBdd = ArrayList<DataInner>()
 
-        vmdiabete.getAllGlycemie().observe(viewLifecycleOwner, Observer {
             valuesBdd.clear()
             valuesBdd.addAll(it)
 
-            if(valuesBdd.size ==0){
+            if (valuesBdd.size == 0) {
                 binding?.chart0?.visibility = View.GONE
                 binding?.llAvertissement?.visibility = View.VISIBLE
-            }else{
+            } else {
                 binding?.tvrienchart?.visibility = View.GONE
                 binding?.chart0?.visibility = View.VISIBLE
                 createLineChart(requireContext(), binding!!.chart0, recupDataChart(valuesBdd))
-
             }
-
-        })
+        }
     }
+
     fun createLineChart(context: Context, linechart: LineChart, entri: ArrayList<Entry>){
         configGraphs(linechart)
         val lineDataSet = LineDataSet(entri, "Glycemie")
         context.let { lineDataSet.color = it.getColor(R.color.black) }              // Couleur de la ligne reliant les valeurs
-        lineDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER                            // Style de la courbe
+        lineDataSet.mode = LineDataSet.Mode.LINEAR                                  // Style de la courbe
         lineDataSet.lineWidth = 2.5F                                                // Epaisseur de la ligne reliant les valeurs
         lineDataSet.setDrawValues(false)                                            // On affiche les valeurs : oui
         lineDataSet.valueTextSize = 12F                                             // Taille de la police de caractere
@@ -97,11 +95,11 @@ class DiabeteChartLine : Fragment() {
         linechart.invalidate()                                                      // Rafraichit le chart(en fait on lui dit de se reafficher entierement)
     }
 
-    fun recupDataChart(array: ArrayList<Int>): ArrayList<Entry>{
+    fun recupDataChart(array: ArrayList<DataInner>): ArrayList<Entry>{
         val valu = ArrayList<Entry>()
         val r = array.size - 1
         for (i in 0..r){
-            valu.add(Entry(i.toFloat(), array[i].toFloat()))
+            valu.add(Entry(i.toFloat(), array[i].glycemie.toFloat()))
         }
         return valu
     }

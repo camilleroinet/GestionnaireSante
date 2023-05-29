@@ -13,6 +13,12 @@ interface InnerDiabeteDao {
     @Insert
     suspend fun insertInnerDiabete(data: InnerDiabeteData)
 
+    @Query("" +
+        "DELETE " +
+        "FROM innerDiabete " +
+        "WHERE idgly = :idgly AND idper = :idper AND idIns = :idins")
+    suspend fun deleteInnerDiabete(idgly: Int, idper: Int , idins: Int  )
+
     @Query("SELECT valeur_glycemie FROM glycemie")
     fun getAllValeurGlycemie(): Flow<List<Int>>
 
@@ -72,7 +78,7 @@ interface InnerDiabeteDao {
         "INNER JOIN glycemie " +
         "ON glycemie.id_glycemie = innerDiabete.idgly " +
         "INNER JOIN insuline ON insuline.id_insuline = innerDiabete.idIns " +
-        "ORDER BY date_periode DESC, heure_periode DESC"
+        "ORDER BY date_periode ASC, periode ASC"
     )
     fun getAllValeurs(): Flow<List<DataInner>>
 

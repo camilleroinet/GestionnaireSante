@@ -181,23 +181,27 @@ class RepasFragment : Fragment() {
         //
         // Date
         //
-        val current = LocalDateTime.now()
-        val dateDuJour = android.icu.util.Calendar.getInstance()
-        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+        val dateDuJour= Calendar.getInstance()
+        dateDuJour.timeInMillis = System.currentTimeMillis()
 
-        val date = current.format(formatter)
-
+        val jourDuJour = dateDuJour.get(Calendar.DAY_OF_MONTH)
+        val moisDuJour = dateDuJour.get(Calendar.MONTH) +1
+        val yearDuJour = dateDuJour.get(Calendar.YEAR)
+        val date = "$jourDuJour-$moisDuJour-$yearDuJour"
+        Toast.makeText(context,
+            "la date daujourdhui est $date",
+            Toast.LENGTH_LONG).show()
 
 
         //val date = LocalDate.parse(LocalDate.now().toString(), formatter)
 
-        Toast.makeText(requireContext(),"$date" , Toast.LENGTH_LONG).show()
-        val totalGlu = viewmodelrepas.getSpecGlucides("17-5-2023")
-        val totalCal = viewmodelrepas.getSpecCalories("17-5-2023")
+        val totalGlu = viewmodelrepas.getSpecGlucides(date)
+        val totalCal = viewmodelrepas.getSpecCalories(date)
 
         array.clear()
         array.add(totalCal)
         array.add(totalGlu)
+        Toast.makeText(requireContext(),"$totalGlu" , Toast.LENGTH_LONG).show()
 
         val stringValeur = ArrayList<String>()
         stringValeur.add("Calories")

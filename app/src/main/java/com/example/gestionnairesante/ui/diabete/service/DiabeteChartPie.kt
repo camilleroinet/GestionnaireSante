@@ -46,7 +46,7 @@ class DiabeteChartPie : Fragment() {
             }
         }
 
-        createDataPieChart()
+        //createDataPieChart()
 
     }
 
@@ -61,7 +61,7 @@ class DiabeteChartPie : Fragment() {
             var hyper = 0
 
             tabValeur.clear()
-            tabValeur.addAll(it)
+           // tabValeur.addAll(it)
 
             if(tabValeur.size >2){
                 binding?.chart0?.visibility = View.VISIBLE

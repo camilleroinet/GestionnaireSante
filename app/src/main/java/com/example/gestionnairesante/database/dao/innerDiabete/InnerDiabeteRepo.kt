@@ -33,7 +33,6 @@ class InnerDiabeteRepo(
         return styloDao.updateStylo(id, quantite, maxquantite, purge)
     }
 
-
     fun getAllStylo() : Int{
         return styloDao.getAllStylo()
     }
@@ -75,6 +74,10 @@ class InnerDiabeteRepo(
 
     suspend fun deleteInsuline(insuline: Int) {
         return insulineDao.deleteInsuline(insuline)
+    }
+
+    suspend fun deleteInner(idgly: Int, idper: Int, idins: Int) {
+        return innerDiabeteDao.deleteInnerDiabete(idgly, idper, idins)
     }
 
     suspend fun updateGlycemie(glycemie: Int, valeur: Int) {

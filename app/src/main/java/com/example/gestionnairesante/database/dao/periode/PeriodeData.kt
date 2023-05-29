@@ -17,6 +17,6 @@ data class PeriodeData(
     var date_periode: String,
 
     @ColumnInfo(name = "heure_periode")
-    var heure_periode: String,
+    var heure_periode: String
 
     )

@@ -300,7 +300,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/shape_bouton"
                 android:backgroundTint="@color/Tertiary"
-                android:text="@string/enregistrer"
+                android:text="@string/modifier"
                 android:textColor="@color/black"  />
 
         </LinearLayout>

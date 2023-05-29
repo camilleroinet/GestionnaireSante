@@ -54,7 +54,7 @@ class VMDiabete( private val repo: InnerDiabeteRepo): ViewModel() {
     }
 
     fun getAllGlycemie() = liveData {
-        repo.allGlycemie.collect(){
+        repo.allGlycemieDESC.collect(){
             emit(it)
         }
     }
@@ -70,6 +70,7 @@ class VMDiabete( private val repo: InnerDiabeteRepo): ViewModel() {
         }
     }
 
+
     fun updateDiabete(idgly: Int, idper: Int, idins : Int, glycemie: Int, rapide: Int, lente: Int, date: String, heure: String, periode: String) = viewModelScope.launch {
         repo.updateGlycemie(idgly, glycemie)            // update de la glycemie
         repo.updatePeriode(idper, date, heure, periode)          // update de la periode
@@ -81,6 +82,7 @@ class VMDiabete( private val repo: InnerDiabeteRepo): ViewModel() {
         repo.deleteGlycemie(gly)
         repo.deleteInsuline(ins)
         repo.deletePeriode(per)
+        repo.deleteInner(gly, per, ins)
         statusMessage.value = Event("L'enregistrement a bien été supprimé.")
     }
 

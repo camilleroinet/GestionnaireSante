@@ -99,6 +99,8 @@ class DiabeteTab1 : Fragment() {
                         ItemTouchHelper.RIGHT -> {
                             vmdiabete.deleteDiabete(obj.idper, obj.idgly, obj.idins)
                             adapteur.remove(sp)
+                            adapteur.notifyDataSetChanged()
+                            adapteur.setList(tabInner)
                         }
 
                         ItemTouchHelper.LEFT -> {
@@ -119,11 +121,6 @@ class DiabeteTab1 : Fragment() {
                                 glycemie, rapide, lente,
                                 date, heure, periode
                             ).show(childFragmentManager, DiabeteDialogGlycemie.TAG)
-
-                            adapteur.update(sp)
-                            adapteur.setList(tabInner)
-                            adapteur.notifyDataSetChanged()
-
                         }
                     }
                 }

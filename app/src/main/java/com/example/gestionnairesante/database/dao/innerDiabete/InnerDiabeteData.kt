@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import com.example.gestionnairesante.database.dao.glycemie.GlycemieData
-import com.example.gestionnairesante.database.dao.insuline.InsulineDao
 import com.example.gestionnairesante.database.dao.insuline.InsulineData
 import com.example.gestionnairesante.database.dao.periode.PeriodeData
 

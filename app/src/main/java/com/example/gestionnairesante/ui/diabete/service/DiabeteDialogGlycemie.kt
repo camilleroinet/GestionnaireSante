@@ -10,6 +10,7 @@ import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.fragment.app.activityViewModels
 import com.example.gestionnairesante.R
 import com.example.gestionnairesante.databinding.DiabeteDialogBinding
@@ -28,6 +29,7 @@ class DiabeteDialogGlycemie : BottomSheetDialogFragment() {
         private const val KEY_SUBTITLE = "KEY_SUBTITLE"
         private var keyg = "indice"
 
+        private var idtxtid = "id"
         private var idtxtgly = "id_glycemie"
         private var idtxtper = "id_periode"
         private var idtxtins = "id_insuline"
@@ -41,6 +43,7 @@ class DiabeteDialogGlycemie : BottomSheetDialogFragment() {
         private var heuretxt = "heure"
         private var periodetxt = "periode"
 
+        var oldid: Int = 0
         var oldidgly: Int = 0
         var oldidper: Int = 0
         var oldidins: Int = 0
@@ -55,6 +58,8 @@ class DiabeteDialogGlycemie : BottomSheetDialogFragment() {
 
         val frag = DiabeteDialogGlycemie()
         var argFrag = frag.arguments
+
+        var spinnerPos = 0
 
         fun newInstance(
             title: String,
@@ -154,6 +159,7 @@ class DiabeteDialogGlycemie : BottomSheetDialogFragment() {
             dismiss()
         }
 
+
     }
 
     override fun onStart() {
@@ -173,14 +179,42 @@ class DiabeteDialogGlycemie : BottomSheetDialogFragment() {
         val val4 = binding!!.datepicker.dayOfMonth
         val val5 = binding!!.datepicker.month + 1
         val val6 = binding!!.datepicker.year
-        var newMois = ""
-        var newDay = ""
-        if (val5<10){
-            newMois = "0$val5"
-        }
-        if (val4<10){
-            newDay = "0$val4"
-        }
+
+        val date = "$val4-$val5-$val6"
+
+        val val7 = binding!!.pickerRapide1.value
+        val val8 = binding!!.pickerRapide2.value
+        val val9 = binding!!.pickerLente1.value
+        val val10 = binding!!.pickerLente2.value
+        val tempRapide: String = val7.toString() + val8.toString()
+        val tempLente: String = val9.toString() + val10.toString()
+
+        val periode = binding!!.spinnerPeriode.selectedItem.toString()
+        //Toast.makeText(requireContext(), "pos =  ${spinnerPos}", Toast.LENGTH_LONG).show()
+
+        val current = LocalDateTime.now()
+        val heure = DateTimeFormatter.ofPattern("HH:mm")
+        val dateDuJour = Calendar.getInstance()
+        dateDuJour.timeInMillis = System.currentTimeMillis()
+        val heureDuJour = current.format(heure)
+
+        vmdiabete.insertDiabete(
+            spinnerPos.toString(), date, heureDuJour.toString(),
+            temp.toInt(), tempRapide.toInt(), tempLente.toInt()
+        )
+
+    }
+
+    fun update() {
+        val val1 = binding!!.picker1.value
+        val val2 = binding!!.picker2.value
+        val val3 = binding!!.picker3.value
+        val temp: String = val1.toString() + val2.toString() + val3.toString()
+
+        val val4 = binding!!.datepicker.dayOfMonth
+        val val5 = binding!!.datepicker.month + 1
+        val val6 = binding!!.datepicker.year
+
         val date = "$val4-$val5-$val6"
 
         val val7 = binding!!.pickerRapide1.value
@@ -198,53 +232,13 @@ class DiabeteDialogGlycemie : BottomSheetDialogFragment() {
         dateDuJour.timeInMillis = System.currentTimeMillis()
         val heureDuJour = current.format(heure)
 
-
-        vmdiabete.insertDiabete(
-            periode, date, heureDuJour.toString(),
-            temp.toInt(), tempRapide.toInt(), tempLente.toInt()
-        )
-
-    }
-
-    fun update() {
-        val val1 = binding!!.picker1.value
-        val val2 = binding!!.picker2.value
-        val val3 = binding!!.picker3.value
-        val temp: String = val1.toString() + val2.toString() + val3.toString()
-
-        val val4 = binding!!.datepicker.dayOfMonth
-        val val5 = binding!!.datepicker.month + 1
-        val val6 = binding!!.datepicker.year
-        var newMois = ""
-        var newDay = ""
-        if (val5<10){
-            newMois = "0$val5"
-        }
-        if (val4<10){
-            newDay = "0$val4"
-        }
-        val date = "$newDay-$newMois-$val6"
-
-        val val7 = binding!!.pickerRapide1.value
-        val val8 = binding!!.pickerRapide2.value
-        val val9 = binding!!.pickerLente1.value
-        val val10 = binding!!.pickerLente2.value
-        val tempRapide: String = val7.toString() + val8.toString()
-        val tempLente: String = val9.toString() + val10.toString()
-
-        val periode = binding!!.spinnerPeriode.selectedItem.toString()
-
-        val current = LocalDateTime.now()
-        val heure = DateTimeFormatter.ofPattern("HH:mm")
-        val dateDuJour = Calendar.getInstance()
-        dateDuJour.timeInMillis = System.currentTimeMillis()
-        val heureDuJour = current.format(heure)
-
-        vmdiabete.updateDiabete(
+        vmdiabete.deleteDiabete(oldidgly, oldidper, oldidins)
+        vmdiabete.insertDiabete(spinnerPos.toString(), date, heureDuJour.toString(), temp.toInt(), tempRapide.toInt(), tempLente.toInt() )
+/*        vmdiabete.updateDiabete(
             oldidgly, oldidins, oldidper,
             temp.toInt(), tempRapide.toInt(), tempLente.toInt(),
             date, heureDuJour.toString(), periode
-        )
+        )*/
 
     }
 
@@ -271,7 +265,8 @@ class DiabeteDialogGlycemie : BottomSheetDialogFragment() {
                 position: Int,
                 id: Long
             ) {
-                // Toast.makeText( requireContext(), "spinner selection ======> $position", Toast.LENGTH_SHORT ).show()
+                spinnerPos = position
+             //Toast.makeText( requireContext(), "spinner selection ======> $spinnerPos", Toast.LENGTH_SHORT ).show()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}

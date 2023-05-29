@@ -83,7 +83,7 @@ class AccueilFragment : Fragment() {
         val yearDuJour = binding.datepickeraccueil.year
         val date = "$jourDuJour-$moisDuJour-$yearDuJour"
 
-        vmaccueil.getGlycemiePeriode(date).observe(viewLifecycleOwner) {
+        vmaccueil.getSpecGly(date).observe(viewLifecycleOwner) {
             tabGlycemie.clear()
             tabGlycemie.addAll(it)
             if (tabGlycemie.size > 0) {
@@ -321,7 +321,7 @@ class AccueilFragment : Fragment() {
         val lineDataSet = LineDataSet(entri, "Glycemie")
 
         lineDataSet.color = resources.getColor(R.color.black)                              // Couleur de la ligne reliant les valeurs
-        lineDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER                                   // Style de la courbe
+        lineDataSet.mode = LineDataSet.Mode.LINEAR                                   // Style de la courbe
         lineDataSet.lineWidth = 2.5F                                                       // Epaisseur de la ligne reliant les valeurs
         lineDataSet.setDrawValues(false)                                                   // On affiche les valeurs : oui
         lineDataSet.valueTextSize = 12F                                                    // Taille de la police de caractere
@@ -376,6 +376,8 @@ class AccueilFragment : Fragment() {
 
         val totalGlu = vmaccueil.getSpecGlucides(date)
         val totalCal = vmaccueil.getSpecCalories(date)
+
+        binding.valpoids.text = vmaccueil.getSpecPoids(date).toString()
 
         array.clear()
         array.add(totalCal)

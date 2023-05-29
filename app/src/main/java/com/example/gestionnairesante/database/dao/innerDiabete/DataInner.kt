@@ -1,8 +1,5 @@
 package com.example.gestionnairesante.database.dao.innerDiabete
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-
 data class DataInner(
     val idper: Int,
     val idgly: Int,

@@ -22,7 +22,6 @@ interface InnerPoidsDao {
     )
     fun getInnerPoids(id_periode: Int): Flow<List<PoidsData>>
 
-
     @Query(
         "SELECT * " +
         "FROM periode " +

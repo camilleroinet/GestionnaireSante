@@ -37,10 +37,8 @@ interface StatsDao {
         "ON glycemie.id_glycemie = innerDiabete.idgly " +
         "INNER JOIN periode " +
         "ON periode.id_periode = innerDiabete.idper " +
-        "INNER JOIN insuline " +
-        "ON insuline.id_insuline = innerDiabete.idIns " +
         "WHERE periode.date_periode = :date " +
-        "ORDER BY date_periode DESC"
+        "ORDER BY periode.libelle_periode ASC"
     )
     fun getSpecGlycemie(date: String): Flow<List<Int>>
 

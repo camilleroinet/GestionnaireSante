@@ -28,21 +28,9 @@ class AdapterRecyclerDiabete(private val clickListener: (DataInner) -> Unit) : R
     class MyViewHolder(val binding: DiabeteCardviewBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: DataInner, clickListener: (DataInner) -> Unit) {
             val valeur = data.glycemie
-            if (valeur in 0..79) {
-                binding.couleurAlerte.setBackgroundColor(Color.CYAN)
-            }
-            if (valeur in 80..179) {
-                binding.couleurAlerte.setBackgroundColor(Color.GREEN)
-            }
-            if (valeur in 180..249) {
-                binding.couleurAlerte.setBackgroundColor(Color.YELLOW)
-            }
-            if (valeur in 250..999) {
-                binding.couleurAlerte.setBackgroundColor(Color.RED)
-            }
+
+            binding.couleurAlerte.setBackgroundColor(checkGly(valeur))
             binding.gly.text = data.glycemie.toString()
-            binding.periode.text = data.periode
-            binding.heure.text = data.heure
             binding.dateGlycemie.text = data.date
             binding.rapide.text = data.rapide.toString()
             binding.lente.text = data.lente.toString()
@@ -51,6 +39,20 @@ class AdapterRecyclerDiabete(private val clickListener: (DataInner) -> Unit) : R
                 clickListener(data)
             }
         }
+
+        fun checkGly(valeur: Int) : Int{
+            var intColor = 0
+            if(valeur in 0..79) {
+                return Color.CYAN
+            } else if(valeur in 80..179) {
+                return Color.GREEN
+            } else if (valeur in 180..249) {
+                return Color.YELLOW
+            } else {
+                return Color.RED
+            }
+        }
+
     }
 
     override fun getItemCount(): Int {
@@ -62,7 +64,9 @@ class AdapterRecyclerDiabete(private val clickListener: (DataInner) -> Unit) : R
     }
 
     fun update(position: Int){
-        dataList.set(position, getDbObjet(position))
+        dataList[position] = getDbObjet(position)
+        dataList.removeAt(position)
+        dataList.add(position, getDbObjet(position))
         notifyItemChanged(position)
     }
 
